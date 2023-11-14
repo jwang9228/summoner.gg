@@ -7,6 +7,27 @@
     justify-content: center;
 }
 
+.white-background {
+    background-color: white !important;
+}
+
 .app-title:hover, .app-title:active {
     cursor: default;
+}
+
+.region-button {
+    border-radius: 0;
+    background-color: #6b92fa !important;
+}
+
+.search-bar:focus {
+    box-shadow: none !important;
+}
+
+.search-button {
+    border: none !important;
+}
+
+.search-icon {
+    color: gray;
 }
