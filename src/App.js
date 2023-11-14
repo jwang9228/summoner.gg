@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+// App.jsx or your main component file
+import { HashRouter } from 'react-router-dom';
+import { Routes, Route } from 'react-router';
+import { useEffect } from 'react';
+import SummonerApp from './summoner-app';
+import './common/colors.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    useEffect(() => {
+        document.body.classList.add('app-background-color');
+        return () => {
+            document.body.classList.remove('app-background-color');
+        };
+    }, []);
+    return (
+        <HashRouter>
+            <div>
+                <Routes>
+                    <Route path='/' element={<SummonerApp />} />
+                </Routes>
+            </div>
+        </HashRouter>
+    );
 }
-
 export default App;
