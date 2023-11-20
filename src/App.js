@@ -6,20 +6,20 @@ import SummonerApp from './summoner-app';
 import './common/colors.css';
 
 function App() {
-    useEffect(() => {
-        document.body.classList.add('app-background-color');
-        return () => {
-            document.body.classList.remove('app-background-color');
-        };
-    }, []);
-    return (
-        <HashRouter>
-            <div>
-                <Routes>
-                    <Route path='/' element={<SummonerApp />} />
-                </Routes>
-            </div>
-        </HashRouter>
-    );
+	useEffect(() => {
+		document.body.classList.add('app-background-color');
+		return () => {
+			document.body.classList.remove('app-background-color');
+		};
+	}, []);
+	return (
+		<HashRouter>
+			<div>
+				<Routes>
+					<Route path='/' element={<SummonerApp />} />
+				</Routes>
+			</div>
+		</HashRouter>
+	);
 }
 export default App;

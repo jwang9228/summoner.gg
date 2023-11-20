@@ -15,9 +15,15 @@
     cursor: default;
 }
 
+.selected-region-button {
+    border: none !important;
+    width: 50px;
+}
+
 .region-button {
-    border-radius: 0;
-    background-color: #6b92fa !important;
+    border: none !important;
+    width: 50px;
+    height: 30px;
 }
 
 .search-bar:focus {
