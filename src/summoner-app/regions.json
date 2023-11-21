@@ -7,12 +7,12 @@
     {
         "name": "EUW",
         "server": "euw1",
-        "color": "#dbcdf0" 
+        "color": "#957dad" 
     },
     {
         "name": "EUNE",
         "server": "eun1",
-        "color": "#c9e4de"
+        "color": "#7dae9b"
     },
     {
         "name": "KR",
