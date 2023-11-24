@@ -1,0 +1,35 @@
+.summoner-nav {
+  background-color: #191A30;
+  height: 100vh;
+  border-radius: 0;
+  width: 150px !important;
+  text-decoration: none;
+  position: fixed;
+}
+
+.summoner-nav .summoner-nav-item {
+  color: #5d5d8f;
+  background-color: #191A30;
+  border-radius: 0 !important;
+  border: 0;
+  text-decoration: none;
+}
+
+.summoner-nav .summoner-nav-item:first-child {
+  margin-top: 20px;
+}
+
+.list-group .list-group-item.active {
+  background-color: #3273fb;
+  color: #ffffff;
+}
+
+.list-group .list-group-item:hover {
+  background-color: #070721;
+  color: #5d5d8f;
+}
+
+.list-group .list-group-item.active:hover {
+  background-color: #1854dc;
+  color: #ffffff;
+}

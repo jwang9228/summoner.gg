@@ -1,0 +1,6 @@
+.page-content {
+  margin-left: 150px !important;
+  margin: 10px;
+  width: calc(100% - 150px) !important;
+  width: 100% !important;
+}
