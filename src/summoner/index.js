@@ -1,20 +1,22 @@
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import * as client from './client.js';
 
 function Summoner() {
 	const { server, summonerName } = useParams();
+	const [summonerData, setSummonerData] = useState();
 	useEffect(() => {
+		// TODO: first check the database. if there is already an entry, don't get data. else call and make entry in db.
         client.getSummonerData(server, summonerName).then((response) => {
-			// TODO: handle error (response will be undefined), redux/database to store, 
-			// only getSummonerData if update called by user or if database is empty for that summoner (no api calls ever made)
-			// * this is to prevent multiple api calls to getSummonerData
-			console.log(response);
+			response && setSummonerData(response.data);
 		});
     }, [server, summonerName]);
 	return (
+		summonerData && 
 		<div>
-			<h1 style={{ color: '#FFFFFF' }}>test</h1>
+			<h3 style={{ color: '#FFFFFF' }}>{summonerData.puuid}</h3>
+			<h3 style={{ color: '#FFFFFF' }}>{summonerData.name}</h3>
+			<h3 style={{ color: '#FFFFFF' }}>{summonerData.summonerLevel}</h3>
 		</div>
 	);
 }

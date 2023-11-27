@@ -2,7 +2,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router";
 import { useEffect } from "react";
 import SummonerApp from "./summoner-app";
-import SummonerNav from "./summoner-app/summonernav";
+import SummonerNav from "./summoner-app/summoner-navbar";
 import Summoner from "./summoner";
 import "./common/content.css"
 import "./common/colors.css";

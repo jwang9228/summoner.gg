@@ -12,6 +12,11 @@ function SummonerApp() {
 	const [summonerName, setSummonerName] = useState('');
 	const [selectedRegion, setSelectedRegion] = useState(regions[0]);
 	const [showRegions, setShowRegions] = useState(false);
+	const searchSummonerEvent = () => {
+		if (summonerName !== '') {
+			navigate(`/results/${selectedRegion.server}/${summonerName}`);
+		}
+	};
 	return (
 		<Container>
 			<Button className='btn float-end'>Login</Button>
@@ -41,14 +46,15 @@ function SummonerApp() {
 					}}
 					onKeyUp={(e) => {
 						if (e.key === 'Enter') {
-							navigate(
-								`/results/${selectedRegion.server}/${summonerName}`
-							);
+							searchSummonerEvent();
 						}
 					}}
 				/>
 				<InputGroup.Text className='white-background'>
-					<Button className='white-background search-button'>
+					<Button 
+						className='white-background search-button'
+						onClick={searchSummonerEvent}
+					>
 						<CgSearch className='search-icon' size={24} />
 					</Button>
 				</InputGroup.Text>
