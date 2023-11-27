@@ -1,6 +1,17 @@
-.page-content {
-  margin-left: 150px !important;
-  margin: 10px;
-  width: calc(100% - 150px) !important;
-  width: 100% !important;
+@media screen and (max-width: 800px) {
+  .page-content {
+    margin: 10px;
+    margin-top: 150px !important;
+    height: calc(100% - 150px) !important;
+    width: 100% !important;
+  }
+}
+
+@media screen and (min-width: 801px) {
+  .page-content {
+    margin: 10px;
+    margin-left: 150px !important;
+    width: calc(100% - 150px) !important;
+    width: 100% !important;
+  }
 }

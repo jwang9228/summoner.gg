@@ -1,4 +1,3 @@
-// App.jsx or your main component file
 import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router";
 import { useEffect } from "react";

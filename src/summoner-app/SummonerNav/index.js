@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { IoHomeSharp } from "react-icons/io5";
+import { IoHomeSharp, IoMenu } from "react-icons/io5";
 import { BsBarChartFill } from "react-icons/bs";
 import { FaSearch } from "react-icons/fa";
 import "./nav.css";
@@ -15,22 +15,47 @@ function SummonerNav() {
 
   const { pathname } = useLocation();
 
+  const getCurrentText = () => {
+    const currentLink = links.find((link) => pathname.includes(link.route));
+    const currentText = currentLink ? currentLink.text : "Home";
+    return currentText;
+  };
+
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+  }
+
   return (
-    <div className="list-group summoner-nav d-flex flex-column">
-      {links.map((link, index) => {
-        return (
-          <Link
-            key={index}
-            to={`/${link.route}`}
-            className={`list-group-item ${
-              pathname.includes(link.route) && "active"
-            } summoner-nav-item`}
-          >
-            <link.icon size={link.size} className="me-3" />
-            {link.text}
-          </Link>
-        );
-      })}
+    <div>
+      <div className="menu-wrapper">
+        <div className="menu-button">
+          <IoMenu size="30" onClick={toggleMenu} />
+        </div>
+        <span class="current-text"> {getCurrentText()} </span>
+      </div>
+      <div className={`list-group summoner-nav ${menuOpen ? "open" : "closed"}`}>
+        {links.map((link, index) => {
+          return (
+            <Link
+              key={index}
+              to={`/${link.route}`}
+              onClick={closeMenu}
+              className={`list-group-item ${
+                pathname.includes(link.route) && "active"
+              }`}
+            >
+              <link.icon size={link.size} className="me-3" />
+              {link.text}
+            </Link>
+          );
+        })}
+      </div>
     </div>
   );
 }
