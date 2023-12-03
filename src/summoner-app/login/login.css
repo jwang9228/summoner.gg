@@ -1,0 +1,12 @@
+.login-title {
+  font-weight: 500;
+  font-size: 50px;
+  color: white;
+  letter-spacing: 3px;
+  display: flex;
+  justify-content: center;
+}
+
+.login-form .login-label {
+  color: white !important;
+}

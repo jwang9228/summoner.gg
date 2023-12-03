@@ -1,3 +1,4 @@
+/* smallers screens */
 @media screen and (max-width: 800px) {
   .page-content {
     margin: 10px;
@@ -7,9 +8,11 @@
   }
 }
 
+/* larger screens */
 @media screen and (min-width: 801px) {
   .page-content {
     margin: 10px;
+    margin-top: 125px !important;
     margin-left: 150px !important;
     width: calc(100% - 150px) !important;
     width: 100% !important;

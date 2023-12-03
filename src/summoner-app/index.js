@@ -19,7 +19,6 @@ function SummonerApp() {
 	};
 	return (
 		<Container>
-			<Button className='btn float-end'>Login</Button>
 			<p className='app-title mb-3 mt-3'>
 				SUMMONER
 				<span className='app-blue-accent'>.</span>

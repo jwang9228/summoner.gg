@@ -1,39 +1,48 @@
 .app-title {
-    font-weight: 500;
-    font-size: 70px;
-    color: white;
-    letter-spacing: 3px;
-    display: flex;
-    justify-content: center;
+  font-weight: 500;
+  font-size: 50px;
+  color: white;
+  letter-spacing: 3px;
+  display: flex;
+  justify-content: center;
 }
 
 .white-background {
-    background-color: white !important;
+  background-color: white !important;
 }
 
-.app-title:hover, .app-title:active {
-    cursor: default;
+.app-title:hover,
+.app-title:active {
+  cursor: default;
 }
 
 .selected-region-button {
-    border: none !important;
-    width: 50px;
+  border: none !important;
+  width: 50px;
 }
 
 .region-button {
-    border: none !important;
-    width: 50px;
-    height: 30px;
+  border: none !important;
+  width: 50px;
+  height: 30px;
+}
+
+.search-bar {
+  min-width: 40px !important;
+  padding: 0px !important;
+  overflow: hidden;
 }
 
 .search-bar:focus {
-    box-shadow: none !important;
+  box-shadow: none !important;
 }
 
 .search-button {
-    border: none !important;
+  margin: 0 !important;
+  padding: 0px !important;
+  border: none !important;
 }
 
 .search-icon {
-    color: gray;
+  color: gray;
 }

@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import SummonerApp from "./summoner-app";
 import SummonerNav from "./summoner-app/summoner-navbar";
 import Summoner from "./summoner";
+import Login from "./summoner-app/login";
+import Register from "./summoner-app/login/register.js";
 import "./common/content.css"
 import "./common/colors.css";
 
@@ -25,7 +27,9 @@ function App() {
               path="/results/:server/:summonerName"
               element={<Summoner />}
             />
-          </Routes>{" "}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
         </div>
       </div>
     </BrowserRouter>
