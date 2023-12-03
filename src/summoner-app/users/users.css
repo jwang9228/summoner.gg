@@ -10,3 +10,8 @@
 .login-form .login-label {
   color: white !important;
 }
+
+.error-msg {
+  color: red;
+  font-size: 12px;
+}

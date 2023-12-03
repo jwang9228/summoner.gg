@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Form, Container, Button } from "react-bootstrap";
 import "../../common/colors.css";
-import "./login.css";
+import "./users.css";
 
 function Login() {
   const [credentials, setCredentials] = useState({
@@ -35,7 +35,7 @@ function Login() {
             />
           </Form.Group>
           <Form.Text className="login-label">
-            Don't have an account? <Link to="/register">Sign up here</Link>
+            Don't have an account? <Link to="/signup">Sign up here</Link>
           </Form.Text>
           <br />
           <Button variant="primary" type="submit" className="mt-2">

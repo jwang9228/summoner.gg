@@ -1,18 +1,31 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Form, Container, Button } from "react-bootstrap";
+import * as client from "./client";
 import "../../common/colors.css";
-import "./login.css";
+import "./users.css";
 
-function Register() {
+function Signup() {
+  const [error, setError] = useState("");
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
   });
+
+  const navigate = useNavigate();
+  const signup = async () => {
+    try {
+      await client.signup(credentials);
+      navigate("/Kanbas/Account");
+    } catch (err) {
+      setError(err.response.data.message);
+    }
+  };
+
   return (
     <Container className="d-flex justify-content-center align-items-center">
       <div className="w-50">
-        <p className="login-title">Register</p>
+        <p className="login-title">Sign Up</p>
         <Form className="login-form">
           <Form.Group controlId="email" className="mb-2">
             <Form.Label className="login-label">Email</Form.Label>
@@ -44,9 +57,10 @@ function Register() {
               }
             />
           </Form.Group>
-          <div className="mt-3">
-            <Button variant="primary" type="submit" className="">
-              Register
+          {error && <div className="error-msg mt-2">{error}</div>}
+          <div className="mt-2">
+            <Button variant="primary" onClick={signup}>
+              Signup
             </Button>
             <Link to="/login" className="btn btn-secondary ms-2">
               Cancel
@@ -58,4 +72,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default Signup;
