@@ -6,6 +6,7 @@ import SummonerNav from "./summoner-app/summoner-navbar";
 import Summoner from "./summoner";
 import Login from "./summoner-app/users/login.js";
 import Signup from "./summoner-app/users/signup.js";
+import Profile from "./summoner-app/users/profile.js";
 import "./common/content.css"
 import "./common/colors.css";
 
@@ -29,6 +30,7 @@ function App() {
             />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </div>
       </div>
