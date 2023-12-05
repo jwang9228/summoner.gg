@@ -1,4 +1,4 @@
-.login-title {
+.user-title {
   font-weight: 500;
   font-size: 50px;
   color: white;
@@ -7,6 +7,15 @@
   justify-content: center;
 }
 
-.login-form .login-label {
+.user-form .user-label {
   color: white !important;
+}
+
+.error-msg {
+  color: red;
+  font-size: 12px;
+}
+
+.required-red {
+  color: red;
 }

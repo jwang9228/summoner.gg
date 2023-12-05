@@ -1,21 +1,33 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Form, Container, Button } from "react-bootstrap";
+import * as client from "./client";
 import "../../common/colors.css";
-import "./login.css";
+import "./users.css";
 
 function Login() {
+  const [error, setError] = useState("");
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
   });
+  const navigate = useNavigate();
+  const signin = async () => {
+    try {
+      await client.signin(credentials);
+      setError("");
+      navigate("/profile");
+    } catch (err) {
+      setError(err.response.data.message);
+    }
+  };
   return (
     <Container className="d-flex justify-content-center align-items-center">
       <div className="w-50">
-        <p className="login-title">Login</p>
-        <Form className="login-form">
+        <p className="user-title">Login</p>
+        <Form className="user-form">
           <Form.Group controlId="username" className="mb-2">
-            <Form.Label className="login-label">Username</Form.Label>
+            <Form.Label className="user-label">Username</Form.Label>
             <Form.Control
               type="text"
               placeholder="Username"
@@ -25,7 +37,7 @@ function Login() {
             />
           </Form.Group>
           <Form.Group controlId="password" className="mb-2">
-            <Form.Label className="login-label">Password</Form.Label>
+            <Form.Label className="user-label">Password</Form.Label>
             <Form.Control
               type="password"
               placeholder="Password"
@@ -34,11 +46,12 @@ function Login() {
               }
             />
           </Form.Group>
-          <Form.Text className="login-label">
-            Don't have an account? <Link to="/register">Sign up here</Link>
+          <Form.Text className="user-label">
+            Don't have an account? <Link to="/signup">Sign up here</Link>
           </Form.Text>
           <br />
-          <Button variant="primary" type="submit" className="mt-2">
+          {error && <div className="error-msg mt-2">{error}</div>}
+          <Button variant="primary" onClick={signin} className="mt-2">
             Login
           </Button>
         </Form>

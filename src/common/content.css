@@ -2,7 +2,7 @@
 @media screen and (max-width: 800px) {
   .page-content {
     margin: 10px;
-    margin-top: 150px !important;
+    margin-top: 125px !important;
     height: calc(100% - 150px) !important;
     width: 100% !important;
   }
