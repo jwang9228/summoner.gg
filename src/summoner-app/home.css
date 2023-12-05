@@ -1,48 +1,107 @@
-.app-title {
-  font-weight: 500;
-  font-size: 50px;
-  color: white;
-  letter-spacing: 3px;
-  display: flex;
-  justify-content: center;
+/* smaller screens */
+@media screen and (max-width: 800px) {
+  .app-title {
+    font-weight: 500;
+    font-size: 34px;
+    color: white;
+    letter-spacing: 2px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .white-background {
+    background-color: white !important;
+  }
+  
+  .app-title:hover,
+  .app-title:active {
+    cursor: default;
+  }
+  
+  .selected-region-button {
+    border: none !important;
+    width: 50px;
+  }
+  
+  .region-button {
+    border: none !important;
+    width: 50px;
+    height: 30px;
+  }
+  
+  .search-bar {
+    min-width: 10px !important;
+    padding: 0px !important;
+    overflow: hidden;
+  }
+  
+  .search-bar:focus {
+    box-shadow: none !important;
+  }
+  
+  .search-button {
+    margin: 0 !important;
+    padding: 0px !important;
+    border: none !important;
+  }
+  
+  .search-icon {
+    color: gray;
+  }
 }
 
-.white-background {
-  background-color: white !important;
-}
+/* larger screens */
+@media screen and (min-width: 801px) {
+  .app-title {
+    font-weight: 500;
+    font-size: 50px;
+    color: white;
+    letter-spacing: 2px;
+    display: flex;
+    justify-content: center;
+  }
 
-.app-title:hover,
-.app-title:active {
-  cursor: default;
-}
-
-.selected-region-button {
-  border: none !important;
-  width: 50px;
-}
-
-.region-button {
-  border: none !important;
-  width: 50px;
-  height: 30px;
-}
-
-.search-bar {
-  min-width: 40px !important;
-  padding: 0px !important;
-  overflow: hidden;
-}
-
-.search-bar:focus {
-  box-shadow: none !important;
-}
-
-.search-button {
-  margin: 0 !important;
-  padding: 0px !important;
-  border: none !important;
-}
-
-.search-icon {
-  color: gray;
+  .searchbar-group {
+    max-width: 50% !important;
+  }
+  
+  .white-background {
+    background-color: white !important;
+  }
+  
+  .app-title:hover,
+  .app-title:active {
+    cursor: default;
+  }
+  
+  .selected-region-button {
+    border: none !important;
+    width: 50px;
+  }
+  
+  .region-button {
+    border: none !important;
+    width: 50px;
+    height: 30px;
+  }
+  
+  .search-bar {
+    min-width: 40px !important;
+    padding: 0px !important;
+    overflow: hidden;
+  }
+  
+  .search-bar:focus {
+    box-shadow: none !important;
+  }
+  
+  .search-button {
+    margin: 0 !important;
+    padding: 0px !important;
+    border: none !important;
+  }
+  
+  .search-icon {
+    color: gray;
+  }
 }

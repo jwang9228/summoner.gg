@@ -64,9 +64,6 @@ function Summoner() {
 				<div>
 					<Button className='app-blue-accent'>Update</Button>
 				</div>
-				<div>
-					<Button className='app-blue-accent'>Update</Button>
-				</div>
 			</Col>
 		</Row>
 	) : (

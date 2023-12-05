@@ -24,7 +24,7 @@ function SummonerApp() {
 				<span className='app-blue-accent'>.</span>
 				GG
 			</p>
-			<InputGroup className='m-auto w-50' size='lg'>
+			<InputGroup className='m-auto searchbar-group' size='lg'>
 				<InputGroup.Text className='white-background'>
 					<Button
 						className='selected-region-button'

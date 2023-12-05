@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { IoHomeSharp, IoMenu } from "react-icons/io5";
-import { BsBarChartFill } from "react-icons/bs";
 import { GiNinjaHead } from "react-icons/gi";
-import { FaSearch } from "react-icons/fa";
+import { IoSearch, IoHome, IoMenu } from "react-icons/io5";
+import { IoIosStats } from "react-icons/io";
 import { Button } from "react-bootstrap";
 import * as client from "../users/client";
 import "./nav.css";
@@ -11,10 +10,10 @@ import "../../common/colors.css";
 
 function SummonerNav() {
   const links = [
-    { text: "Home", icon: IoHomeSharp, route: "#", size: 40 },
-    { text: "Stats", icon: BsBarChartFill, route: "stats", size: 40 },
-    { text: "Search", icon: FaSearch, route: "search", size: 40 },
-    { text: "Profile", icon: GiNinjaHead, route: "profile", size: 40 },
+    { text: "Home", icon: IoHome, route: "#", size: 36 },
+    { text: "Stats", icon: IoIosStats, route: "stats", size: 38 },
+    { text: "Search", icon: IoSearch, route: "search", size: 36 },
+    { text: "Profile", icon: GiNinjaHead, route: "profile", size: 36 },
   ];
 
   const { pathname } = useLocation();
@@ -69,7 +68,7 @@ function SummonerNav() {
       </div>
       <div className={`list-group side-nav ${menuOpen ? "open" : "closed"}`}>
         <img
-          className="img-fluid logo"
+          className="img-fluid logo mb-2 mt-1"
           src={require("../../images/logo.png")}
           alt="summoner.gg logo"
         />
@@ -84,7 +83,7 @@ function SummonerNav() {
               }`}
             >
               <link.icon size={link.size} className="me-3" />
-              {link.text}
+              <span className="navbar-text m-auto">{link.text}</span>
             </Link>
           );
         })}
