@@ -34,9 +34,19 @@ function SummonerNav() {
   const signout = async () => {
     closeMenu();
     await client.signout();
+    setAccount(null);
+    localStorage.removeItem("username");
   };
+
   useEffect(() => {
     fetchAccount();
+  }, []);
+  
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      fetchAccount();
+    }, 1000);
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
