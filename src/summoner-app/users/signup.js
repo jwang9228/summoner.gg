@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Container, Button } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { loginUser } from "./userReducer";
 import * as client from "./client";
 import "../../common/colors.css";
 import "./users.css";
@@ -15,11 +17,14 @@ function Signup() {
     position: "Fill",
   });
 
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
   const signup = async () => {
     try {
       await client.signup(credentials);
       setError("");
+      dispatch(loginUser());
       navigate("/profile");
     } catch (err) {
       setError(err.response.data.message);
