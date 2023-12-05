@@ -39,7 +39,7 @@ function SummonerNav() {
           />
         </div>
         <Link
-          className="btn btn-primary login-btn"
+          className="btn login-btn"
           to={"/login"}
           onClick={closeMenu}
         >

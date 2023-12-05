@@ -24,7 +24,7 @@
 
 .top-nav {
   width: 100vw;
-  background-color: #191a30;
+  background-color: #17182b;
   height: 65px;
   position: fixed;
   display: flex;
@@ -44,11 +44,13 @@
 .login-btn {
   margin-top: 10px;
   margin-right: 10px;
-  padding-top: 8px !important;
+  padding-top: 6px !important;
   font-size: 16px !important;
-  height: 45px;
+  height: 40px;
   width: 75px;
   display: flex;
+  background-color: #6b92fa !important;
+  color: white !important;
 }
 
 /* smaller screens */

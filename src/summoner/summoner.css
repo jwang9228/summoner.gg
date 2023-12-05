@@ -1,0 +1,29 @@
+.profile-icon {
+    border-radius: 5%;
+    width: 100px;
+    height: 100px;
+}
+
+.summoner-level {
+    color: white;
+    background-color: #17182b;
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 10px; 
+    font-size: 14px;
+}
+
+.summoner-level-margin {
+    bottom: -30px;
+}
+
+.summoner-name {
+    color: white;
+    font-weight: 600;  
+    font-size: 40px;
+}
+
+.summoner-server {
+    color: #d3d3d3;
+    font-weight: 500;
+}
