@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GiNinjaHead } from "react-icons/gi";
 import { IoSearch, IoHome, IoMenu } from "react-icons/io5";
 import { IoIosStats } from "react-icons/io";
 import { Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../users/userReducer";
 import * as client from "../users/client";
 import "./nav.css";
 import "../../common/colors.css";
@@ -17,6 +19,9 @@ function SummonerNav() {
   ];
 
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+
+  const loggedIn = useSelector((state) => state.userReducer.loggedIn);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleMenu = () => {
@@ -26,28 +31,14 @@ function SummonerNav() {
     setMenuOpen(false);
   };
 
-  const [account, setAccount] = useState(null);
-  const fetchAccount = async () => {
-    const account = await client.account();
-    setAccount(account);
-  };
+  const dispatch = useDispatch();
+
   const signout = async () => {
     closeMenu();
     await client.signout();
-    setAccount(null);
-    localStorage.removeItem("username");
+    dispatch(logoutUser());
+    navigate("/");
   };
-
-  useEffect(() => {
-    fetchAccount();
-  }, []);
-  
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      fetchAccount();
-    }, 1000);
-    return () => clearInterval(intervalId);
-  }, []);
 
   return (
     <div>
@@ -62,7 +53,7 @@ function SummonerNav() {
             alt="gem logo"
           />
         </div>
-        {account ? (
+        {loggedIn ? (
           <Button className="btn btn-primary log-btn" onClick={signout}>
             Logout
           </Button>

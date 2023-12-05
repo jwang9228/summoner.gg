@@ -7,7 +7,9 @@ import Summoner from "./summoner";
 import Login from "./summoner-app/users/login.js";
 import Signup from "./summoner-app/users/signup.js";
 import Profile from "./summoner-app/users/profile.js";
-import "./common/content.css"
+import { Provider } from "react-redux";
+import store from "./summoner-app/store/store.js";
+import "./common/content.css";
 import "./common/colors.css";
 
 function App() {
@@ -18,23 +20,25 @@ function App() {
     };
   }, []);
   return (
-    <BrowserRouter>
-      <div className="d-flex">
-        <SummonerNav />
-        <div className="page-content">
-          <Routes>
-            <Route path="/" element={<SummonerApp />} />
-            <Route
-              path="/results/:server/:summonerName"
-              element={<Summoner />}
-            />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/profile" element={<Profile />} />
-          </Routes>
+    <Provider store={store}>
+      <BrowserRouter>
+        <div className="d-flex">
+          <SummonerNav />
+          <div className="page-content">
+            <Routes>
+              <Route path="/" element={<SummonerApp />} />
+              <Route
+                path="/results/:server/:summonerName"
+                element={<Summoner />}
+              />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/profile" element={<Profile />} />
+            </Routes>
+          </div>
         </div>
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </Provider>
   );
 }
 export default App;
