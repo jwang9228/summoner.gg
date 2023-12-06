@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { GiNinjaHead } from 'react-icons/gi';
-import { IoSearch, IoHome, IoMenu } from 'react-icons/io5';
-import { IoIosStats } from 'react-icons/io';
-import { Button } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { logoutUser } from '../users/userReducer';
-import * as client from '../users/client';
-import './nav.css';
-import '../../common/colors.css';
+import React, { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { GiNinjaHead } from "react-icons/gi";
+import { IoSearch, IoHome, IoMenu } from "react-icons/io5";
+import { IoIosStats } from "react-icons/io";
+import { Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser, checkStatus } from "../users/userReducer";
+import * as client from "../users/client";
+import "./nav.css";
+import "../../common/colors.css";
 
 function SummonerNav() {
 	const { pathname } = useLocation();
@@ -16,109 +16,112 @@ function SummonerNav() {
 	const dispatch = useDispatch();
 	const loggedIn = useSelector((state) => state.userReducer.loggedIn);
 
-	const signout = async () => {
-		closeMenu();
-		await client.signout();
-		dispatch(logoutUser());
-		navigate('/');
-	};
+  const [account, setAccount] = useState(null);
+  const fetchAccount = async () => {
+    const account = await client.account();
+    setAccount(account);
+  };
 
-	const links = [
-		{ text: 'Home', icon: IoHome, route: '#', size: 34 },
-		{ text: 'Stats', icon: IoIosStats, route: 'stats', size: 36 },
-		{ text: 'Search', icon: IoSearch, route: 'search', size: 34 },
-		{ text: 'Profile', icon: GiNinjaHead, route: 'profile', size: 34 },
-	];
+  useEffect(() => {
+    fetchAccount();
+  }, []);
 
-	const LEAGUE_CURRENT_PATCH = {
-		'patch-num': '13.23',
-		'patchnotes-link':
-			'https://www.leagueoflegends.com/en-pl/news/game-updates/patch-13-23-notes/',
-	};
+  const signout = async () => {
+    closeMenu();
+    await client.signout();
+    dispatch(logoutUser());
+    setAccount(null);
+    navigate("/");
+  };
 
-	// one of: '', 'open', 'closed'
-	const [menuState, setMenuState] = useState('');
-	const toggleMenu = () => {
-		setMenuState(menuState === 'open' ? 'closed' : 'open');
-	};
-	const closeMenu = () => {
-		setMenuState('closed');
-	};
+  const links = [
+    { text: "Home", icon: IoHome, route: "#", size: 34 },
+    { text: "Stats", icon: IoIosStats, route: "stats", size: 36 },
+    { text: "Search", icon: IoSearch, route: "search", size: 34 },
+    { text: "Profile", icon: GiNinjaHead, route: "profile", size: 34 },
+  ];
 
-	return (
-		<div>
-			<div className='top-nav'>
-				<div className={`menu-button ${menuState}`}>
-					<IoMenu size='30' onClick={toggleMenu} />
-				</div>
-				<div className='gem-container'>
-					<img
-						className='img-fluid gem'
-						src={require('../../images/gem.png')}
-						alt='gem logo'
-					/>
-				</div>
-				{console.log(loggedIn)}
-				{loggedIn ? (
-					<Button
-						className='btn btn-primary log-btn'
-						onClick={signout}
-					>
-						Logout
-					</Button>
-				) : (
-					<Link
-						className='btn btn-primary log-btn'
-						to={'/login'}
-						onClick={closeMenu}
-					>
-						Login
-					</Link>
-				)}
-			</div>
-			<div
-				className={`list-group dropdown-menu-anim side-nav ${menuState}`}
-			>
-				<img
-					className='img-fluid logo mb-2'
-					src={require('../../images/logo.png')}
-					alt='summoner.gg logo'
-				/>
-				<div className='container patchnotes mt-2 mb-2'>
-					<img
-						className='league-logo'
-						src={require('../../images/league-logo.png')}
-						alt='league logo'
-					/>
-					<Link
-						to={LEAGUE_CURRENT_PATCH['patchnotes-link']}
-						className='patchnotes-link'
-						onClick={closeMenu}
-					>
-						<span className='patchnotes-label ms-2'>
-							Patch {LEAGUE_CURRENT_PATCH['patch-num']}
-						</span>
-					</Link>
-				</div>
-				{links.map((link, index) => {
-					return (
-						<Link
-							key={index}
-							to={`/${link.route}`}
-							onClick={closeMenu}
-							className={`list-group-item ${
-								pathname.includes(link.route) && 'active'
-							}`}
-						>
-							<link.icon size={link.size} className='me-3' />
-							<span className='navbar-text m-auto'>
-								{link.text}
-							</span>
-						</Link>
-					);
-				})}
-			</div>
-		</div>
-	);
+  const LEAGUE_CURRENT_PATCH = {
+    "patch-num": "13.23",
+    "patchnotes-link":
+      "https://www.leagueoflegends.com/en-pl/news/game-updates/patch-13-23-notes/",
+  };
+
+  // one of: '', 'open', 'closed'
+  const [menuState, setMenuState] = useState("");
+  const toggleMenu = () => {
+    setMenuState(menuState === "open" ? "closed" : "open");
+  };
+  const closeMenu = () => {
+    setMenuState("closed");
+  };
+
+  return (
+    <div>
+      <div className="top-nav">
+        <div className={`menu-button ${menuState}`}>
+          <IoMenu size="30" onClick={toggleMenu} />
+        </div>
+        <div className="gem-container">
+          <img
+            className="img-fluid gem"
+            src={require("../../images/gem.png")}
+            alt="gem logo"
+          />
+        </div>
+        {account || loggedIn ? (
+          <Button className="btn btn-primary log-btn" onClick={signout}>
+            Logout
+          </Button>
+        ) : (
+          <Link
+            className="btn btn-primary log-btn"
+            to={"/login"}
+            onClick={closeMenu}
+          >
+            Login
+          </Link>
+        )}
+      </div>
+      <div className={`list-group dropdown-menu-anim side-nav ${menuState}`}>
+        <img
+          className="img-fluid logo mb-2"
+          src={require("../../images/logo.png")}
+          alt="summoner.gg logo"
+        />
+        <div className="container patchnotes mt-2 mb-2">
+          <img
+            className="league-logo"
+            src={require("../../images/league-logo.png")}
+            alt="league logo"
+          />
+          <Link
+            to={LEAGUE_CURRENT_PATCH["patchnotes-link"]}
+            className="patchnotes-link"
+            onClick={closeMenu}
+          >
+            <span className="patchnotes-label ms-2">
+              Patch {LEAGUE_CURRENT_PATCH["patch-num"]}
+            </span>
+          </Link>
+        </div>
+        {links.map((link, index) => {
+          return (
+            <Link
+              key={index}
+              to={`/${link.route}`}
+              onClick={closeMenu}
+              className={`list-group-item ${
+                pathname.includes(link.route) && "active"
+              }`}
+            >
+              <link.icon size={link.size} className="me-3" />
+              <span className="navbar-text m-auto">{link.text}</span>
+            </Link>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 export default SummonerNav;
