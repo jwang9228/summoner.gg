@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GiNinjaHead } from "react-icons/gi";
 import { IoSearch, IoHome, IoMenu } from "react-icons/io5";
@@ -45,15 +45,6 @@ function SummonerNav() {
 		setMenuState('closed');
 	};
 
-	const [account, setAccount] = useState(null);
-	const fetchAccount = async () => {
-		const account = await client.account();
-		setAccount(account);
-	};
-	useEffect(() => {
-		fetchAccount();
-	}, []);
-
 	return (
 		<div>
 			<div className='top-nav'>
@@ -67,6 +58,7 @@ function SummonerNav() {
 						alt='gem logo'
 					/>
 				</div>
+        {console.log(loggedIn)}
 				{loggedIn ? (
           <Button className="btn btn-primary log-btn" onClick={signout}>
             Logout
@@ -100,6 +92,7 @@ function SummonerNav() {
           <Link
             to={LEAGUE_CURRENT_PATCH['patchnotes-link']}
             className='patchnotes-link'
+            onClick={closeMenu}
           >
             <span className='patchnotes-label ms-2'>Patch {LEAGUE_CURRENT_PATCH['patch-num']}</span>
           </Link>
