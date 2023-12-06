@@ -188,7 +188,7 @@
   }
 
   .menu-button.closed {
-    display: none;
+    display: flex;
   }
 
   .side-nav.closed,
