@@ -1,14 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { GiNinjaHead } from 'react-icons/gi';
-import { IoSearch, IoHome, IoMenu } from 'react-icons/io5';
-import { IoIosStats } from 'react-icons/io';
-import { Button } from 'react-bootstrap';
-import * as client from '../users/client';
-import './nav.css';
-import '../../common/colors.css';
+import React, { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { GiNinjaHead } from "react-icons/gi";
+import { IoSearch, IoHome, IoMenu } from "react-icons/io5";
+import { IoIosStats } from "react-icons/io";
+import { Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../users/userReducer";
+import * as client from "../users/client";
+import "./nav.css";
+import "../../common/colors.css";
 
 function SummonerNav() {
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const loggedIn = useSelector((state) => state.userReducer.loggedIn);
+
+  const signout = async () => {
+    closeMenu();
+    await client.signout();
+    dispatch(logoutUser());
+    navigate("/");
+  };
+
 	const links = [
 		{ text: 'Home', icon: IoHome, route: '#', size: 34 },
 		{ text: 'Stats', icon: IoIosStats, route: 'stats', size: 36 },
@@ -21,8 +35,6 @@ function SummonerNav() {
 		'patchnotes-link':
 			'https://www.leagueoflegends.com/en-pl/news/game-updates/patch-13-23-notes/',
 	};
-
-	const { pathname } = useLocation();
 
   // one of: '', 'open', 'closed'
 	const [menuState, setMenuState] = useState('');
@@ -37,10 +49,6 @@ function SummonerNav() {
 	const fetchAccount = async () => {
 		const account = await client.account();
 		setAccount(account);
-	};
-	const signout = async () => {
-		closeMenu();
-		await client.signout();
 	};
 	useEffect(() => {
 		fetchAccount();
@@ -59,14 +67,11 @@ function SummonerNav() {
 						alt='gem logo'
 					/>
 				</div>
-				{account ? (
-					<Button
-						className='btn btn-primary log-btn'
-						onClick={signout}
-					>
-						Logout
-					</Button>
-				) : (
+				{loggedIn ? (
+          <Button className="btn btn-primary log-btn" onClick={signout}>
+            Logout
+          </Button>
+        ) : (
 					<Link
 						className='btn btn-primary log-btn'
 						to={'/login'}

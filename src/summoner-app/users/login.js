@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Container, Button } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { loginUser } from "./userReducer";
 import * as client from "./client";
 import "../../common/colors.css";
 import "./users.css";
@@ -12,15 +14,20 @@ function Login() {
     password: "",
   });
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
   const signin = async () => {
     try {
       await client.signin(credentials);
       setError("");
+      dispatch(loginUser());
       navigate("/profile");
     } catch (err) {
       setError(err.response.data.message);
     }
   };
+
   return (
     <Container className="d-flex justify-content-center align-items-center">
       <div className="w-50">
