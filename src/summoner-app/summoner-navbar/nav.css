@@ -18,7 +18,7 @@
 }
 
 .side-nav .list-group-item.active:hover {
-  background-color: #1854dc;
+  background-color: #3273fb;
   color: #ffffff;
 }
 
@@ -30,6 +30,21 @@
   position: relative;
   height: 65px;
   width: 65px;
+}
+
+.league-logo {
+  width: 20px;
+  height: auto;
+}
+
+.patchnotes-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #e6913e;
+}
+
+.patchnotes-link {
+  text-decoration: none;
 }
 
 /* smaller screens */
@@ -44,9 +59,9 @@
   }
 
   .side-nav {
-    background-color: #000000;
+    background-color: #191a30;
     width: 100vw;
-    border-radius: 0;
+    border-radius: 0 !important;
     height: 65px !important;
     margin-top: 65px;
     text-decoration: none;
@@ -96,6 +111,52 @@
     width: 70px;
     color: white !important;
   }
+
+  .patchnotes {
+    display: flex;
+    align-items: center;
+    background-color: #0a0a29;
+    padding: 4px 25px;
+    border-radius: 20px; 
+    width: auto !important;
+    margin-left: 12px !important;
+  }
+
+  @keyframes fadeInFromTop {
+    0% {
+      opacity: 0;
+      transform: translateY(-15px); 
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeOutFromBottom {
+    0% {
+      opacity: 1;
+      transform: translateY(0); 
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+  }
+
+  .list-group.dropdown-menu-anim {
+    display: flex;
+    flex-direction: column;
+    opacity: 0; 
+  }
+
+  .list-group.dropdown-menu-anim.open {
+    animation: fadeInFromTop 300ms forwards; 
+  }
+
+  .list-group.dropdown-menu-anim.closed {
+    animation: fadeOutFromBottom 250ms backwards; 
+  }
 }
 
 /* larger screens */
@@ -103,16 +164,18 @@
   .top-nav {
     width: 100vw;
     background-color: #191a30;
-    height: 73px;
+    height: 72.5px;
     position: fixed;
     display: flex;
     justify-content: space-between;
+    border-bottom: 1.5px solid #070721;
   }
 
   .side-nav {
     background-color: #191a30;
     height: 100vh;
-    border-radius: 0;
+    border-radius: 0 !important;
+    border-right: 1.5px solid #070721;
     width: 150px !important;
     text-decoration: none;
     position: fixed;
@@ -132,8 +195,7 @@
   }
 
   .logo {
-    border-radius: 0;
-    border: 0;
+    border-bottom: 1.5px solid #070721;
     text-decoration: none;
   }
 
@@ -154,5 +216,14 @@
     height: 40px;
     width: 75px;
     color: white !important;
+  }
+
+  .patchnotes {
+    display: flex;
+    align-items: center;
+    background-color: #0a0a29;
+    padding: 4px 25px;
+    border-radius: 20px; 
+    width: auto !important;
   }
 }

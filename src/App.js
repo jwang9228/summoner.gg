@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router";
 import { useEffect } from "react";
 import SummonerApp from "./summoner-app";
 import SummonerNav from "./summoner-app/summoner-navbar";
-import Summoner from "./summoner";
+import Summoner from "./summoner-app/summoner";
 import Login from "./summoner-app/users/login.js";
 import Signup from "./summoner-app/users/signup.js";
 import Profile from "./summoner-app/users/profile.js";

@@ -45,7 +45,7 @@ function Summoner() {
 		<Row className='align-items-center ms-3'>
 			<Col xs='auto' className='position-relative'>
 				<Image
-					src={require(`../data-dragon/profile-icons/${summonerData.profileIconId}.png`)}
+					src={require(`../../data-dragon/profile-icons/${summonerData.profileIconId}.png`)}
 					alt='profile icon'
 					className='profile-icon'
 					loading='lazy'
