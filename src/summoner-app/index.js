@@ -12,6 +12,7 @@ function SummonerApp() {
 	const [summonerName, setSummonerName] = useState('');
 	const [selectedRegion, setSelectedRegion] = useState(regions[0]);
 	const [showRegions, setShowRegions] = useState(false);
+	const [showRecentSearches, setShowRecentSearches] = useState({});
 	const searchSummonerEvent = () => {
 		if (summonerName !== '') {
 			navigate(`/results/${selectedRegion.server}/${summonerName}`);

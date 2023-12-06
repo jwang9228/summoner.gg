@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Row, Col, Image, Button } from 'react-bootstrap';
 import * as client from './client.js';
+import SummonerProfile from './profile.js';
 import './summoner.css';
 
 function Summoner() {
@@ -42,30 +42,7 @@ function Summoner() {
 	}, [server, summonerName]);
 	// TODO: try to break the parts into separate components here
 	return summonerData ? (
-		<Row className='align-items-center ms-3'>
-			<Col xs='auto' className='position-relative'>
-				<Image
-					src={require(`../../data-dragon/profile-icons/${summonerData.profileIconId}.png`)}
-					alt='profile icon'
-					className='profile-icon'
-					loading='lazy'
-				/>
-				<div className='position-absolute start-50 translate-middle-x summoner-level-margin'>
-					<p className='summoner-level'>
-						{summonerData.summonerLevel}
-					</p>
-				</div>
-			</Col>
-			<Col xs='auto'>
-				<p className='summoner-name'>
-					{summonerData.summonerName}
-					<span className='app-blue-accent ms-2 summoner-server'>{`#${(summonerData.server).toUpperCase()}`}</span>
-				</p>
-				<div>
-					<Button className='app-blue-accent'>Update</Button>
-				</div>
-			</Col>
-		</Row>
+		<SummonerProfile summonerData={summonerData} />
 	) : (
 		<div>
 			<h3 style={{ color: '#FFFFFF' }}>No summoner data found!</h3>
