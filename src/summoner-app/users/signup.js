@@ -9,19 +9,29 @@ import "./users.css";
 
 function Signup() {
   const [error, setError] = useState("");
+
   const [credentials, setCredentials] = useState({
     email: "",
     username: "",
     password: "",
-    role: "Player",
-    position: "Fill",
+    role: "",
+    position: "",
   });
+  
+  const [showPosition, setShowPosition] = useState(false);
+  const handleRoleChange = (e) => {
+    setCredentials({ ...credentials, role: e.target.value });
+    setShowPosition(e.target.value === 'Player');
+  }
 
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
+  
   const signup = async () => {
     try {
+      if (credentials.role === "Admin") {
+        credentials.position = "";
+      }
       await client.signup(credentials);
       setError("");
       dispatch(loginUser());
@@ -84,11 +94,9 @@ function Signup() {
             </Form.Label>
             <Form.Select
               required
-              onChange={(e) =>
-                setCredentials({ ...credentials, role: e.target.value })
-              }
+              onChange={ handleRoleChange }
             >
-              <option value="" disabled>
+              <option value="" hidden>
                 Select a role
               </option>
               <option value="Player">Player</option>
@@ -96,7 +104,7 @@ function Signup() {
             </Form.Select>
           </Form.Group>
 
-          <Form.Group controlId="primary-position" className="mb-2">
+          {showPosition && (<Form.Group controlId="primary-position" className="mb-2">
             <Form.Label className="user-label">
               Primary Position <span className="required-red">*</span>
             </Form.Label>
@@ -106,7 +114,7 @@ function Signup() {
                 setCredentials({ ...credentials, position: e.target.value })
               }
             >
-              <option value="" disabled>
+              <option value="">
                 Select a primary position
               </option>
               <option value="Top">Top</option>
@@ -116,7 +124,7 @@ function Signup() {
               <option value="Support">Support</option>
               <option value="Fill">Fill</option>
             </Form.Select>
-          </Form.Group>
+          </Form.Group>)}
 
           {error && <div className="error-msg mt-2">{error}</div>}
           <div className="mt-3">

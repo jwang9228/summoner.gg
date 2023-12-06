@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GiNinjaHead } from "react-icons/gi";
+import { RiTeamFill } from "react-icons/ri";
 import { IoSearch, IoHome, IoMenu } from "react-icons/io5";
 import { IoIosStats } from "react-icons/io";
 import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser, checkStatus } from "../users/userReducer";
+import { logoutUser } from "../users/userReducer";
 import * as client from "../users/client";
 import "./nav.css";
 import "../../common/colors.css";
@@ -37,6 +38,7 @@ function SummonerNav() {
   const links = [
     { text: "Home", icon: IoHome, route: "#", size: 34 },
     { text: "Stats", icon: IoIosStats, route: "stats", size: 36 },
+		{ text: "Teams", icon: RiTeamFill, route: "teams", size: 36 },
     { text: "Search", icon: IoSearch, route: "search", size: 34 },
     { text: "Profile", icon: GiNinjaHead, route: "profile", size: 34 },
   ];
