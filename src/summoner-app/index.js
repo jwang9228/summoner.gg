@@ -19,7 +19,7 @@ function SummonerApp() {
 	};
 	return (
 		<Container>
-			<p className='app-title mb-3 mt-3'>
+			<p className='app-title mb-3'>
 				SUMMONER
 				<span className='app-blue-accent'>.</span>
 				GG

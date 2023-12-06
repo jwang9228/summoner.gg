@@ -70,7 +70,6 @@
 
   .menu-button {
     display: flex;
-    z-index: 1;
   }
 
   .menu-button.open {
@@ -152,10 +151,13 @@
 
   .list-group.dropdown-menu-anim.open {
     animation: fadeInFromTop 300ms forwards; 
+    z-index: 5;
   }
 
   .list-group.dropdown-menu-anim.closed {
     animation: fadeOutFromBottom 250ms backwards; 
+    visibility: hidden;
+    z-index: auto;
   }
 }
 
