@@ -17,8 +17,8 @@ export const findSummonerByServer = async (server, summonerName) => {
 export const getMatchesByPUUID = async (server, puuid, matchCount) => {
 	try {
 		const response = await request.get(
-            `${SERVER_URL}/summoner/matches/${server}/${puuid}/${matchCount}`
-        );
+			`${SERVER_URL}/summoner/matches/${server}/${puuid}/${matchCount}`
+		);
 		return response.data;
 	} catch (error) {
 		return [];
@@ -54,14 +54,25 @@ export const getRecentSearches = async () => {
 	} catch (error) {
 		return undefined;
 	}
-}
+};
 export const addRecentSearch = async (searchData) => {
 	try {
 		const response = await request.post(
-			`${SERVER_URL}/summoner/recentSearches`, searchData
+			`${SERVER_URL}/summoner/recentSearches`,
+			searchData
 		);
 		return response.data;
 	} catch (error) {
 		return undefined;
 	}
-}
+};
+export const getWinrateData = async (region, summonerId) => {
+	try {
+		const response = await request.get(
+			`${SERVER_URL}/summoner/winrates/${region}/${summonerId}`
+		);
+		return response.data;
+	} catch (error) {
+		return undefined;
+	}
+};

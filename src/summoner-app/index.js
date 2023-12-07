@@ -121,7 +121,7 @@ function SummonerApp() {
 					</Button>
 				</InputGroup.Text>
 			</InputGroup>
-			{showRecentSearches && (
+			{(showRecentSearches && (recentSearches.length > 0)) && (
 				<ListGroup className='m-auto recent-searches mt-2'>
 					<ListGroup.Item className='list-group-item-secondary'>
 						Recently Searched
