@@ -115,6 +115,7 @@ function Profile() {
 
           {account.links.Instagram && (
             <div className="">
+              <FaInstagram className="instagram-icon me-1"/>
               <a
                 href={account.links.Instagram}
                 target="_blank"
