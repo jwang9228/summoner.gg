@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Image, Button } from "react-bootstrap";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { Row, Col, Image } from "react-bootstrap";
+import { useParams, Link } from "react-router-dom";
 import { FaTwitter, FaTwitch, FaYoutube, FaInstagram } from "react-icons/fa";
 import { RiAdminFill } from "react-icons/ri";
 import leagueLogo from "../../../images/league-logo.png";
@@ -128,7 +128,7 @@ function Profile() {
           )}
         </div>
       ) : (
-        <p className="user-title">Please login to view your profile</p>
+        <p className="please-login">Please login to view your profile</p>
       )}
     </div>
   );

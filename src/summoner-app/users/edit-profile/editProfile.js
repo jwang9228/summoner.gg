@@ -319,7 +319,7 @@ function EditProfile() {
           </Form>
         </div>
       ) : (
-        <p className="user-title">Please login to view your profile</p>
+        <p className="please-login">Please login to view your profile</p>
       )}
     </div>
   );

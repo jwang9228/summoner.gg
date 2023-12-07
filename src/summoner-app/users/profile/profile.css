@@ -64,3 +64,15 @@
 .instagram-icon {
   color: #E1306C;
 }
+
+.please-login {
+  font-weight: 500;
+  font-size: 50px;
+  color: white;
+  letter-spacing: 3px;
+  display: flex;
+  margin-right: 10px !important;
+  margin-left: 10px !important;
+  text-align: center;
+  justify-content: center;
+}
