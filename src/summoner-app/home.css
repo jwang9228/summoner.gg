@@ -1,3 +1,14 @@
+.search-profile-icon {
+  border-radius: 15%;
+  width: 25px;
+  height: 25px;
+}
+
+.recent-search-button {
+  color: white !important;
+  width: 50px;
+}
+
 /* smaller screens */
 @media screen and (max-width: 800px) {
   .app-title {
@@ -108,5 +119,9 @@
   
   .search-icon {
     color: gray;
+  }
+
+  .recent-searches {
+    max-width: 50% !important;
   }
 }

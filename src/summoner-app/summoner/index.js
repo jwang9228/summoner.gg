@@ -36,7 +36,15 @@ function Summoner() {
 					response = newSummonerData;
 				}
 			}
-			response && setSummonerData(response);
+			if (response) {
+				setSummonerData(response);
+				const searchData = {
+					'name': response.summonerName,
+					'region': server,
+					'profileIconId': response.profileIconId
+				};
+				await client.addRecentSearch(searchData);
+			}
 		};
 		fetchData();
 	}, [server, summonerName]);
