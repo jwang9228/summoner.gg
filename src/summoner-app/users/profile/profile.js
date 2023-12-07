@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col, Image, Button } from "react-bootstrap";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import { FaTwitter, FaTwitch, FaYoutube, FaInstagram } from "react-icons/fa";
 import { RiAdminFill } from "react-icons/ri";
 import leagueLogo from "../../../images/league-logo.png";
 import "./profile.css";
@@ -18,11 +19,15 @@ function Profile() {
   useEffect(() => {
     fetchAccount();
   }, []);
+
+  const links = ["Twitter", "Twitch", "Youtube", "Instagram"];
+  // console.log(account);
+
   return (
     <div>
       {account ? (
-        <div className="ms-2">
-          <Row className="basic-info pt-3 pb-3 ms-4 me-4">
+        <div className="ms-5">
+          <Row className="basic-info pt-3 pb-3 me-4">
             <Col xs="auto">
               <Image
                 src={leagueLogo}
@@ -31,6 +36,7 @@ function Profile() {
                 loading="lazy"
               />
             </Col>
+
             <Col xs="auto">
               <p className="username">{account.username}</p>
               {account.role === "Admin" ? (
@@ -53,15 +59,72 @@ function Profile() {
               )}
               <p className="email">{account.email}</p>
               <Link to="/edit-profile" className="btn btn-primary mt-3">
-                  Edit Profile
-                </Link>
+                Edit Profile
+              </Link>
             </Col>
           </Row>
-          <Row className="links">
-            <Col xs="auto pt-3 pb-3 ms-4 me-4">
-              <p className="title"> Links </p>
-            </Col>
-          </Row>
+
+          {account.links && (
+            <p className="title mt-3 mb-0">
+              {links.some((key) => account.links[key]?.trim() !== "") &&
+                "Links"}
+            </p>
+          )}
+
+          {account.links.Twitter && (
+            <div className="">
+              <FaTwitter className="twitter-icon me-1" />
+              <a
+                href={account.links.Twitter}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link"
+              >
+                Twitter
+              </a>
+            </div>
+          )}
+
+          {account.links.Twitch && (
+            <div className="">
+              <FaTwitch className="twitch-icon me-1"/>
+              <a
+                href={account.links.Twitch}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link"
+              >
+                Twitch
+              </a>
+            </div>
+          )}
+
+          {account.links.Youtube && (
+            <div className="">
+              <FaYoutube className="youtube-icon me-1"/>
+              <a
+                href={account.links.Youtube}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link"
+              >
+                Youtube
+              </a>
+            </div>
+          )}
+
+          {account.links.Instagram && (
+            <div className="">
+              <a
+                href={account.links.Instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link"
+              >
+                Instagram
+              </a>
+            </div>
+          )}
         </div>
       ) : (
         <p className="user-title">Please login to view your profile</p>

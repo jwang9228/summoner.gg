@@ -48,3 +48,19 @@
   font-weight: 600;
   font-size: 30px;
 }
+
+.twitter-icon {
+  color: #1DA1F2;
+}
+
+.twitch-icon {
+  color: purple;
+}
+
+.youtube-icon {
+  color: red;
+}
+
+.instagram-icon {
+  color: #E1306C;
+}

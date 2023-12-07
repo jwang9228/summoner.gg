@@ -25,3 +25,8 @@ export const signin = async (credentials) => {
   const response = await request.post(`${USERS_API}/signin`, credentials);
   return response.data;
 };
+
+export const updateUser = async (user) => {
+  const response = await request.put(`${USERS_API}/${user._id}`, user);
+  return response.data;
+};
