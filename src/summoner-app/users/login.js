@@ -54,7 +54,7 @@ function Login() {
             />
           </Form.Group>
           <Form.Text className="user-label">
-            Don't have an account? <Link to="/signup">Sign up here</Link>
+            Don't have an account? <Link to="/register">Sign up here</Link>
           </Form.Text>
           <br />
           {error && <div className="error-msg mt-2">{error}</div>}
