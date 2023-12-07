@@ -1,0 +1,29 @@
+.basic-info-group .basic-info-label {
+  color: white;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.basic-info-group .username-label {
+  margin-right: 18px !important;
+}
+
+.basic-info-group .email-label {
+  margin-right: 58px !important;
+}
+
+.basic-info-group .password-label {
+  margin-right: 23px !important;
+}
+
+.basic-info-input {
+  height: 32px;
+  width: 200px !important;
+  font-size: 14px !important;
+}
+
+.role-position-input {
+  height: 32px;
+  width: 90px !important;
+  font-size: 14px !important;
+}

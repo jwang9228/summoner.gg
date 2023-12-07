@@ -6,7 +6,8 @@ import SummonerNav from "./summoner-app/summoner-navbar";
 import Summoner from "./summoner-app/summoner";
 import Login from "./summoner-app/users/login.js";
 import Signup from "./summoner-app/users/signup.js";
-import Profile from "./summoner-app/users/profile.js";
+import Profile from "./summoner-app/users/profile/profile.js";
+import EditProfile from "./summoner-app/users/edit-profile/editProfile.js";
 import { Provider } from "react-redux";
 import store from "./summoner-app/store/store.js";
 import "./common/content.css";
@@ -34,6 +35,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/edit-profile" element={<EditProfile />} />
             </Routes>
           </div>
         </div>

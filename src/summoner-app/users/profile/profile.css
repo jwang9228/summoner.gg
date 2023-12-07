@@ -1,0 +1,50 @@
+.profile-champ-icon {
+  border-radius: 0;
+  width: 175px;
+  height: 175px;
+  margin-left: 20px;
+  position: relative;
+}
+
+.basic-info {
+  border: 1px solid #1a123f;
+  border-radius: 20px;
+  background-color: #241b4a;
+}
+
+.username,
+.role,
+.position,
+.email {
+  margin: 0;
+}
+
+.username {
+  color: white;
+  font-weight: 600;
+  font-size: 40px;
+}
+
+.role,
+.position {
+  color: gray;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.email {
+  color: gray;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.role-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.title {
+  color: white;
+  font-weight: 600;
+  font-size: 30px;
+}
