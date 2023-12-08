@@ -35,6 +35,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Signup />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/profile/:id" element={<Profile />} />
               <Route path="/edit-profile" element={<EditProfile />} />
             </Routes>
           </div>
