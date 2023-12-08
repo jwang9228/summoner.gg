@@ -18,7 +18,6 @@ function Profile() {
       setAccount(user);
       setMessage("");
     } catch (err) {
-      console.log(err);
       setMessage("User not found");
     }
   };
