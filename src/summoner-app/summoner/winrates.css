@@ -18,31 +18,32 @@
     color: gray  !important;
 }
 
-.rank-label {
-    color: white;
-    font-weight: 600;
-    font-size: 24px;
-}
-
-.league-points {
-    color: #d3d3d3;
-}
-
-.win-loss-margin-top {
-    margin-top: 14px !important;
-}
-
-.win-loss-label {
-    color: #d3d3d3;
-    font-size: 14px;
-    text-align: right;
-}
-
 /* smaller screens */
 @media screen and (max-width: 800px) {
     .rank-crest {
-        width: 70px;
-        height: 70px;
+        width: 60px;
+        height: 60px;
+    }
+
+    .rank-label {
+        color: white;
+        font-weight: 600;
+        font-size: 16px;
+    }
+
+    .win-loss-margin-top {
+        margin-top: 7px !important;
+    }
+
+    .league-points {
+        font-size: 14px;
+        color: #d3d3d3;
+    }
+
+    .win-loss-label {
+        color: #d3d3d3;
+        font-size: 13px;
+        text-align: right;
     }
 }
 
@@ -51,5 +52,25 @@
     .rank-crest {
         width: 90px;
         height: 90px;
+    }
+
+    .rank-label {
+        color: white;
+        font-weight: 600;
+        font-size: 24px;
+    }
+
+    .win-loss-margin-top {
+        margin-top: 20px !important;
+    }
+
+    .league-points {
+        color: #d3d3d3;
+    }
+    
+    .win-loss-label {
+        color: #d3d3d3;
+        font-size: 16px;
+        text-align: right;
     }
 }

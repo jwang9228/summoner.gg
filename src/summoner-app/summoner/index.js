@@ -5,7 +5,7 @@ import SummonerProfile from './profile.js';
 import Winrates from './winrates.js';
 import './summoner.css';
 import './winrates.css';
-import { Container, Row } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 
 function Summoner() {
 	const { server, summonerName } = useParams();
@@ -15,16 +15,20 @@ function Summoner() {
 	const getWinrateDataByQueue = (queueType, winrateData) => {
 		let queueData = undefined;
 		if (queueType === 'solo') {
-			queueData = winrateData.find(data => data.queueType === 'RANKED_SOLO_5x5');
+			queueData = winrateData.find(
+				(data) => data.queueType === 'RANKED_SOLO_5x5'
+			);
 		} else if (queueType === 'flex') {
-			queueData = winrateData.find(data => data.queueType === 'RANKED_FLEX_SR');
+			queueData = winrateData.find(
+				(data) => data.queueType === 'RANKED_FLEX_SR'
+			);
 		}
 		const extractedWinrateData = queueData && {
-			'win': queueData.wins,
-			'loss': queueData.losses,
-			'tier': queueData.tier,
-			'rank': queueData.rank,
-			'leaguePoints': queueData.leaguePoints
+			win: queueData.wins,
+			loss: queueData.losses,
+			tier: queueData.tier,
+			rank: queueData.rank,
+			leaguePoints: queueData.leaguePoints,
 		};
 		return extractedWinrateData;
 	};
@@ -48,8 +52,14 @@ function Summoner() {
 						server,
 						data.id
 					);
-					const soloQueueData = getWinrateDataByQueue('solo', winrateData);
-					const flexQueueData = getWinrateDataByQueue('flex', winrateData);
+					const soloQueueData = getWinrateDataByQueue(
+						'solo',
+						winrateData
+					);
+					const flexQueueData = getWinrateDataByQueue(
+						'flex',
+						winrateData
+					);
 					const newSummonerData = {
 						summonerName: data.name,
 						summonerLevel: data.summonerLevel,
@@ -68,9 +78,9 @@ function Summoner() {
 			if (response) {
 				setSummonerData(response);
 				const searchData = {
-					'name': response.summonerName,
-					'region': server,
-					'profileIconId': response.profileIconId
+					name: response.summonerName,
+					region: server,
+					profileIconId: response.profileIconId,
 				};
 				await client.addRecentSearch(searchData);
 			}
@@ -78,15 +88,28 @@ function Summoner() {
 		fetchData();
 	}, [server, summonerName]);
 	return summonerData ? (
-		<Container className='summoner-data-margins'>
+		<div className='summoner-data-margins'>
 			<Row>
 				<SummonerProfile summonerData={summonerData} />
 			</Row>
 			<Row className='queue-data-margin-top'>
-				<Winrates queueData={summonerData.soloQueueRank} queueName='Ranked Solo/Duo' />
-				<Winrates queueData={summonerData.flexQueueRank} queueName='Ranked Flex' />
+				<Col xl={4} lg={4} md={12} sm={12} xs={12} className='mb-4'>
+					<div className='d-flex flex-column'>
+						<Winrates
+							queueData={summonerData.soloQueueRank}
+							queueName='Ranked Solo/Duo'
+						/>
+						<Winrates
+							queueData={summonerData.flexQueueRank}
+							queueName='Ranked Flex'
+						/>
+					</div>
+				</Col>
+				<Col xl={8} lg={8} md={12} sm={12} xs={12}>
+					Test
+				</Col>
 			</Row>
-		</Container>
+		</div>
 	) : (
 		<div>
 			<h3 style={{ color: '#FFFFFF' }}>No summoner data found!</h3>

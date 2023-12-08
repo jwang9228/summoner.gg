@@ -43,7 +43,7 @@ function Winrates({ queueData, queueName }) {
 								className='rank-crest'
 								loading='lazy'
 							/>
-							<div className='ms-2 mb-2 d-flex flex-column'>
+							<div className='ms-3 mb-2 d-flex flex-column'>
 								<p className='rank-label mb-0 mt-0'>
 									{`${tier.charAt(0)}${tier
 										.toLowerCase()
