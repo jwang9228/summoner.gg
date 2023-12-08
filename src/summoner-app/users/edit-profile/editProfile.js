@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Row, Col, Image, Button, Form } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
 import leagueLogo from "../../../images/league-logo.png";
-import * as utilities from "../../../common/utilities"
+import * as utilities from "../../../common/utilities";
 import "../profile/profile.css";
 import "./editProfile.css";
 import * as client from "../client";
@@ -46,13 +46,9 @@ function EditProfile() {
     } catch (err) {
       if (err.response && err.response.status === 400) {
         const errorMessage = err.response.data.message;
-        setError(
-          errorMessage
-        );
+        setError(errorMessage);
       } else {
-        setError(
-          err.message
-        );
+        setError(err.message);
       }
     }
   };
@@ -185,17 +181,9 @@ function EditProfile() {
                     value={account.password}
                   />
                 </Form.Group>
-
-                {/* {error && <p className="error-msg d-flex mt-1 mb-0">{error}</p>} */}
               </Col>
             </Row>
 
-            {/* Links */}
-            {/* <Row className="links">
-              <Col xs="auto" className="pt-3 ms-4 me-4">
-                <p className="title mb-1"> Links </p>
-              </Col>
-            </Row> */}
             <p className="title pt-3 me-4 mb-1"> Links </p>
 
             {/* Twitter */}

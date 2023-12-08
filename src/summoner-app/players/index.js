@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Table, Form } from "react-bootstrap";
+import { FaTwitter, FaTwitch, FaTv, FaYoutube, FaInstagram } from "react-icons/fa";
+import { RiAdminFill } from "react-icons/ri";
 import * as client from "../users/client";
 import "./players.css";
 
@@ -56,6 +58,11 @@ function Players() {
               {isAdmin && <th>Email</th>}
               <th>Role</th>
               <th>Position</th>
+              <th className="link-col">Twitter</th>
+              <th className="link-col">Twitch</th>
+              <th className="link-col">AfreecaTV</th>
+              <th className="link-col">Youtube</th>
+              <th className="link-col">Instagram</th>
             </tr>
           </thead>
 
@@ -69,6 +76,41 @@ function Players() {
                   {isAdmin && <td>{user.email}</td>}
                   <td>{user.role}</td>
                   <td>{user.position}</td>
+                  <td className="link-col">
+                    {user.links.Twitter && (
+                      <a href={user.links.Twitter} target="_blank" rel="noreferrer">
+                        Twitter
+                      </a>
+                    )}
+                  </td>
+                  <td className="link-col">
+                    {user.links.Twitch && (
+                      <a href={user.links.Twitch} target="_blank" rel="noreferrer">
+                        Twitch
+                      </a>
+                    )}
+                  </td>
+                  <td className="link-col">
+                    {user.links.AfreecaTV && (
+                      <a href={user.links.AfreecaTV} target="_blank" rel="noreferrer">
+                        AfreecaTV
+                      </a>
+                    )}
+                  </td>
+                  <td className="link-col">
+                    {user.links.Youtube && (
+                      <a href={user.links.Youtube} target="_blank" rel="noreferrer">
+                        Youtube
+                      </a>
+                    )}
+                  </td>
+                  <td className="link-col">
+                    {user.links.Instagram && (
+                      <a href={user.links.Instagram} target="_blank" rel="noreferrer">
+                        Instagram
+                      </a>
+                    )}
+                  </td>
                 </tr>
               ) : (
                 showAdmins &&

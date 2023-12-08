@@ -9,19 +9,26 @@
 
 .players-table-container {
   display: flex;
-    justify-content: center;
-    align-items: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .show-admins-box {
   margin-right: 10px !important;
 }
+
 .show-admins-label {
   color: white;
 }
 
 .players-table {
-  margin-left: 10px;
-  margin-right: 10px !important;
-  width: 90% !important;
+  /* margin-left: 10px !important;
+  margin-right: 10px !important; */
+  width: 85% !important;
+}
+
+@media screen and (max-width: 720px) {
+  .link-col {
+    display: none;
+  }
 }

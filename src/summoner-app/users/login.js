@@ -17,6 +17,12 @@ function Login() {
 
   const dispatch = useDispatch();
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      signin();
+    }
+  };
+
   const signin = async () => {
     try {
       await client.signin(credentials);
@@ -38,6 +44,7 @@ function Login() {
             <Form.Control
               type="text"
               placeholder="Username"
+              onKeyUp={handleKeyPress}
               onChange={(e) =>
                 setCredentials({ ...credentials, username: e.target.value })
               }
@@ -48,6 +55,7 @@ function Login() {
             <Form.Control
               type="password"
               placeholder="Password"
+              onKeyUp={handleKeyPress}
               onChange={(e) =>
                 setCredentials({ ...credentials, password: e.target.value })
               }

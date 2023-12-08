@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col, Image } from "react-bootstrap";
 import { useParams, Link } from "react-router-dom";
-import { FaTwitter, FaTwitch, FaTv, FaYoutube, FaInstagram } from "react-icons/fa";
+import { FaTwitter, FaTwitch, FaYoutube, FaInstagram } from "react-icons/fa";
+import { BiTv } from "react-icons/bi";
 import { RiAdminFill } from "react-icons/ri";
 import leagueLogo from "../../../images/league-logo.png";
 import "./profile.css";
@@ -44,7 +45,7 @@ function Profile() {
   // const socialMedia = [
   //   { url: account.links.Twitter, icon: <FaTwitter className="twitter-icon me-1" />, text: "Twitter" },
   //   { url: account.links.Twitch, icon: <FaTwitch className="twitch-icon me-1" />, text: "Twitch" },
-  //   { url: account.links.AfreecaTV, icon: <FaTv className="aftv-icon me-1" />, text: "AfreecaTV" },
+  //   { url: account.links.AfreecaTV, icon: <BiTv className="aftv-icon me-1" />, text: "AfreecaTV" },
   //   { url: account.links.Youtube, icon: <FaYoutube className="youtube-icon me-1" />, text: "Youtube" },
   //   { url: account.links.Instagram, icon: <FaInstagram className="instagram-icon me-1" />, text: "Instagram" },
   // ]
@@ -131,7 +132,7 @@ function Profile() {
 
           {account.links.AfreecaTV && (
             <div>
-              <FaTv className="aftv-icon me-1" />
+              <BiTv className="aftv-icon me-1" />
               <a
                 href={account.links.AfreecaTV}
                 target="_blank"
