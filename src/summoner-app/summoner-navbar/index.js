@@ -90,7 +90,7 @@ function SummonerNav() {
           src={require("../../images/logo.png")}
           alt="summoner.gg logo"
         />
-        <div className="container patchnotes mt-2 mb-2">
+        <div className="container patchnotes mt-3 mb-2">
           <img
             className="league-logo"
             src={require("../../images/league-logo.png")}

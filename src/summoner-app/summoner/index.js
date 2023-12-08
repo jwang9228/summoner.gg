@@ -2,7 +2,10 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import * as client from './client.js';
 import SummonerProfile from './profile.js';
+import Winrates from './winrates.js';
 import './summoner.css';
+import './winrates.css';
+import { Container, Row } from 'react-bootstrap';
 
 function Summoner() {
 	const { server, summonerName } = useParams();
@@ -74,9 +77,16 @@ function Summoner() {
 		};
 		fetchData();
 	}, [server, summonerName]);
-	// TODO: try to break the parts into separate components here
 	return summonerData ? (
-		<SummonerProfile summonerData={summonerData} />
+		<Container className='summoner-data-margins'>
+			<Row>
+				<SummonerProfile summonerData={summonerData} />
+			</Row>
+			<Row className='queue-data-margin-top'>
+				<Winrates queueData={summonerData.soloQueueRank} queueName='Ranked Solo/Duo' />
+				<Winrates queueData={summonerData.flexQueueRank} queueName='Ranked Flex' />
+			</Row>
+		</Container>
 	) : (
 		<div>
 			<h3 style={{ color: '#FFFFFF' }}>No summoner data found!</h3>

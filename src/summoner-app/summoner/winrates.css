@@ -1,0 +1,55 @@
+.queue-data-margin-top {
+    margin-top: 25px !important;
+}
+
+.queue-data-header {
+    color: white !important;
+    background-color: #121229!important;
+    border: none !important;
+}
+
+.queue-data-body {
+    background-color: #121229 !important;
+    border: none !important;
+    border-top: #070721 1.5px solid !important;
+}
+
+.unranked-label {
+    color: gray  !important;
+}
+
+.rank-label {
+    color: white;
+    font-weight: 600;
+    font-size: 24px;
+}
+
+.league-points {
+    color: #d3d3d3;
+}
+
+.win-loss-margin-top {
+    margin-top: 14px !important;
+}
+
+.win-loss-label {
+    color: #d3d3d3;
+    font-size: 14px;
+    text-align: right;
+}
+
+/* smaller screens */
+@media screen and (max-width: 800px) {
+    .rank-crest {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+/* larger screens */
+@media screen and (min-width: 801px) {
+    .rank-crest {
+        width: 90px;
+        height: 90px;
+    }
+}

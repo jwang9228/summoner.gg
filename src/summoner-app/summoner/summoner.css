@@ -23,8 +23,8 @@
 
 /* smaller screens */
 @media screen and (max-width: 800px) {
-    .profile-icon-margins {
-        margin-left: 15px;
+    .summoner-data-margins {
+        margin-right: 8px !important;
     }
 
     .profile-icon {
@@ -42,9 +42,12 @@
   
 /* larger screens */
 @media screen and (min-width: 801px) {
+    .summoner-data-margins {
+        margin-left: 16px !important;
+    }
+
     .profile-icon-margins {
         margin-top: 15px;
-        margin-left: 25px;
     }
 
     .profile-icon {
