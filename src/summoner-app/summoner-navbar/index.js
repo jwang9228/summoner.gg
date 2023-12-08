@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GiNinjaHead } from "react-icons/gi";
-import { RiTeamFill } from "react-icons/ri";
 import { IoHome, IoMenu } from "react-icons/io5";
+import { FaUserFriends } from "react-icons/fa";
+import { SiLeagueoflegends } from "react-icons/si";
 import { IoIosStats } from "react-icons/io";
 import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,7 +39,8 @@ function SummonerNav() {
   const links = [
     { text: "Home", icon: IoHome, route: "#", size: 34 },
     { text: "Stats", icon: IoIosStats, route: "stats", size: 36 },
-		{ text: "Teams", icon: RiTeamFill, route: "teams", size: 36 },
+    { text: "Players", icon: FaUserFriends, route: "players", size: 36 },
+		{ text: "Teams", icon: SiLeagueoflegends, route: "teams", size: 34 },
     { text: "Profile", icon: GiNinjaHead, route: "profile", size: 34 },
   ];
 

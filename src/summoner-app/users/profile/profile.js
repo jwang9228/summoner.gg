@@ -10,18 +10,37 @@ import * as client from "../client";
 function Profile() {
   const { id } = useParams();
   const [account, setAccount] = useState(null);
+  const [message, setMessage] = useState("");
+
+  const findUserById = async (id) => {
+    try {
+      const user = await client.findUserById(id);
+      setAccount(user);
+      setMessage("");
+    } catch (err) {
+      setMessage("User not found");
+    }
+  };
 
   const fetchAccount = async () => {
     const account = await client.account();
     setAccount(account);
+    if (!account) {
+      setMessage("Please login to view your profile");
+    } else {
+      setMessage("");
+    }
   };
 
   useEffect(() => {
-    fetchAccount();
+    if (id) {
+      findUserById(id);
+    } else {
+      fetchAccount();
+    }
   }, []);
 
   const links = ["Twitter", "Twitch", "Youtube", "Instagram"];
-  // console.log(account);
 
   return (
     <div>
@@ -57,10 +76,14 @@ function Profile() {
                   {account.position}
                 </p>
               )}
-              <p className="email">{account.email}</p>
-              <Link to="/edit-profile" className="btn btn-primary mt-3">
-                Edit Profile
-              </Link>
+              {!id && (
+                <div>
+                  <p className="email">{account.email}</p>
+                  <Link to="/edit-profile" className="btn btn-primary mt-3">
+                    Edit Profile
+                  </Link>
+                </div>
+              )}
             </Col>
           </Row>
 
@@ -87,7 +110,7 @@ function Profile() {
 
           {account.links.Twitch && (
             <div className="">
-              <FaTwitch className="twitch-icon me-1"/>
+              <FaTwitch className="twitch-icon me-1" />
               <a
                 href={account.links.Twitch}
                 target="_blank"
@@ -101,7 +124,7 @@ function Profile() {
 
           {account.links.Youtube && (
             <div className="">
-              <FaYoutube className="youtube-icon me-1"/>
+              <FaYoutube className="youtube-icon me-1" />
               <a
                 href={account.links.Youtube}
                 target="_blank"
@@ -115,7 +138,7 @@ function Profile() {
 
           {account.links.Instagram && (
             <div className="">
-              <FaInstagram className="instagram-icon me-1"/>
+              <FaInstagram className="instagram-icon me-1" />
               <a
                 href={account.links.Instagram}
                 target="_blank"
@@ -128,7 +151,7 @@ function Profile() {
           )}
         </div>
       ) : (
-        <p className="please-login">Please login to view your profile</p>
+        <p className="profile-msg">{message}</p>
       )}
     </div>
   );
