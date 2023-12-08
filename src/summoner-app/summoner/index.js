@@ -5,11 +5,12 @@ import SummonerProfile from './profile.js';
 import Winrates from './winrates.js';
 import './summoner.css';
 import './winrates.css';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Image } from 'react-bootstrap';
 
 function Summoner() {
 	const { server, summonerName } = useParams();
 	const [summonerData, setSummonerData] = useState();
+	const [fetchingData, setFetchingData] = useState(true);
 	const matchCount = 20;
 
 	const getWinrateDataByQueue = (queueType, winrateData) => {
@@ -34,6 +35,7 @@ function Summoner() {
 	};
 	useEffect(() => {
 		const fetchData = async () => {
+			setFetchingData(true);
 			// if there is already an existing entry for the summoner in the DB, use that data (might be outdated)
 			let response = await client.findSummonerByServer(
 				server,
@@ -84,6 +86,7 @@ function Summoner() {
 				};
 				await client.addRecentSearch(searchData);
 			}
+			setFetchingData(false);
 		};
 		fetchData();
 	}, [server, summonerName]);
@@ -110,9 +113,35 @@ function Summoner() {
 				</Col>
 			</Row>
 		</div>
+	) : fetchingData ? (
+		<div className='no-data-align'>
+			<Image
+				src={require('../../images/hype-kitten.png')}
+				alt='no data'
+				className='no-data-img'
+				loading='lazy'
+			/>
+			<h3 style={{ color: '#FFFFFF' }}>
+				Fetching data for:
+			</h3>
+			<div className='no-data-summoner-name'>
+				"{summonerName}"
+			</div>
+		</div>
 	) : (
-		<div>
-			<h3 style={{ color: '#FFFFFF' }}>No summoner data found!</h3>
+		<div className='no-data-align'>
+			<Image
+				src={require('../../images/sad-kitten.png')}
+				alt='no data'
+				className='no-data-img'
+				loading='lazy'
+			/>
+			<h3 style={{ color: '#FFFFFF' }}>
+				Sorry! We couldn't find summoner data for: 
+			</h3>
+			<div className='no-data-summoner-name'>
+				"{summonerName}"
+			</div>
 		</div>
 	);
 }

@@ -141,7 +141,7 @@ function SummonerApp() {
 						>
 							<span>
 								<Image
-									src={require(`../data-dragon/profile-icons/${recentSearch.profileIconId}.png`)}
+									src={require(`../data-dragon/profileicon/${recentSearch.profileIconId}.png`)}
 									alt='profile icon'
 									className='search-profile-icon me-2'
 									loading='lazy'

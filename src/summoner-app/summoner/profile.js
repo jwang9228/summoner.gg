@@ -29,7 +29,7 @@ function SummonerProfile({ summonerData }) {
 		<div className='profile-header'>
 			<div className='position-relative profile-icon-margins'>
 				<Image
-					src={require(`../../data-dragon/profile-icons/${summonerData.profileIconId}.png`)}
+					src={require(`../../data-dragon/profileicon/${summonerData.profileIconId}.png`)}
 					alt='profile icon'
 					className='profile-icon'
 					loading='lazy'

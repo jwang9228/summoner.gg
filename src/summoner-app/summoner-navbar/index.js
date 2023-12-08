@@ -45,9 +45,9 @@ function SummonerNav() {
   ];
 
   const LEAGUE_CURRENT_PATCH = {
-    "patch-num": "13.23",
+    "patch-num": "13.24",
     "patchnotes-link":
-      "https://www.leagueoflegends.com/en-pl/news/game-updates/patch-13-23-notes/",
+      "https://www.leagueoflegends.com/en-pl/news/game-updates/patch-13-24-notes/",
   };
 
   // one of: '', 'open', 'closed'
