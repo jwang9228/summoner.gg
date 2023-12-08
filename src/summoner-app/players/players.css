@@ -22,12 +22,10 @@
 }
 
 .players-table {
-  /* margin-left: 10px !important;
-  margin-right: 10px !important; */
   width: 85% !important;
 }
 
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 1000px) {
   .link-col {
     display: none;
   }
