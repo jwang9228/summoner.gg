@@ -6,3 +6,22 @@
   display: flex;
   justify-content: center;
 }
+
+.players-table-container {
+  display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.show-admins-box {
+  margin-right: 10px !important;
+}
+.show-admins-label {
+  color: white;
+}
+
+.players-table {
+  margin-left: 10px;
+  margin-right: 10px !important;
+  width: 90% !important;
+}

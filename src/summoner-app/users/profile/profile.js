@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col, Image } from "react-bootstrap";
 import { useParams, Link } from "react-router-dom";
-import { FaTwitter, FaTwitch, FaYoutube, FaInstagram } from "react-icons/fa";
+import { FaTwitter, FaTwitch, FaTv, FaYoutube, FaInstagram } from "react-icons/fa";
 import { RiAdminFill } from "react-icons/ri";
 import leagueLogo from "../../../images/league-logo.png";
 import "./profile.css";
@@ -40,7 +40,14 @@ function Profile() {
     }
   }, []);
 
-  const links = ["Twitter", "Twitch", "Youtube", "Instagram"];
+  const links = ["Twitter", "Twitch", "AfreecaTV", "Youtube", "Instagram"];
+  // const socialMedia = [
+  //   { url: account.links.Twitter, icon: <FaTwitter className="twitter-icon me-1" />, text: "Twitter" },
+  //   { url: account.links.Twitch, icon: <FaTwitch className="twitch-icon me-1" />, text: "Twitch" },
+  //   { url: account.links.AfreecaTV, icon: <FaTv className="aftv-icon me-1" />, text: "AfreecaTV" },
+  //   { url: account.links.Youtube, icon: <FaYoutube className="youtube-icon me-1" />, text: "Youtube" },
+  //   { url: account.links.Instagram, icon: <FaInstagram className="instagram-icon me-1" />, text: "Instagram" },
+  // ]
 
   return (
     <div>
@@ -95,7 +102,7 @@ function Profile() {
           )}
 
           {account.links.Twitter && (
-            <div className="">
+            <div>
               <FaTwitter className="twitter-icon me-1" />
               <a
                 href={account.links.Twitter}
@@ -109,7 +116,7 @@ function Profile() {
           )}
 
           {account.links.Twitch && (
-            <div className="">
+            <div>
               <FaTwitch className="twitch-icon me-1" />
               <a
                 href={account.links.Twitch}
@@ -122,8 +129,22 @@ function Profile() {
             </div>
           )}
 
+          {account.links.AfreecaTV && (
+            <div>
+              <FaTv className="aftv-icon me-1" />
+              <a
+                href={account.links.AfreecaTV}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link"
+              >
+                AfreecaTV
+              </a>
+            </div>
+          )}
+
           {account.links.Youtube && (
-            <div className="">
+            <div>
               <FaYoutube className="youtube-icon me-1" />
               <a
                 href={account.links.Youtube}
@@ -137,7 +158,7 @@ function Profile() {
           )}
 
           {account.links.Instagram && (
-            <div className="">
+            <div>
               <FaInstagram className="instagram-icon me-1" />
               <a
                 href={account.links.Instagram}

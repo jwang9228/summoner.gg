@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Row, Col, Image, Button, Form } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
 import leagueLogo from "../../../images/league-logo.png";
+import * as utilities from "../../../common/utilities"
 import "../profile/profile.css";
 import "./editProfile.css";
 import * as client from "../client";
@@ -32,25 +33,10 @@ function EditProfile() {
     fetchAccount();
   }, []);
 
-  const isValidUrl = (url) => {
-    const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
-    return url === "" || urlRegex.test(url);
-  };
-
-  const checkLinks = () => {
-    const keys = Object.keys(account.links);
-
-    for (const key of keys) {
-      const link = account.links[key];
-      if (key !== '_id' && link !== "" && !isValidUrl(link)) {
-        throw new Error(`${key} has an invalid link: ${link}`);
-      }
-    }
-  };
-
   const save = async () => {
     try {
-      checkLinks();
+      utilities.checkEmail(account.email);
+      utilities.checkLinks(account.links);
       if (account.role === "Admin") {
         account.position = "";
       }
@@ -246,6 +232,25 @@ function EditProfile() {
                     })
                   }
                   value={account.links.Twitch && account.links.Twitch}
+                />
+              </Form.Group>
+            </div>
+
+            {/* AfreecaTV */}
+            <div className="me-4 mb-2">
+              <Form.Group className="ps-0">
+                <Form.Label className="link-label mb-1">AfreecaTV</Form.Label>
+                <Form.Control
+                  type="url"
+                  placeholder="AfreecaTV"
+                  className="link-input"
+                  onChange={(e) =>
+                    setAccount({
+                      ...account,
+                      links: { ...account.links, AfreecaTV: e.target.value },
+                    })
+                  }
+                  value={account.links.AfreecaTV && account.links.AfreecaTV}
                 />
               </Form.Group>
             </div>

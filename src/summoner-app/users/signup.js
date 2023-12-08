@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Form, Container, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { loginUser } from "./userReducer";
+import * as utilities from "../../common/utilities"
 import * as client from "./client";
 import "../../common/colors.css";
 import "./users.css";
@@ -17,18 +18,19 @@ function Signup() {
     role: "",
     position: "",
   });
-  
+
   const [showPosition, setShowPosition] = useState(false);
   const handleRoleChange = (e) => {
     setCredentials({ ...credentials, role: e.target.value });
-    setShowPosition(e.target.value === 'Player');
-  }
+    setShowPosition(e.target.value === "Player");
+  };
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const signup = async () => {
     try {
+      utilities.checkEmail(credentials.email);
       if (credentials.role === "Admin") {
         credentials.position = "";
       }
@@ -37,7 +39,12 @@ function Signup() {
       dispatch(loginUser());
       navigate("/profile");
     } catch (err) {
-      setError(err.response.data.message);
+      if (err.response && err.response.status === 400) {
+        const errorMessage = err.response.data.message;
+        setError(errorMessage);
+      } else {
+        setError(err.message);
+      }
     }
   };
 
@@ -92,10 +99,7 @@ function Signup() {
             <Form.Label className="user-label">
               Role <span className="required-red">*</span>
             </Form.Label>
-            <Form.Select
-              required
-              onChange={ handleRoleChange }
-            >
+            <Form.Select required onChange={handleRoleChange}>
               <option value="" hidden>
                 Select a role
               </option>
@@ -104,27 +108,27 @@ function Signup() {
             </Form.Select>
           </Form.Group>
 
-          {showPosition && (<Form.Group controlId="primary-position" className="mb-2">
-            <Form.Label className="user-label">
-              Primary Position <span className="required-red">*</span>
-            </Form.Label>
-            <Form.Select
-              required
-              onChange={(e) =>
-                setCredentials({ ...credentials, position: e.target.value })
-              }
-            >
-              <option value="">
-                Select a primary position
-              </option>
-              <option value="Top">Top</option>
-              <option value="Jungle">Jungle</option>
-              <option value="Mid">Mid</option>
-              <option value="Bot">Bot</option>
-              <option value="Support">Support</option>
-              <option value="Fill">Fill</option>
-            </Form.Select>
-          </Form.Group>)}
+          {showPosition && (
+            <Form.Group controlId="primary-position" className="mb-2">
+              <Form.Label className="user-label">
+                Primary Position <span className="required-red">*</span>
+              </Form.Label>
+              <Form.Select
+                required
+                onChange={(e) =>
+                  setCredentials({ ...credentials, position: e.target.value })
+                }
+              >
+                <option value="">Select a primary position</option>
+                <option value="Top">Top</option>
+                <option value="Jungle">Jungle</option>
+                <option value="Mid">Mid</option>
+                <option value="Bot">Bot</option>
+                <option value="Support">Support</option>
+                <option value="Fill">Fill</option>
+              </Form.Select>
+            </Form.Group>
+          )}
 
           {error && <div className="error-msg mt-2">{error}</div>}
           <div className="mt-3">
