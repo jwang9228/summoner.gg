@@ -63,6 +63,24 @@
   .search-icon {
     color: gray;
   }
+
+  .no-data-summoner-name {
+    margin-top: 5px;
+    font-weight: 600;
+    font-size: auto;
+    color: white;
+  }
+
+  .my-summoner-background {
+    color: white !important;
+    background-color: #121229!important;
+    border: none !important;
+  }
+
+  .register-summoner-icon {
+    width: 64px;
+    height: 64px;
+  }
 }
 
 /* larger screens */
@@ -123,5 +141,29 @@
 
   .recent-searches {
     max-width: 50% !important;
+  }
+
+  .no-data-summoner-name {
+    margin-top: 8px;
+    font-weight: 600;
+    font-size: 30px;
+    color: white;
+  }
+
+  .my-summoner-background {
+    max-width: 50%;
+    color: white !important;
+    background-color: #121229!important;
+    border: none !important;
+  }
+
+  .register-summoner-icon {
+    width: 100px;
+    height: 100px;
+  }
+
+  .register-summoner-label {
+    margin-left: 8px;
+    font-size: 26px;
   }
 }
