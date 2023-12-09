@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Table, Form } from "react-bootstrap";
+import { Table, Form, Button } from "react-bootstrap";
 import {
   FaTwitter,
   FaTwitch,
-  FaTv,
   FaYoutube,
   FaInstagram,
+  FaEdit,
+  FaTrash,
 } from "react-icons/fa";
-import { RiAdminFill } from "react-icons/ri";
+import { BiTv } from "react-icons/bi";
 import * as client from "../users/client";
 import "./players.css";
 
@@ -17,6 +18,7 @@ function Players() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [showAdmins, setShowAdmins] = useState(false);
   const [users, setUsers] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const fetchUsers = async () => {
     const users = await client.findAllUsers();
@@ -32,6 +34,20 @@ function Players() {
     setIsAdmin(account && account.role === "Admin");
   };
 
+  const deleteUser = async (user) => {
+    if (user._id === account._id) {
+      setErrorMessage("You cannot delete your own account");
+      return;
+    }
+    try {
+      await client.deleteUser(user);
+      setUsers(users.filter((u) => u._id !== user._id));
+      setErrorMessage("");
+    } catch (err) {
+      setErrorMessage("Error deleting user");
+    }
+  };
+
   useEffect(() => {
     fetchAccount();
     fetchUsers();
@@ -42,18 +58,31 @@ function Players() {
       <p className="players-title">Players</p>
 
       {isAdmin && (
-        <Form.Group
-          controlId="show-admins"
-          className="d-flex justify-content-center"
-        >
-          <Form.Check
-            className="show-admins-box mb-2 me-2"
-            type="checkbox"
-            onChange={(e) => setShowAdmins(e.target.checked)}
-            checked={showAdmins}
-          />
-          <Form.Label className="show-admins-label">Show Admins</Form.Label>
-        </Form.Group>
+        <div className="text-center">
+          <div className="d-flex flex-column align-items-center">
+            <Form.Group
+              controlId="show-admins"
+              className="d-flex justify-content-center pb-1"
+            >
+              <Form.Check
+                className="show-admins-box mb-2 me-2"
+                type="checkbox"
+                onChange={(e) => setShowAdmins(e.target.checked)}
+                checked={showAdmins}
+              />
+              <Form.Label className="show-admins-label">Show Admins</Form.Label>
+            </Form.Group>
+          </div>
+          <Link to="/create-user" className="btn btn-primary create-btn mb-3">
+            Create User
+          </Link>
+        </div>
+      )}
+
+      {errorMessage && (
+        <p className="error-msg d-flex justify-content-center">
+          {errorMessage}
+        </p>
       )}
 
       <div className="players-table-container">
@@ -63,17 +92,19 @@ function Players() {
               <th>Username</th>
               {isAdmin && <th>Email</th>}
               <th>Role</th>
-              <th>Position</th>
+              <td className={isAdmin ? "position-col" : ""}>Position</td>
               <th className="link-col">Twitter</th>
               <th className="link-col">Twitch</th>
               <th className="link-col">AfreecaTV</th>
               <th className="link-col">Youtube</th>
               <th className="link-col">Instagram</th>
+              {isAdmin && <th className="btns-col">Actions</th>}
             </tr>
           </thead>
 
           <tbody>
             {users.map((user) =>
+              // user is player
               user.role === "Player" ? (
                 <tr key={user._id}>
                   <td>
@@ -81,7 +112,9 @@ function Players() {
                   </td>
                   {isAdmin && <td>{user.email}</td>}
                   <td>{user.role}</td>
-                  <td>{user.position}</td>
+                  <td className={isAdmin ? "position-col" : ""}>
+                    {user.position}
+                  </td>
                   <td className="link-col">
                     {user.links.Twitter && (
                       <a
@@ -89,7 +122,7 @@ function Players() {
                         target="_blank"
                         rel="noreferrer"
                       >
-                        Twitter
+                        <FaTwitter className="twitter-icon" />
                       </a>
                     )}
                   </td>
@@ -100,7 +133,7 @@ function Players() {
                         target="_blank"
                         rel="noreferrer"
                       >
-                        Twitch
+                        <FaTwitch className="twitch-icon" />
                       </a>
                     )}
                   </td>
@@ -111,7 +144,7 @@ function Players() {
                         target="_blank"
                         rel="noreferrer"
                       >
-                        AfreecaTV
+                        <BiTv className="aftv-icon" />
                       </a>
                     )}
                   </td>
@@ -122,7 +155,7 @@ function Players() {
                         target="_blank"
                         rel="noreferrer"
                       >
-                        Youtube
+                        <FaYoutube className="youtube-icon" />
                       </a>
                     )}
                   </td>
@@ -133,12 +166,37 @@ function Players() {
                         target="_blank"
                         rel="noreferrer"
                       >
-                        Instagram
+                        <FaInstagram className="instagram-icon" />
                       </a>
                     )}
                   </td>
+                  {isAdmin && (
+                    <td className="btns-col">
+                      <Link
+                        to={`/edit-profile/${user._id}`}
+                        className="btn btn-primary edit-btn"
+                      >
+                        <FaEdit />
+                      </Link>
+                      <Button
+                        className="btn-danger delete-btn"
+                        onClick={() => {
+                          if (
+                            window.confirm(
+                              `Are you sure you want to delete ${user.username}?`
+                            )
+                          ) {
+                            deleteUser(user);
+                          }
+                        }}
+                      >
+                        <FaTrash />
+                      </Button>
+                    </td>
+                  )}
                 </tr>
               ) : (
+                // user is admin and showAdmins is true
                 showAdmins &&
                 user.role === "Admin" && (
                   <tr key={user._id}>
@@ -147,7 +205,7 @@ function Players() {
                     </td>
                     <td>{user.email}</td>
                     <td>{user.role}</td>
-                    <td>{user.position}</td>
+                    <td className="position-col">{user.position}</td>
                     <td className="link-col">
                       {user.links.Twitter && (
                         <a
@@ -155,7 +213,7 @@ function Players() {
                           target="_blank"
                           rel="noreferrer"
                         >
-                          Twitter
+                          <FaTwitter className="twitter-icon" />
                         </a>
                       )}
                     </td>
@@ -203,6 +261,30 @@ function Players() {
                         </a>
                       )}
                     </td>
+                    {isAdmin && (
+                      <td className="btns-col">
+                        <Link
+                          to={`/edit-profile/${user._id}`}
+                          className="btn btn-primary edit-btn"
+                        >
+                          <FaEdit />
+                        </Link>
+                        <Button
+                          className="btn-danger delete-btn"
+                          onClick={() => {
+                            if (
+                              window.confirm(
+                                `Are you sure you want to delete ${user.username}?`
+                              )
+                            ) {
+                              deleteUser(user);
+                            }
+                          }}
+                        >
+                          <FaTrash />
+                        </Button>
+                      </td>
+                    )}
                   </tr>
                 )
               )

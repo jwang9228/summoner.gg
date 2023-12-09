@@ -25,8 +25,29 @@
   width: 85% !important;
 }
 
-@media screen and (max-width: 1000px) {
+.btns-col,
+.link-col {
+  text-align: center;
+}
+
+.btns-col {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.edit-btn, .delete-btn {
+  margin-right: 2px !important;
+  margin-left: 2px !important;
+}
+
+@media screen and (max-width: 1200px) {
   .link-col {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .position-col {
     display: none;
   }
 }

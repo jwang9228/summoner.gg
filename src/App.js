@@ -38,6 +38,7 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/profile/:id" element={<Profile />} />
               <Route path="/edit-profile" element={<EditProfile />} />
+              <Route path="/edit-profile/:id" element={<EditProfile />} />
               <Route path="/players" element={<Players />} />
             </Routes>
           </div>
