@@ -9,6 +9,7 @@ import * as client from "../client";
 
 function EditProfile() {
   const { id } = useParams();
+  const [viewingAccount, setViewingAccount] = useState(null);
   const [viewingAccountRole, setViewingAccountRole] = useState(null);
   const [viewingAccountId, setViewingAccountId] = useState(null);
   const [account, setAccount] = useState(null);
@@ -33,19 +34,12 @@ function EditProfile() {
         setError("Please login to view this page");
         return;
       }
+      setViewingAccount(viewingAccount);
       setViewingAccountRole(viewingAccount.role);
       setViewingAccountId(viewingAccount._id);
-
-      // check if viewing user is admin
-      // if (viewingAccount.role !== "Admin" || viewingAccount._id !== id) {
-      //   setError("You do not have permission to edit this user");
-      // } else {
-      //   setError("");
-      // }
       setError("");
     } catch (err) {
       setError("User not found");
-      console.log(err.message);
     }
   };
 
@@ -77,7 +71,11 @@ function EditProfile() {
       }
       await client.updateUser(account);
       setError("");
-      navigate("/profile");
+      if (viewingAccount) {
+        navigate("/players");
+      } else {
+        navigate("/profile");
+      }
     } catch (err) {
       if (err.response && err.response.status === 400) {
         const errorMessage = err.response.data.message;

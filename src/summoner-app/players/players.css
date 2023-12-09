@@ -40,6 +40,10 @@
   margin-left: 2px !important;
 }
 
+.sort-col {
+  cursor: pointer;
+}
+
 @media screen and (max-width: 1200px) {
   .link-col {
     display: none;

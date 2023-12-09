@@ -18,6 +18,8 @@ function Players() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [showAdmins, setShowAdmins] = useState(false);
   const [users, setUsers] = useState([]);
+  const [sortBy, setSortBy] = useState(null);
+  const [sortOrder, setSortOrder] = useState("asc");
   const [errorMessage, setErrorMessage] = useState("");
 
   const fetchUsers = async () => {
@@ -47,6 +49,26 @@ function Players() {
       setErrorMessage("Error deleting user");
     }
   };
+
+  const handleSort = (key) => {
+    if (sortBy === key) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortBy(key);
+      setSortOrder("asc");
+    }
+  };
+
+  const sortedUsers = [...users].sort((a, b) => {
+    const valueA = a[sortBy];
+    const valueB = b[sortBy];
+
+    if (sortOrder === "asc") {
+      return valueA < valueB ? -1 : 1;
+    } else {
+      return valueA > valueB ? -1 : 1;
+    }
+  });
 
   useEffect(() => {
     fetchAccount();
@@ -89,10 +111,23 @@ function Players() {
         <Table hover striped bordered className="players-table">
           <thead>
             <tr>
-              <th>Username</th>
-              {isAdmin && <th>Email</th>}
-              <th>Role</th>
-              <td className={isAdmin ? "position-col" : ""}>Position</td>
+              <th onClick={() => handleSort("username")} className="sort-col">
+                Username
+              </th>
+              {isAdmin && (
+                <th onClick={() => handleSort("email")} className="sort-col">
+                  Email
+                </th>
+              )}
+              <th onClick={() => handleSort("role")} className="sort-col">
+                Role
+              </th>
+              <th
+                onClick={() => handleSort("position")}
+                className={`sort-col ${isAdmin ? "position-col" : ""}`}
+              >
+                Position
+              </th>
               <th className="link-col">Twitter</th>
               <th className="link-col">Twitch</th>
               <th className="link-col">AfreecaTV</th>
@@ -103,7 +138,7 @@ function Players() {
           </thead>
 
           <tbody>
-            {users.map((user) =>
+            {sortedUsers.map((user) =>
               // user is player
               user.role === "Player" ? (
                 <tr key={user._id}>

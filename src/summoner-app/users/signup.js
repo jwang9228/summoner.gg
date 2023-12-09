@@ -100,7 +100,7 @@ function Signup() {
               Role <span className="required-red">*</span>
             </Form.Label>
             <Form.Select required onChange={handleRoleChange}>
-              <option value="" hidden>
+              <option value="">
                 Select a role
               </option>
               <option value="Player">Player</option>
@@ -132,12 +132,12 @@ function Signup() {
 
           {error && <div className="error-msg mt-2">{error}</div>}
           <div className="mt-3">
-            <Button variant="primary" onClick={signup}>
-              Signup
-            </Button>
             <Link to="/login" className="btn btn-secondary ms-2">
               Cancel
             </Link>
+            <Button className="primary" onClick={signup}>
+              Signup
+            </Button>
           </div>
         </Form>
       </div>

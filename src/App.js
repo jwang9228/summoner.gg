@@ -9,6 +9,7 @@ import Signup from "./summoner-app/users/signup.js";
 import Profile from "./summoner-app/users/profile/profile.js";
 import EditProfile from "./summoner-app/users/edit-profile/editProfile.js";
 import Players from "./summoner-app/players"
+import CreateUser from "./summoner-app/users/create-user/createUser.js";
 import { Provider } from "react-redux";
 import store from "./summoner-app/store/store.js";
 import "./common/content.css";
@@ -40,6 +41,7 @@ function App() {
               <Route path="/edit-profile" element={<EditProfile />} />
               <Route path="/edit-profile/:id" element={<EditProfile />} />
               <Route path="/players" element={<Players />} />
+              <Route path="/create-user" element={<CreateUser />} />
             </Routes>
           </div>
         </div>
