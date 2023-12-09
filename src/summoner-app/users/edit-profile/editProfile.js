@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Row, Col, Image, Button, Form } from "react-bootstrap";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import leagueLogo from "../../../images/league-logo.png";
+import ff20 from "../../../images/ff20.png";
+import alistar from "../../../images/alistar.png";
 import * as utilities from "../../../common/utilities";
 import "../profile/profile.css";
 import "./editProfile.css";
@@ -89,7 +91,9 @@ function EditProfile() {
   return (
     <div>
       {account ? (
-        viewingAccountRole === "Admin" || viewingAccountId === account._id || !id ? (
+        viewingAccountRole === "Admin" ||
+        viewingAccountId === account._id ||
+        !id ? (
           <div className="ms-5">
             <Form>
               {/* Basic Info */}
@@ -348,12 +352,29 @@ function EditProfile() {
             </Form>
           </div>
         ) : (
-          <p className="profile-msg">
-            You do not have permission to edit this profile
-          </p>
+          <div className="text-center">
+            <div className="d-flex flex-column align-items-center">
+              <p className="profile-msg d-flex justify-content-center">
+                You do not have permission to edit this profile
+              </p>
+            </div>
+            <Image
+              src={alistar}
+              alt="mad alistar"
+              className="alistar"
+              loading="lazy"
+            />
+          </div>
         )
       ) : (
-        <p className="profile-msg">User not found</p>
+        <div className="text-center">
+          <div className="d-flex flex-column align-items-center">
+            <p className="profile-msg d-flex justify-content-center">
+              User not found
+            </p>
+          </div>
+          <Image src={ff20} alt="ff20 flag" className="ff20" loading="lazy" />
+        </div>
       )}
     </div>
   );

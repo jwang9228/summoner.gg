@@ -4,7 +4,9 @@ import { useParams, Link } from "react-router-dom";
 import { FaTwitter, FaTwitch, FaYoutube, FaInstagram } from "react-icons/fa";
 import { BiTv } from "react-icons/bi";
 import { RiAdminFill } from "react-icons/ri";
+import ff20 from "../../../images/ff20.png";
 import leagueLogo from "../../../images/league-logo.png";
+import soraka_fire from "../../../images/soraka_fire.png";
 import "./profile.css";
 import * as client from "../client";
 
@@ -54,8 +56,8 @@ function Profile() {
     <div>
       {account ? (
         <div className="ms-5">
-          <Row className="basic-info pt-3 pb-3 me-4">
-            <Col xs="auto">
+          <Row className="basic-info pt-4 pb-4 me-4">
+            <Col xs="auto" className="pe-0 ps-0">
               <Image
                 src={leagueLogo}
                 alt="profile icon"
@@ -64,7 +66,7 @@ function Profile() {
               />
             </Col>
 
-            <Col xs="auto">
+            <Col xs="auto" className="basic-info-text p-0">
               <p className="username">{account.username}</p>
               {account.role === "Admin" ? (
                 <p className="role">
@@ -173,7 +175,19 @@ function Profile() {
           )}
         </div>
       ) : (
-        <p className="profile-msg">{message}</p>
+        <div className="text-center">
+          <div className="d-flex flex-column align-items-center">
+            <p className="profile-msg d-flex justify-content-center">
+              {message}
+            </p>
+          </div>
+          <Image
+            src={soraka_fire}
+            alt="soraka everything is fine"
+            className="soraka_fire"
+            loading="lazy"
+          />
+        </div>
       )}
     </div>
   );

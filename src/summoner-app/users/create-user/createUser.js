@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Container, Form, Button } from "react-bootstrap";
+import { Container, Form, Button, Image } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import teemo_sign from "../../../images/teemo_sign.png";
 import * as utilities from "../../../common/utilities";
+import "./createUser.css";
 import * as client from "../client";
 
 function CreateUser() {
@@ -160,9 +162,19 @@ function CreateUser() {
           </Container>
         </div>
       ) : (
-        <p className="profile-msg">
-          You do not have permission to create users
-        </p>
+        <div className="text-center">
+          <div className="d-flex flex-column align-items-center">
+            <p className="profile-msg d-flex justify-content-center">
+              You do not have permission to create users
+            </p>
+          </div>
+          <Image
+            src={teemo_sign}
+            alt="teemo deny"
+            className="teemo-sign"
+            loading="lazy"
+          />
+        </div>
       )}
     </div>
   );

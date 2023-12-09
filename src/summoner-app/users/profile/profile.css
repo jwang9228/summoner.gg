@@ -2,14 +2,18 @@
   border-radius: 0;
   width: 175px;
   height: 175px;
-  margin-left: 20px;
-  position: relative;
+  margin-left: 24px;
+  /* position: relative; */
 }
 
 .basic-info {
   border: 1px solid #1a123f;
   border-radius: 20px;
   background-color: #241b4a;
+}
+
+.basic-info-text {
+  margin-left: 24px;
 }
 
 .username,
@@ -55,8 +59,31 @@
   color: white;
   letter-spacing: 3px;
   display: flex;
-  margin-right: 10px !important;
-  margin-left: 10px !important;
+  margin-top: 20px !important;
+  margin-right: 15px !important;
+  margin-left: 15px !important;
   text-align: center;
   justify-content: center;
+}
+
+.ff20, .alistar, .soraka_fire {
+  text-align: center;
+  justify-content: center;
+  height: 128px;
+  width: 128px;
+}
+
+.centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 500px) {
+  .profile-champ-icon {
+    border-radius: 0;
+    width: 175px;
+    height: 175px;
+    margin-left: 24px;
+  }
 }
