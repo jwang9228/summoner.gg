@@ -39,7 +39,7 @@ function Profile() {
     } else {
       fetchAccount();
     }
-  }, []);
+  }, [id]);
 
   const links = ["Twitter", "Twitch", "AfreecaTV", "Youtube", "Instagram"];
   // const socialMedia = [

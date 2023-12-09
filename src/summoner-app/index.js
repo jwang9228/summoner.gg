@@ -14,6 +14,7 @@ import { CgSearch } from 'react-icons/cg';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as client from './summoner/client.js';
+import MySummoner from './my-summoner.js';
 
 function SummonerApp() {
 	const navigate = useNavigate();
@@ -195,6 +196,7 @@ function SummonerApp() {
 					</div>
 				</Container>
 			)}
+			<MySummoner />
 		</Container>
 	);
 }

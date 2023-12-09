@@ -35,6 +35,7 @@ function Summoner() {
 	};
 	useEffect(() => {
 		const fetchData = async () => {
+			setSummonerData(undefined);
 			setFetchingData(true);
 			// if there is already an existing entry for the summoner in the DB, use that data (might be outdated)
 			let response = await client.findSummonerByServer(
