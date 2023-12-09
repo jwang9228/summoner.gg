@@ -224,7 +224,7 @@ function Players() {
                           target="_blank"
                           rel="noreferrer"
                         >
-                          Twitch
+                          <FaTwitch className="twitch-icon" />
                         </a>
                       )}
                     </td>
@@ -235,7 +235,7 @@ function Players() {
                           target="_blank"
                           rel="noreferrer"
                         >
-                          AfreecaTV
+                          <BiTv className="aftv-icon" />
                         </a>
                       )}
                     </td>
@@ -246,7 +246,7 @@ function Players() {
                           target="_blank"
                           rel="noreferrer"
                         >
-                          Youtube
+                          <FaYoutube className="youtube-icon" />
                         </a>
                       )}
                     </td>
@@ -257,7 +257,7 @@ function Players() {
                           target="_blank"
                           rel="noreferrer"
                         >
-                          Instagram
+                          <FaInstagram className="instagram-icon" />
                         </a>
                       )}
                     </td>
