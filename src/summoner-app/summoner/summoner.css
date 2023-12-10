@@ -25,12 +25,24 @@
     color: rgb(211, 211, 211) !important;
 }
 
+.not-favorite-summoner-button:hover {
+    cursor: pointer;
+}
+
 .favorite-summoner-button {
     color: #e6913e !important;
 }
 
+.favorite-summoner-button:hover {
+    cursor: pointer;
+}
+
 .bookmark-button {
     color: rgb(211, 211, 211) !important;
+}
+
+.bookmark-button:hover {
+    cursor: pointer;
 }
 
 .no-data-align {

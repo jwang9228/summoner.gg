@@ -1,20 +1,26 @@
 import { Image, Button } from 'react-bootstrap';
 import { IoIosStarOutline, IoIosStar } from 'react-icons/io';
-import { MdOutlineBookmarkAdd } from 'react-icons/md';
+import { MdOutlineBookmarkAdd, MdOutlineBookmarkAdded } from 'react-icons/md';
 import { useState, useEffect } from 'react';
-import * as client from "../users/client";
+import * as client from '../users/client';
+import './profile.css';
+import LoginModal from './login-modal';
 
 function SummonerProfile({ summonerData }) {
 	const [favorited, setFavorited] = useState(false); // TODO: initial value will be either false or if logged in, if this summoner is already favorited
+	const [mySummoner, setMySummoner] = useState(); // TODO: initial value from DB
 	const [loggedIn, setLoggedIn] = useState(false);
+	const [showLoginModal, setShowLoginModal] = useState(false);
+
 	const favoriteSummoner = () => {
 		if (loggedIn) {
 			setFavorited(true);
 			// TODO: add this summoner to a user's favorited summoners
 		} else {
-			// TODO: some message saying a user must log in w/ some dialog for cancel or go to login
+			setShowLoginModal(true);
 		}
 	};
+
 	const unfavoriteSummoner = () => {
 		if (loggedIn) {
 			setFavorited(false);
@@ -23,6 +29,15 @@ function SummonerProfile({ summonerData }) {
 			// TODO: some message saying a user must log in w/ some dialog for cancel or go to login
 		}
 	};
+
+	const addMySummoner = () => {
+		if (loggedIn) {
+		} else {
+			setShowLoginModal(true);
+		}
+	};
+
+	const removeMySummoner = () => {};
 
 	useEffect(() => {
 		const fetchAccount = async () => {
@@ -70,13 +85,26 @@ function SummonerProfile({ summonerData }) {
 						/>
 					)}
 				</span>
-				<span> 
-					<MdOutlineBookmarkAdd
-						size={36}
-						className='bookmark-button'
-					/>
+				<span>
+					{mySummoner ? (
+						<MdOutlineBookmarkAdded
+							size={36}
+							className='bookmark-button'
+							onClick={() => removeMySummoner()}
+						/>
+					): (
+						<MdOutlineBookmarkAdd
+							size={36}
+							className='bookmark-button'
+							onClick={() => addMySummoner()}
+						/>
+					)}
 				</span>
 			</div>
+			<LoginModal
+				show={showLoginModal}
+				onHide={() => setShowLoginModal(false)}
+			/>
 		</div>
 	);
 }

@@ -39,7 +39,7 @@ function MySummoner() {
 						loading='lazy'
 					/>
 					<span className='register-summoner-label'>
-						<Link to='./login'>Login</Link> to register a summoner
+						<Link to='./login' style={{'textDecoration': 'none'}}>Login</Link> to register a summoner
 						as your own!
 					</span>
 				</ListGroup.Item>
