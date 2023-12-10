@@ -115,7 +115,7 @@ function Players() {
                 Username
               </th>
               {isAdmin && (
-                <th onClick={() => handleSort("email")} className="sort-col">
+                <th onClick={() => handleSort("email")} className="sort-col email-col">
                   Email
                 </th>
               )}
@@ -145,7 +145,7 @@ function Players() {
                   <td>
                     <Link to={`/profile/${user._id}`}>{user.username}</Link>
                   </td>
-                  {isAdmin && <td>{user.email}</td>}
+                  {isAdmin && <td className="email-col">{user.email}</td>}
                   <td>{user.role}</td>
                   <td className={isAdmin ? "position-col" : ""}>
                     {user.position}
@@ -238,7 +238,7 @@ function Players() {
                     <td>
                       <Link to={`/profile/${user._id}`}>{user.username}</Link>
                     </td>
-                    <td>{user.email}</td>
+                    <td className="email-col">{user.email}</td>
                     <td>{user.role}</td>
                     <td className="position-col">{user.position}</td>
                     <td className="link-col">

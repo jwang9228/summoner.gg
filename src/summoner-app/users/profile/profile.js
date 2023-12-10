@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Image } from "react-bootstrap";
+import { Row, Col, Image, Button } from "react-bootstrap";
 import { useParams, Link } from "react-router-dom";
 import { FaTwitter, FaTwitch, FaYoutube, FaInstagram } from "react-icons/fa";
 import { BiTv } from "react-icons/bi";
 import { RiAdminFill } from "react-icons/ri";
-import ff20 from "../../../images/ff20.png";
+import { IoStarOutline, IoStarSharp } from "react-icons/io5";
 import leagueLogo from "../../../images/league-logo.png";
 import soraka_fire from "../../../images/soraka_fire.png";
 import "./profile.css";
@@ -14,12 +14,15 @@ function Profile() {
   const { id } = useParams();
   const [account, setAccount] = useState(null);
   const [message, setMessage] = useState("");
+  const [favorited, setFavorited] = useState(false);
+  const [ownUser, setOwnUser] = useState(false);
 
   const findUserById = async (id) => {
     try {
       const user = await client.findUserById(id);
       setAccount(user);
       setMessage("");
+      setOwnUser(false);
     } catch (err) {
       setMessage("User not found");
     }
@@ -30,8 +33,10 @@ function Profile() {
     setAccount(account);
     if (!account) {
       setMessage("Please login to view your profile");
+      setOwnUser(false);
     } else {
       setMessage("");
+      setOwnUser(true);
     }
   };
 
@@ -52,11 +57,22 @@ function Profile() {
   //   { url: account.links.Instagram, icon: <FaInstagram className="instagram-icon me-1" />, text: "Instagram" },
   // ]
 
+  const favoriteUser = () => {
+    if (account) {
+      setFavorited(true);
+    }
+  };
+  const unfavoriteUser = () => {
+    if (account) {
+      setFavorited(false);
+    }
+  };
+
   return (
     <div>
       {account ? (
-        <div className="ms-5">
-          <Row className="basic-info pt-4 pb-4 me-4">
+        <div className="account-content">
+          <Row className="basic-info">
             <Col xs="auto" className="pe-0 ps-0">
               <Image
                 src={leagueLogo}
@@ -67,7 +83,27 @@ function Profile() {
             </Col>
 
             <Col xs="auto" className="basic-info-text p-0">
-              <p className="username">{account.username}</p>
+              <p className="username">
+                {account.username}
+                {!ownUser &&
+                  (favorited ? (
+                    <Button
+                      variant="transparent"
+                      className="fav-btn"
+                      onClick={unfavoriteUser}
+                    >
+                      <IoStarSharp className="fav-star" />
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="transparent"
+                      className="unfav-btn"
+                      onClick={favoriteUser}
+                    >
+                      <IoStarOutline className="unfav-star" />
+                    </Button>
+                  ))}
+              </p>
               {account.role === "Admin" ? (
                 <p className="role">
                   <RiAdminFill title="Admin" className="me-1 mb-1" />
@@ -87,9 +123,12 @@ function Profile() {
                 </p>
               )}
               {!id && (
-                <div>
+                <div className="email-edit-container">
                   <p className="email">{account.email}</p>
-                  <Link to="/edit-profile" className="btn btn-primary mt-3">
+                  <Link
+                    to="/edit-profile"
+                    className="btn btn-primary edit-profile-btn"
+                  >
                     Edit Profile
                   </Link>
                 </div>

@@ -132,10 +132,10 @@ function Signup() {
 
           {error && <div className="error-msg mt-2">{error}</div>}
           <div className="mt-3">
-            <Link to="/login" className="btn btn-secondary ms-2">
+            <Link to="/login" className="btn btn-secondary">
               Cancel
             </Link>
-            <Button className="primary" onClick={signup}>
+            <Button className="primary  ms-2" onClick={signup}>
               Signup
             </Button>
           </div>
