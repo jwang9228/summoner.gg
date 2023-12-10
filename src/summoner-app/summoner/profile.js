@@ -5,16 +5,18 @@ import { useState, useEffect } from 'react';
 import * as client from '../users/client';
 import './profile.css';
 import LoginModal from './login-modal';
+import SuccessModal from './success-modal';
 
 function SummonerProfile({ summonerData }) {
-	const [favorited, setFavorited] = useState(false); // TODO: initial value will be either false or if logged in, if this summoner is already favorited
-	const [mySummoner, setMySummoner] = useState(); // TODO: initial value from DB
-	const [loggedIn, setLoggedIn] = useState(false);
+	const [loggedInUser, setLoggedInUser] = useState(false);
+	const [favorited, setFavorited] = useState(); // TODO: initial value will be either false or if logged in, if this summoner is already favorited
 	const [showLoginModal, setShowLoginModal] = useState(false);
+	const [showFavoriteModal, setShowFavoriteModal] = useState(false);
+	const [showMySummonerModal, setShowMySummonerModal] = useState(false);
 
 	const favoriteSummoner = () => {
-		if (loggedIn) {
-			setFavorited(true);
+		if (loggedInUser) {
+			setShowFavoriteModal(true);
 			// TODO: add this summoner to a user's favorited summoners
 		} else {
 			setShowLoginModal(true);
@@ -22,27 +24,28 @@ function SummonerProfile({ summonerData }) {
 	};
 
 	const unfavoriteSummoner = () => {
-		if (loggedIn) {
-			setFavorited(false);
+		if (loggedInUser) {
 			// TODO: remove this summoner from a user's favorited summoners
 		} else {
 			// TODO: some message saying a user must log in w/ some dialog for cancel or go to login
 		}
 	};
 
-	const addMySummoner = () => {
-		if (loggedIn) {
-		} else {
-			setShowLoginModal(true);
-		}
+	const addMySummoner = async () => {
+		setShowMySummonerModal(false);
+		const updatedUser = {...loggedInUser, 'mySummoner': { 'summonerName': summonerData.summonerName, 'region': summonerData.server }}
+		await client.updateUser(updatedUser);
 	};
 
-	const removeMySummoner = () => {};
+	const removeMySummoner = async () => {
+		
+	};
 
 	useEffect(() => {
 		const fetchAccount = async () => {
 			const loggedIn = await client.account();
-			setLoggedIn(loggedIn);
+			setLoggedInUser(loggedIn);
+			console.log(loggedIn);
 		};
 		fetchAccount();
 	}, []);
@@ -86,7 +89,7 @@ function SummonerProfile({ summonerData }) {
 					)}
 				</span>
 				<span>
-					{mySummoner ? (
+					{(loggedInUser && loggedInUser.mySummoner) ? (
 						<MdOutlineBookmarkAdded
 							size={36}
 							className='bookmark-button'
@@ -96,7 +99,9 @@ function SummonerProfile({ summonerData }) {
 						<MdOutlineBookmarkAdd
 							size={36}
 							className='bookmark-button'
-							onClick={() => addMySummoner()}
+							onClick={() => {
+								loggedInUser ? setShowMySummonerModal(true) : setShowLoginModal(true);
+							}}
 						/>
 					)}
 				</span>
@@ -104,6 +109,22 @@ function SummonerProfile({ summonerData }) {
 			<LoginModal
 				show={showLoginModal}
 				onHide={() => setShowLoginModal(false)}
+			/>
+			<SuccessModal
+				show={showFavoriteModal}
+				onHide={() => setShowFavoriteModal(false)}
+				close={() => setShowMySummonerModal(false)}
+				summonername={summonerData.summonerName}
+				region={summonerData.server}
+				description='added to my favorites!'
+			/>
+			<SuccessModal
+				show={showMySummonerModal}
+				onHide={() => addMySummoner()}
+				close={() => setShowMySummonerModal(false)}
+				summonername={summonerData.summonerName}
+				region={summonerData.server}
+				description='set as my summoner!'
 			/>
 		</div>
 	);
