@@ -6,13 +6,15 @@ import * as client from '../users/client';
 import './profile.css';
 import LoginModal from './login-modal';
 import SuccessModal from './success-modal';
+import RemoveModal from './remove-modal';
 
 function SummonerProfile({ summonerData }) {
-	const [loggedInUser, setLoggedInUser] = useState(false);
+	const [loggedInUser, setLoggedInUser] = useState();
 	const [favorited, setFavorited] = useState(); // TODO: initial value will be either false or if logged in, if this summoner is already favorited
 	const [showLoginModal, setShowLoginModal] = useState(false);
 	const [showFavoriteModal, setShowFavoriteModal] = useState(false);
 	const [showMySummonerModal, setShowMySummonerModal] = useState(false);
+	const [showRemoveSummonerModal, setShowRemoveSummonerModal] = useState(false);
 
 	const favoriteSummoner = () => {
 		if (loggedInUser) {
@@ -33,19 +35,46 @@ function SummonerProfile({ summonerData }) {
 
 	const addMySummoner = async () => {
 		setShowMySummonerModal(false);
-		const updatedUser = {...loggedInUser, 'mySummoner': { 'summonerName': summonerData.summonerName, 'region': summonerData.server }}
+		setLoggedInUser(prevUserState => ({
+			...prevUserState,
+			mySummoner: {
+				summonerName: summonerData.summonerName,
+				region: summonerData.server
+			}
+		}));
+		const updatedUser = {
+			...loggedInUser,
+			mySummoner: {
+				summonerName: summonerData.summonerName,
+				region: summonerData.server
+			}
+		};
 		await client.updateUser(updatedUser);
 	};
-
+	
 	const removeMySummoner = async () => {
-		
+		setShowRemoveSummonerModal(false);
+		setLoggedInUser(prevUserState => ({
+			...prevUserState,
+			mySummoner: {
+				summonerName: undefined,
+				region: undefined
+			}
+		}));
+		const updatedUser = {
+			...loggedInUser,
+			mySummoner: {
+				summonerName: undefined,
+				region: undefined
+			}
+		};
+		await client.updateUser(updatedUser);
 	};
 
 	useEffect(() => {
 		const fetchAccount = async () => {
 			const loggedIn = await client.account();
 			setLoggedInUser(loggedIn);
-			console.log(loggedIn);
 		};
 		fetchAccount();
 	}, []);
@@ -89,11 +118,13 @@ function SummonerProfile({ summonerData }) {
 					)}
 				</span>
 				<span>
-					{(loggedInUser && loggedInUser.mySummoner) ? (
+					{(loggedInUser?.mySummoner?.summonerName === summonerData.summonerName && loggedInUser?.mySummoner?.region === summonerData.server) ? (
 						<MdOutlineBookmarkAdded
 							size={36}
 							className='bookmark-button'
-							onClick={() => removeMySummoner()}
+							onClick={() => {
+								loggedInUser ? setShowRemoveSummonerModal(true) : setShowLoginModal(true);
+							}}
 						/>
 					): (
 						<MdOutlineBookmarkAdd
@@ -125,6 +156,14 @@ function SummonerProfile({ summonerData }) {
 				summonername={summonerData.summonerName}
 				region={summonerData.server}
 				description='set as my summoner!'
+			/>
+			<RemoveModal 
+				show={showRemoveSummonerModal}
+				onHide={() => removeMySummoner()}
+				close={() => setShowRemoveSummonerModal(false)}
+				summonername={summonerData.summonerName}
+				region={summonerData.server}
+				description='removed as my summoner.'
 			/>
 		</div>
 	);

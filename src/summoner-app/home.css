@@ -72,6 +72,7 @@
   }
 
   .my-summoner-background {
+    width: 100%;
     color: white !important;
     background-color: #121229!important;
     border: none !important;
@@ -80,6 +81,17 @@
   .register-summoner-icon {
     width: 64px;
     height: 64px;
+  }
+
+  .summoner-profile-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 5%;
+  }
+
+  .summoner-name-label {
+    color: white;
+    font-size: 80%;
   }
 }
 
@@ -151,7 +163,7 @@
   }
 
   .my-summoner-background {
-    max-width: 50%;
+    width: 50%;
     color: white !important;
     background-color: #121229!important;
     border: none !important;
@@ -160,6 +172,17 @@
   .register-summoner-icon {
     width: 100px;
     height: 100px;
+  }
+
+  .summoner-profile-icon {
+    width: 100px;
+    height: 100px;
+    border-radius: 5%;
+  }
+
+  .summoner-name-label {
+    color: white;
+    font-size: 80%;
   }
 
   .register-summoner-label {

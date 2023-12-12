@@ -33,7 +33,7 @@ function SummonerNav() {
     await client.signout();
     dispatch(logoutUser());
     setAccount(null);
-    navigate("/");
+    navigate("/home");
   };
 
   const links = [
