@@ -1,4 +1,5 @@
 import axios from "axios";
+
 const request = axios.create({
   withCredentials: true,
 });
@@ -48,5 +49,19 @@ export const createUser = async (credentials) => {
 
 export const deleteUser = async (user) => {
   const response = await request.delete(`${USERS_API}/${user._id}`);
+  return response.data;
+};
+
+export const addToFavoriteUsers = async (userId, favoriteUserId) => {
+  const response = await request.post(
+    `${USERS_API}/${userId}/add-to-favorites/${favoriteUserId}`
+  );
+  return response.data;
+};
+
+export const removeFromFavoriteUsers = async (userId, favoriteUserId) => {
+  const response = await request.post(
+    `${USERS_API}/${userId}/remove-from-favorites/${favoriteUserId}`
+  );
   return response.data;
 };

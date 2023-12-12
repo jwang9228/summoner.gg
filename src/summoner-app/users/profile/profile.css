@@ -13,6 +13,7 @@
   padding-top: 24px;
   padding-bottom: 24px;
   margin-right: 24px !important;
+  margin-bottom: 8px;
   border: 1px solid #1a123f;
   border-radius: 20px;
   background-color: #241b4a;
@@ -53,7 +54,7 @@
   height: 18px;
 }
 
-.title {
+.title, .links-title, .favorites-title {
   color: white;
   font-weight: 600;
   font-size: 30px;
@@ -119,6 +120,14 @@
   width: 40px;
 }
 
+.link {
+  text-decoration: none !important;
+}
+
+.favorite-user-link {
+  color: #C0C0C0;
+}
+
 @media screen and (max-width: 500px) {
   .profile-champ-icon {
     border-radius: 0;
@@ -163,6 +172,16 @@
   .role-icon {
     width: 12px;
     height: 12px;
+  }
+
+  .links-title, .favorites-title {
+    color: white;
+    font-weight: 400;
+    font-size: 24px;
+  }
+
+  .link {
+    font-size: 12px;
   }
   
   .title {
