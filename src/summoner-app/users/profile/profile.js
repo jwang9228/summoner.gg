@@ -5,6 +5,7 @@ import { FaTwitter, FaTwitch, FaYoutube, FaInstagram } from "react-icons/fa";
 import { BiTv } from "react-icons/bi";
 import { RiAdminFill } from "react-icons/ri";
 import { IoStarOutline, IoStarSharp } from "react-icons/io5";
+import LoginModal from "../../summoner/login-modal";
 import leagueLogo from "../../../images/league-logo.png";
 import soraka_fire from "../../../images/soraka_fire.png";
 import "./profile.css";
@@ -13,16 +14,37 @@ import * as client from "../client";
 function Profile() {
   const { id } = useParams();
   const [account, setAccount] = useState(null);
-  const [message, setMessage] = useState("");
+  const [currentUser, setCurrentUser] = useState(null);
   const [favorited, setFavorited] = useState(false);
-  const [ownUser, setOwnUser] = useState(false);
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
+  const getUserFavs = async () => {
+    try {
+      const user = await client.account();
+      setCurrentUser(user);
+      if (!user) {
+        return;
+      }
+      const userFavs = user.favoriteUsers.map((fav) => fav.userId.toString());
+      setFavorited(userFavs.includes(account._id.toString()));
+      setError("");
+    } catch (err) {
+      console.log(err);
+      setError("Error getting user favorites");
+    }
+  };
 
   const findUserById = async (id) => {
     try {
       const user = await client.findUserById(id);
       setAccount(user);
       setMessage("");
-      setOwnUser(false);
+      if (!user) {
+        setMessage("User not found");
+        return;
+      }
     } catch (err) {
       setMessage("User not found");
     }
@@ -33,10 +55,38 @@ function Profile() {
     setAccount(account);
     if (!account) {
       setMessage("Please login to view your profile");
-      setOwnUser(false);
     } else {
       setMessage("");
-      setOwnUser(true);
+    }
+  };
+
+  const favoriteUser = async () => {
+    if (currentUser) {
+      try {
+        const user = await client.account();
+        setCurrentUser(user);
+        await client.addToFavoriteUsers(currentUser._id, account._id);
+        setFavorited(true);
+      } catch (err) {
+        console.log(err);
+        setError("Error adding user to favorites");
+      }
+    } else {
+      setShowLoginModal(true);
+    }
+  };
+
+  const unfavoriteUser = async () => {
+    if (currentUser) {
+      try {
+        const user = await client.account();
+        setCurrentUser(user);
+        await client.removeFromFavoriteUsers(currentUser._id, account._id);
+        setFavorited(false);
+      } catch (err) {
+        console.log(err);
+        setError("Error removing user from favorites");
+      }
     }
   };
 
@@ -48,25 +98,13 @@ function Profile() {
     }
   }, [id]);
 
-  const links = ["Twitter", "Twitch", "AfreecaTV", "Youtube", "Instagram"];
-  // const socialMedia = [
-  //   { url: account.links.Twitter, icon: <FaTwitter className="twitter-icon me-1" />, text: "Twitter" },
-  //   { url: account.links.Twitch, icon: <FaTwitch className="twitch-icon me-1" />, text: "Twitch" },
-  //   { url: account.links.AfreecaTV, icon: <BiTv className="aftv-icon me-1" />, text: "AfreecaTV" },
-  //   { url: account.links.Youtube, icon: <FaYoutube className="youtube-icon me-1" />, text: "Youtube" },
-  //   { url: account.links.Instagram, icon: <FaInstagram className="instagram-icon me-1" />, text: "Instagram" },
-  // ]
+  useEffect(() => {
+    if (id) {
+      getUserFavs();
+    }
+  }, [account]);
 
-  const favoriteUser = () => {
-    if (account) {
-      setFavorited(true);
-    }
-  };
-  const unfavoriteUser = () => {
-    if (account) {
-      setFavorited(false);
-    }
-  };
+  const links = ["Twitter", "Twitch", "AfreecaTV", "Youtube", "Instagram"];
 
   return (
     <div>
@@ -85,7 +123,9 @@ function Profile() {
             <Col xs="auto" className="basic-info-text p-0">
               <p className="username">
                 {account.username}
-                {!ownUser &&
+                {id &&
+                  currentUser &&
+                  currentUser._id !== account._id &&
                   (favorited ? (
                     <Button
                       variant="transparent"
@@ -136,8 +176,10 @@ function Profile() {
             </Col>
           </Row>
 
+          {error && <div className="error-msg mt-3 mb-0">{error}</div>}
+
           {account.links && (
-            <p className="title mt-3 mb-0">
+            <p className="links-title mt-1 mb-0">
               {links.some((key) => account.links[key]?.trim() !== "") &&
                 "Links"}
             </p>
@@ -145,13 +187,13 @@ function Profile() {
 
           {account.links.Twitter && (
             <div>
-              <FaTwitter className="twitter-icon me-1" />
               <a
                 href={account.links.Twitter}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="link"
+                className="link twitter-icon"
               >
+                <FaTwitter className="me-1"/>
                 Twitter
               </a>
             </div>
@@ -159,13 +201,13 @@ function Profile() {
 
           {account.links.Twitch && (
             <div>
-              <FaTwitch className="twitch-icon me-1" />
               <a
                 href={account.links.Twitch}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="link"
+                className="link twitch-icon"
               >
+                <FaTwitch className="me-1"/>
                 Twitch
               </a>
             </div>
@@ -173,13 +215,13 @@ function Profile() {
 
           {account.links.AfreecaTV && (
             <div>
-              <BiTv className="aftv-icon me-1" />
               <a
                 href={account.links.AfreecaTV}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="link"
+                className="link aftv-icon"
               >
+                <BiTv className="me-1"/>
                 AfreecaTV
               </a>
             </div>
@@ -187,13 +229,13 @@ function Profile() {
 
           {account.links.Youtube && (
             <div>
-              <FaYoutube className="youtube-icon me-1" />
               <a
                 href={account.links.Youtube}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="link"
+                className="link youtube-icon"
               >
+                <FaYoutube className="me-1" />
                 Youtube
               </a>
             </div>
@@ -201,17 +243,38 @@ function Profile() {
 
           {account.links.Instagram && (
             <div>
-              <FaInstagram className="instagram-icon me-1" />
               <a
                 href={account.links.Instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="link"
+                className="link instagram-icon"
               >
+                <FaInstagram className="me-1" />
                 Instagram
               </a>
             </div>
           )}
+
+          {account.favoriteUsers && account.favoriteUsers.length > 0 && (
+            <div>
+              <p className="favorites-title mt-2 mb-0">Favorites</p>
+              {account.favoriteUsers.map((user, index) => (
+                <a
+                  key={index}
+                  style={{ display: "block", width: "fit-content" }}
+                  href={`/profile/${user.userId}`}
+                  className="favorite-user-link"
+                >
+                  {user.username}
+                </a>
+              ))}
+            </div>
+          )}
+
+          <LoginModal
+            show={showLoginModal}
+            onHide={() => setShowLoginModal(false)}
+          />
         </div>
       ) : (
         <div className="text-center">
