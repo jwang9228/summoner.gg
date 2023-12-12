@@ -71,11 +71,25 @@
     color: white;
   }
 
-  .my-summoner-background {
+  .my-summoner-width {
     width: 100%;
+  }
+
+  .my-summoner-background {
     color: white !important;
     background-color: #121229!important;
     border: none !important;
+  }
+
+  .my-rank-crest {
+    width: 25px;
+    height: 25px;
+  }
+
+  .my-profile-icon {
+    border-radius: 5%;
+    width: 70px;
+    height: 70px;
   }
 
   .register-summoner-icon {
@@ -91,7 +105,14 @@
 
   .summoner-name-label {
     color: white;
-    font-size: 80%;
+    max-width: 100%;
+    font-size: 4vw;
+  }
+
+  .view-details-button {
+    background-color: rgb(107, 146, 250) !important;
+    border: none !important;
+    width: 100%
   }
 }
 
@@ -162,11 +183,25 @@
     color: white;
   }
 
-  .my-summoner-background {
+  .my-summoner-width {
     width: 50%;
+  }
+
+  .my-summoner-background {
     color: white !important;
     background-color: #121229!important;
     border: none !important;
+  }
+
+  .my-rank-crest {
+    width: 40px;
+    height: 40px;
+  }
+
+  .my-profile-icon {
+    border-radius: 5%;
+    width: 110px;
+    height: 110px;
   }
 
   .register-summoner-icon {
@@ -182,11 +217,18 @@
 
   .summoner-name-label {
     color: white;
-    font-size: 80%;
+    max-width: 50%;
+    font-size: 2.5vw;
   }
 
   .register-summoner-label {
     margin-left: 8px;
     font-size: 26px;
+  }
+
+  .view-details-button {
+    background-color: rgb(107, 146, 250) !important;
+    border: none !important;
+    width: 100%
   }
 }

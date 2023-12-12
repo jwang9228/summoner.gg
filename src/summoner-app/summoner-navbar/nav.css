@@ -109,6 +109,8 @@
     height: 40px;
     width: 75px;
     color: white !important;
+    background-color: #6388eb !important;
+    border: none !important;
   }
 
   .patchnotes {
@@ -217,6 +219,8 @@
     height: 40px;
     width: 75px;
     color: white !important;
+    background-color: #6388eb !important;
+    border: none !important;
   }
 
   .patchnotes {

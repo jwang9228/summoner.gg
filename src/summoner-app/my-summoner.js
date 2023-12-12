@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import * as client from './users/client';
 import * as summonerClient from './summoner/client';
-import { ListGroup, Image } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { ListGroup, Image, Button } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
 import './home.css';
 
 function MySummoner() {
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [mySummoner, setMySummoner] = useState();
 	const [summonerData, setSummonerData] = useState();
+	const navigate = useNavigate();
 
 	function getRank(tier, rank) {
 		if (
@@ -33,42 +34,42 @@ function MySummoner() {
 		}
 	}
 
+	function renderQueueData(queueData) {
+		return (
+			<div className='mt-1'>
+				<div className='d-flex'>
+					<span className='rank-label'>
+						{`${queueData.tier.charAt(
+							0
+						)}${queueData.tier
+							.toLowerCase()
+							.slice(1)} ${getRank(
+							queueData.tier,
+							queueData.rank
+						)}`}
+					</span>
+					<Image
+						src={require(`../images/rank-crests/${queueData.tier}.png`)}
+						alt='rank crest'
+						className='ms-2 my-rank-crest'
+						loading='lazy'
+					/>
+				</div>
+				<div className='rank-label'>{`${queueData.leaguePoints} LP`}</div>
+			</div>
+		);
+	}
+
 	function renderRank(summonerData) {
 		const soloQueueData = summonerData.soloQueueRank;
 		const flexQueueData = summonerData.flexQueueRank;
 		if (soloQueueData) {
-			return (
-				<div>
-					<span className='rank-label'>
-						{`${soloQueueData.tier.charAt(0)}${soloQueueData.tier
-							.toLowerCase()
-							.slice(1)} ${getRank(
-							soloQueueData.tier,
-							soloQueueData.rank
-						)}`}
-					</span>
-					<span className='league-points'>{`${soloQueueData.leaguePoints} LP`}</span>
-				</div>
-			);
+			return renderQueueData(soloQueueData);
 		} else if (flexQueueData) {
-			return (
-				<div>
-					<span className='rank-label'>
-						{`${flexQueueData.tier.charAt(0)}${flexQueueData.tier
-							.toLowerCase()
-							.slice(1)} ${getRank(
-							flexQueueData.tier,
-							flexQueueData.rank
-						)}`}
-					</span>
-					<span className='league-points'>{`${flexQueueData.leaguePoints} LP`}</span>
-				</div>
-			);
+			return renderQueueData(flexQueueData);
 		} else {
 			return (
-				<div>
-					<p className='league-points mb-0'>Unranked</p>
-				</div>
+				<p className='rank-label'>Unranked</p>
 			);
 		}
 	}
@@ -86,23 +87,17 @@ function MySummoner() {
 		};
 		fetchAccount();
 	}, [mySummoner?.region, mySummoner?.summonerName]);
+
 	return loggedIn ? (
 		summonerData ? (
-			<ListGroup>
-				<ListGroup.Item className='my-summoner-background d-flex align-items-center m-auto mt-5'>
-					<div className='position-relative'>
-						<Image
-							src={require(`../data-dragon/profileicon/${summonerData.profileIconId}.png`)}
-							alt='profile icon'
-							className='profile-icon'
-							loading='lazy'
-						/>
-						<span className='position-absolute start-50 translate-middle-x summoner-level-margin'>
-							<p className='summoner-level'>
-								{summonerData.summonerLevel}
-							</p>
-						</span>
-					</div>
+			<ListGroup className='m-auto my-summoner-width'>
+				<ListGroup.Item className='my-summoner-background d-flex align-items-center mt-4'>
+					<Image
+						src={require(`../data-dragon/profileicon/${summonerData.profileIconId}.png`)}
+						alt='profile icon'
+						className='my-profile-icon mt-1'
+						loading='lazy'
+					/>
 					<span className='ms-3'>
 						<div className='summoner-name-label'>
 							{summonerData.summonerName}
@@ -110,6 +105,14 @@ function MySummoner() {
 						</div>
 						{renderRank(summonerData)}
 					</span>
+				</ListGroup.Item>
+				<ListGroup.Item className='my-summoner-background'>
+					<Button 
+						className='view-details-button'
+						onClick={() => navigate(`/results/${summonerData.server}/${summonerData.summonerName}`)}
+					>
+						View Details
+					</Button>
 				</ListGroup.Item>
 			</ListGroup>
 		) : (
@@ -141,7 +144,7 @@ function MySummoner() {
 					<span className='register-summoner-label'>
 						<Link to='./login' style={{ textDecoration: 'none' }}>
 							Login
-						</Link>{' '}
+						</Link>
 						to register a summoner as your own!
 					</span>
 				</ListGroup.Item>

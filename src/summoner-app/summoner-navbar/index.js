@@ -3,8 +3,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GiNinjaHead } from "react-icons/gi";
 import { IoHome, IoMenu } from "react-icons/io5";
 import { FaUserFriends } from "react-icons/fa";
-import { SiLeagueoflegends } from "react-icons/si";
-import { IoIosStats } from "react-icons/io";
 import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../users/userReducer";
@@ -73,12 +71,12 @@ function SummonerNav() {
           />
         </div>
         {account || loggedIn ? (
-          <Button className="btn btn-primary log-btn" onClick={signout}>
+          <Button className="log-btn" onClick={signout}>
             Logout
           </Button>
         ) : (
           <Link
-            className="btn btn-primary log-btn"
+            className="log-btn"
             to={"/login"}
             onClick={closeMenu}
           >
