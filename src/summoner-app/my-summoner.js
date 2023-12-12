@@ -145,7 +145,7 @@ function MySummoner() {
 						<Link to='./login' style={{ textDecoration: 'none' }}>
 							Login
 						</Link>
-						to register a summoner as your own!
+						{" to register a summoner as your own!"}
 					</span>
 				</ListGroup.Item>
 			</ListGroup>

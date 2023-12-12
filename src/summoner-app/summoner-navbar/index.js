@@ -71,12 +71,12 @@ function SummonerNav() {
           />
         </div>
         {account || loggedIn ? (
-          <Button className="log-btn" onClick={signout}>
+          <Button className="btn log-btn" onClick={signout}>
             Logout
           </Button>
         ) : (
           <Link
-            className="log-btn"
+            className="btn log-btn"
             to={"/login"}
             onClick={closeMenu}
           >
