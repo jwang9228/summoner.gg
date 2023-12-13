@@ -24,6 +24,16 @@ export const getMatchesByPUUID = async (server, puuid, matchCount) => {
 		return [];
 	}
 };
+export const getMatchData = async (server, matchID) => {
+	try {
+		const response = await request.get(
+			`${SERVER_URL}/summoner/matches/${server}/${matchID}`
+		);
+		return response.data;
+	} catch (error) {
+		return undefined;
+	}
+}
 export const getSummonerData = async (server, summonerName) => {
 	try {
 		const response = await request.get(

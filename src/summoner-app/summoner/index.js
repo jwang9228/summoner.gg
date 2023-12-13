@@ -3,14 +3,16 @@ import { useEffect, useState } from 'react';
 import * as client from './client.js';
 import SummonerProfile from './profile.js';
 import Winrates from './winrates.js';
+import RenderMatch from './match.js';
 import './summoner.css';
 import './winrates.css';
-import { Row, Col, Image } from 'react-bootstrap';
+import { Row, Col, Image, ListGroup } from 'react-bootstrap';
 
 function Summoner() {
 	const { server, summonerName } = useParams();
 	const [summonerData, setSummonerData] = useState();
 	const [fetchingData, setFetchingData] = useState(true);
+	const [matchesData, setMatchesData] = useState([]);
 	const matchCount = 20;
 
 	const getWinrateDataByQueue = (queueType, winrateData) => {
@@ -79,13 +81,19 @@ function Summoner() {
 				}
 			}
 			if (response) {
-				setSummonerData(response);
 				const searchData = {
 					name: response.summonerName,
 					region: server,
 					profileIconId: response.profileIconId,
 				};
 				await client.addRecentSearch(searchData);
+				const matchesData = await Promise.all(
+					response.matchIDs.map(async (matchID) => {
+						return await client.getMatchData(server, matchID);
+					})
+				);
+				setMatchesData(matchesData);
+				setSummonerData(response);
 			}
 			setFetchingData(false);
 		};
@@ -110,7 +118,14 @@ function Summoner() {
 					</div>
 				</Col>
 				<Col xl={8} lg={8} md={12} sm={12} xs={12}>
-					Test
+					<div className='m-auto mt-2'>
+						{matchesData.map((matchData) => {
+							return RenderMatch(
+								matchData,
+								summonerData.summonerName
+							);
+						})}
+					</div>
 				</Col>
 			</Row>
 		</div>
@@ -122,12 +137,8 @@ function Summoner() {
 				className='no-data-img'
 				loading='lazy'
 			/>
-			<h3 style={{ color: '#FFFFFF' }}>
-				Fetching data for:
-			</h3>
-			<div className='no-data-summoner-name'>
-				"{summonerName}"
-			</div>
+			<h3 style={{ color: '#FFFFFF' }}>Fetching data for:</h3>
+			<div className='no-data-summoner-name'>"{summonerName}"</div>
 		</div>
 	) : (
 		<div className='no-data-align'>
@@ -138,11 +149,9 @@ function Summoner() {
 				loading='lazy'
 			/>
 			<h3 style={{ color: '#FFFFFF' }}>
-				Sorry! We couldn't find summoner data for: 
+				Sorry! We couldn't find summoner data for:
 			</h3>
-			<div className='no-data-summoner-name'>
-				"{summonerName}"
-			</div>
+			<div className='no-data-summoner-name'>"{summonerName}"</div>
 		</div>
 	);
 }
