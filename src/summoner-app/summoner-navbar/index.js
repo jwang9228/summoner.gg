@@ -45,11 +45,11 @@ function SummonerNav() {
   const LEAGUE_CURRENT_PATCH = {
     "patch-num": "13.24",
     "patchnotes-link":
-      "https://www.leagueoflegends.com/en-pl/news/game-updates/patch-13-24-notes/",
+      "https://www.leagueoflegends.com/en-us/news/game-updates/patch-13-24-notes/",
   };
 
   // one of: '', 'open', 'closed'
-  const [menuState, setMenuState] = useState("");
+  const [menuState, setMenuState] = useState("closed");
   const toggleMenu = () => {
     setMenuState(menuState === "open" ? "closed" : "open");
   };

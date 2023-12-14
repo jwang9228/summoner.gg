@@ -22,6 +22,10 @@
   color: #ffffff;
 }
 
+.side-nav {
+  z-index: 1001;
+}
+
 .menu-button {
   align-items: center;
   cursor: pointer;
@@ -203,6 +207,7 @@
   .logo {
     border-bottom: 1.5px solid #070721;
     text-decoration: none;
+    z-index: 10000;
   }
 
   .gem-container {
