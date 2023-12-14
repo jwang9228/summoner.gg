@@ -1,0 +1,16 @@
+.fav-users-label {
+  color: white;
+  font-size: 26px;
+}
+
+.fav-users-container {
+  background-color: #241b4a !important;
+  max-width: 50%;
+  text-align: center !important;
+}
+
+@media screen and (max-width: 800px) {
+  .fav-users-label {
+    font-size: 18px;
+  }
+}

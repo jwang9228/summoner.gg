@@ -16,7 +16,7 @@ import "./players.css";
 function Players() {
   const [account, setAccount] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [showAdmins, setShowAdmins] = useState(false);
+  // const [showAdmins, setShowAdmins] = useState(false);
   const [users, setUsers] = useState([]);
   const [sortBy, setSortBy] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
@@ -79,7 +79,7 @@ function Players() {
     <div>
       <p className="players-title">Players</p>
 
-      {isAdmin && (
+      {/* {isAdmin && (
         <div className="text-center">
           <div className="d-flex flex-column align-items-center">
             <Form.Group
@@ -99,7 +99,27 @@ function Players() {
             Create User
           </Link>
         </div>
-      )}
+      )} */}
+
+      <div className="text-center">
+        {/* <div className="d-flex flex-column align-items-center">
+          <Form.Group
+            controlId="show-admins"
+            className="d-flex justify-content-center pb-1"
+          >
+            <Form.Check
+              className="show-admins-box mb-2 me-2"
+              type="checkbox"
+              onChange={(e) => setShowAdmins(e.target.checked)}
+              checked={showAdmins}
+            />
+            <Form.Label className="show-admins-label">Show Admins</Form.Label>
+          </Form.Group>
+        </div> */}
+        <Link to="/create-user" className="btn btn-primary create-btn mb-3">
+          Create User
+        </Link>
+      </div>
 
       {errorMessage && (
         <p className="error-msg d-flex justify-content-center">
@@ -115,7 +135,10 @@ function Players() {
                 Username
               </th>
               {isAdmin && (
-                <th onClick={() => handleSort("email")} className="sort-col email-col">
+                <th
+                  onClick={() => handleSort("email")}
+                  className="sort-col email-col"
+                >
                   Email
                 </th>
               )}
@@ -138,192 +161,98 @@ function Players() {
           </thead>
 
           <tbody>
-            {sortedUsers.map((user) =>
+            {sortedUsers.map((user) => (
               // user is player
-              user.role === "Player" ? (
-                <tr key={user._id}>
-                  <td>
-                    <Link to={`/profile/${user._id}`}>{user.username}</Link>
-                  </td>
-                  {isAdmin && <td className="email-col">{user.email}</td>}
-                  <td>{user.role}</td>
-                  <td className={isAdmin ? "position-col" : ""}>
-                    {user.position}
-                  </td>
-                  <td className="link-col">
-                    {user.links.Twitter && (
-                      <a
-                        href={user.links.Twitter}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <FaTwitter className="twitter-icon" />
-                      </a>
-                    )}
-                  </td>
-                  <td className="link-col">
-                    {user.links.Twitch && (
-                      <a
-                        href={user.links.Twitch}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <FaTwitch className="twitch-icon" />
-                      </a>
-                    )}
-                  </td>
-                  <td className="link-col">
-                    {user.links.AfreecaTV && (
-                      <a
-                        href={user.links.AfreecaTV}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <BiTv className="aftv-icon" />
-                      </a>
-                    )}
-                  </td>
-                  <td className="link-col">
-                    {user.links.Youtube && (
-                      <a
-                        href={user.links.Youtube}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <FaYoutube className="youtube-icon" />
-                      </a>
-                    )}
-                  </td>
-                  <td className="link-col">
-                    {user.links.Instagram && (
-                      <a
-                        href={user.links.Instagram}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <FaInstagram className="instagram-icon" />
-                      </a>
-                    )}
-                  </td>
-                  {isAdmin && (
-                    <td className="btns-col">
-                      <Link
-                        to={`/edit-profile/${user._id}`}
-                        className="btn btn-primary edit-btn"
-                      >
-                        <FaEdit />
-                      </Link>
-                      <Button
-                        className="btn-danger delete-btn"
-                        onClick={() => {
-                          if (
-                            window.confirm(
-                              `Are you sure you want to delete ${user.username}?`
-                            )
-                          ) {
-                            deleteUser(user);
-                          }
-                        }}
-                      >
-                        <FaTrash />
-                      </Button>
-                    </td>
+              <tr key={user._id}>
+                <td>
+                  <Link to={`/profile/${user._id}`}>{user.username}</Link>
+                </td>
+                {isAdmin && <td className="email-col">{user.email}</td>}
+                <td>{user.role}</td>
+                <td className={isAdmin ? "position-col" : ""}>
+                  {user.position}
+                </td>
+                <td className="link-col">
+                  {user.links.Twitter && (
+                    <a
+                      href={user.links.Twitter}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <FaTwitter className="twitter-icon" />
+                    </a>
                   )}
-                </tr>
-              ) : (
-                // user is admin and showAdmins is true
-                showAdmins &&
-                user.role === "Admin" && (
-                  <tr key={user._id}>
-                    <td>
-                      <Link to={`/profile/${user._id}`}>{user.username}</Link>
-                    </td>
-                    <td className="email-col">{user.email}</td>
-                    <td>{user.role}</td>
-                    <td className="position-col">{user.position}</td>
-                    <td className="link-col">
-                      {user.links.Twitter && (
-                        <a
-                          href={user.links.Twitter}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          <FaTwitter className="twitter-icon" />
-                        </a>
-                      )}
-                    </td>
-                    <td className="link-col">
-                      {user.links.Twitch && (
-                        <a
-                          href={user.links.Twitch}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          <FaTwitch className="twitch-icon" />
-                        </a>
-                      )}
-                    </td>
-                    <td className="link-col">
-                      {user.links.AfreecaTV && (
-                        <a
-                          href={user.links.AfreecaTV}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          <BiTv className="aftv-icon" />
-                        </a>
-                      )}
-                    </td>
-                    <td className="link-col">
-                      {user.links.Youtube && (
-                        <a
-                          href={user.links.Youtube}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          <FaYoutube className="youtube-icon" />
-                        </a>
-                      )}
-                    </td>
-                    <td className="link-col">
-                      {user.links.Instagram && (
-                        <a
-                          href={user.links.Instagram}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          <FaInstagram className="instagram-icon" />
-                        </a>
-                      )}
-                    </td>
-                    {isAdmin && (
-                      <td className="btns-col">
-                        <Link
-                          to={`/edit-profile/${user._id}`}
-                          className="btn btn-primary edit-btn"
-                        >
-                          <FaEdit />
-                        </Link>
-                        <Button
-                          className="btn-danger delete-btn"
-                          onClick={() => {
-                            if (
-                              window.confirm(
-                                `Are you sure you want to delete ${user.username}?`
-                              )
-                            ) {
-                              deleteUser(user);
-                            }
-                          }}
-                        >
-                          <FaTrash />
-                        </Button>
-                      </td>
-                    )}
-                  </tr>
-                )
-              )
-            )}
+                </td>
+                <td className="link-col">
+                  {user.links.Twitch && (
+                    <a
+                      href={user.links.Twitch}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <FaTwitch className="twitch-icon" />
+                    </a>
+                  )}
+                </td>
+                <td className="link-col">
+                  {user.links.AfreecaTV && (
+                    <a
+                      href={user.links.AfreecaTV}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <BiTv className="aftv-icon" />
+                    </a>
+                  )}
+                </td>
+                <td className="link-col">
+                  {user.links.Youtube && (
+                    <a
+                      href={user.links.Youtube}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <FaYoutube className="youtube-icon" />
+                    </a>
+                  )}
+                </td>
+                <td className="link-col">
+                  {user.links.Instagram && (
+                    <a
+                      href={user.links.Instagram}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <FaInstagram className="instagram-icon" />
+                    </a>
+                  )}
+                </td>
+                {isAdmin && (
+                  <td className="btns-col">
+                    <Link
+                      to={`/edit-profile/${user._id}`}
+                      className="btn btn-primary edit-btn"
+                    >
+                      <FaEdit />
+                    </Link>
+                    <Button
+                      className="btn-danger delete-btn"
+                      onClick={() => {
+                        if (
+                          window.confirm(
+                            `Are you sure you want to delete ${user.username}?`
+                          )
+                        ) {
+                          deleteUser(user);
+                        }
+                      }}
+                    >
+                      <FaTrash />
+                    </Button>
+                  </td>
+                )}
+              </tr>
+            ))}
           </tbody>
         </Table>
       </div>
