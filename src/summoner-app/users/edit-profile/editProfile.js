@@ -98,14 +98,14 @@ function EditProfile() {
             <Form>
               {/* Basic Info */}
               <Row className="basic-info pt-3 pb-3 me-4">
-                <Col xs="auto">
+                {/* <Col xs="auto">
                   <Image
                     src={leagueLogo}
                     alt="profile icon"
                     className="profile-champ-icon"
                     loading="lazy"
                   />
-                </Col>
+                </Col> */}
 
                 <Col xs="auto">
                   {/* Username */}
