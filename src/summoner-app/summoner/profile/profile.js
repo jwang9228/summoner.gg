@@ -38,7 +38,7 @@ function SummonerProfile({ summonerData, updateSummoner, setUsersWhoFavorited })
 				...summonerData,
 				favoritedBy: [...summonerData.favoritedBy, {'username': loggedInUser.username, 'userId': loggedInUser._id}]
 			});
-			// setUsersWhoFavorited([...summonerData.favoritedBy, {'username': loggedInUser.username, 'userId': loggedInUser._id}]);
+			setUsersWhoFavorited([...summonerData.favoritedBy, {'username': loggedInUser.username, 'userId': loggedInUser._id}]);
 		}
 	};
 
@@ -63,7 +63,7 @@ function SummonerProfile({ summonerData, updateSummoner, setUsersWhoFavorited })
 			favoritedBy: filteredFavoritedBy
 		});
 
-		// setUsersWhoFavorited(filteredFavoritedBy);
+		setUsersWhoFavorited(filteredFavoritedBy);
 	};
 
 	const addMySummoner = async () => {
@@ -136,7 +136,7 @@ function SummonerProfile({ summonerData, updateSummoner, setUsersWhoFavorited })
 					<Button className='app-blue-accent me-3' onClick={() => updateSummoner()}>
 						Update
 					</Button>
-					{(loggedInUser?.favoriteSummoners.find(favorite => (favorite.summonerName === summonerData.summonerName && favorite.region === summonerData.server))) ? (
+					{(false) ? (
 						<IoIosStar
 							className='favorite-summoner-button me-1'
 							size={36}
