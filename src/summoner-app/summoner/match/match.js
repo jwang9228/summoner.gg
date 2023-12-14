@@ -1,11 +1,18 @@
 import './match.css';
-import { Image } from 'react-bootstrap';
+import { Image, Row, Col } from 'react-bootstrap';
+import gameModes from "./gamemodes.json";
+import summonerSpells from "./summoners.json";
+import runes from "./runes.json";
 
 function RenderMatch(matchData, summonerName) {
-	const ACCEPTED_GAME_MODES = ['ARAM', 'CLASSIC'];
 
 	const metadata = matchData.metadata;
 	const matchInfo = matchData.info;
+
+	if (!gameModes.find(gameMode => gameMode.queueId === matchInfo.queueId)) {
+		return;
+	}
+
 	const gameDurationSeconds = matchInfo.gameDuration;
 	const playersData = matchInfo.participants;
 
@@ -15,7 +22,7 @@ function RenderMatch(matchData, summonerName) {
 		const seconds = gameDurationSeconds % 60;
 		return { hours, minutes, seconds };
 	};
-	// const { hours, minutes, seconds } = getMatchTime(gameDurationSeconds);
+	const { hours, minutes, seconds } = getMatchTime(gameDurationSeconds);
 
 	const getMatchResult = (player) => {
 		if (player.gameEndedInEarlySurrender) {
@@ -55,7 +62,7 @@ function RenderMatch(matchData, summonerName) {
 				player.item5,
 				player.item6,
 			],
-			summonerSpells: [player.summoner1Id, player.summoner2Id],
+			summonerSpells: [player.summoner1Id.toString(), player.summoner2Id.toString()],
 			primaryRunes: {
 				primaryTree: playerPrimaryRunes.style,
 				runes: playerPrimaryRunes.selections.map(
@@ -74,20 +81,6 @@ function RenderMatch(matchData, summonerName) {
 			myPlayer = playerData;
 		}
 	});
-	//console.log(`team data: ${JSON.stringify(teamData)}`);
-
-	/* TODO: 
-        overall data to display (besides player data):
-       -- win, loss, remake. 
-       -- game duration
-       -- check wukong = monkey king
-       -- team positions: TOP, JUNGLE, MIDDLE, BOTTOM, UTILITY, "" -> aram
-       -- calculate KDA
-
-       stretch:
-       -- lp gains 
-       -- how long ago was this match?
-    */
 
 	const orderTeamByRole = (team) => {
 		const roleOrder = {
@@ -105,48 +98,107 @@ function RenderMatch(matchData, summonerName) {
 			  });
 	};
 
-	// TODO: get the overall style here depending on win/loss/remake
 	let matchResultStyle = undefined;
+	let matchResultTextStyle = undefined;
 	if (myPlayer.matchResult === 'Victory') {
 		matchResultStyle = 'win';
+		matchResultTextStyle = 'win-text';
 	} else if (myPlayer.matchResult === 'Defeat') {
 		matchResultStyle = 'loss';
+		matchResultTextStyle = 'loss-text';
 	} else {
 		matchResultStyle = 'remake';
+		matchResultTextStyle = 'remake-text';
 	}
 
+	const summonerSpell1 = summonerSpells.find(summonerSpell => summonerSpell.key === myPlayer.summonerSpells[0]).name;
+	const summonerSpell2 = summonerSpells.find(summonerSpell => summonerSpell.key === myPlayer.summonerSpells[1]).name;
+
+	const primaryTreeId = myPlayer.primaryRunes.primaryTree.toString().trim();
+	const primaryTreeKeystones = runes.find(runeTrees => runeTrees.id.toString().trim() === primaryTreeId).slots[0].runes;
+	const primaryKeystoneId = myPlayer.primaryRunes.runes[0].toString().trim();
+	const primaryKeystone = primaryTreeKeystones.find(keystone => keystone.id.toString().trim() === primaryKeystoneId).icon;
+
+	const secondaryTreeId = myPlayer.secondaryRunes.secondaryTree.toString().trim();
+	const secondaryTree = runes.find(runeTrees => runeTrees.id.toString().trim() == secondaryTreeId).icon;
+
 	return (
-		ACCEPTED_GAME_MODES.includes(matchInfo.gameMode) && (
-			<div
-				className={`mb-2 d-flex justify-content-between ${matchResultStyle} rounded`}
-				key={metadata.matchId}
-			>
-				<div>Left content</div>
-				<div className='d-flex'>
-					{Object.values(teamData).map((team) => {
-						return (
-							<span>
-								{orderTeamByRole(team).map((player) => {
-									return (
-										<div className='d-flex align-items-center mb-0 mt-0'>
-											<Image
-												src={require(`../../../data-dragon/champion/${player.champion}_0.jpg`)}
-												alt='champion icon'
-												className='champion-icon'
-												loading='lazy'
-											/>
-											<p className={`player-name ${myPlayer.name === player.name ? 'my-player-name' : ''}`}>
-												{player.name}
-											</p>
-										</div>
-									);
-								})}
-							</span>
-						);
-					})}
+		<Row
+			className={`mb-2 d-flex ${matchResultStyle} rounded`}
+			key={metadata.matchId}
+		>
+			<Col xl={8} lg={8} md={12} sm={12} xs={12} className='d-flex'>
+				<div className='d-flex flex-column justify-content-between' style={{width: '95px'}}>
+					<p className={`mt-2 ${matchResultTextStyle}`}>{gameModes.find(gameMode => gameMode.queueId === matchInfo.queueId).gameMode}</p>
+					<div className='mt-auto'>
+						<p className='match-result mb-0 mt-0'>{myPlayer.matchResult}</p>
+						<p className='game-duration mb-2 mt-0'>
+							{(hours !== 0) && `${hours}h`} {(minutes !== 0) && `${minutes}m`} {(seconds !== 0) && `${seconds}s`}
+						</p>
+					</div>
 				</div>
-			</div>
-		)
+				<Image
+					src={require(`../../../data-dragon/champion/${myPlayer.champion}_0.jpg`)}
+					alt='my champion icon'
+					className='my-champion-icon mt-3 ms-4'
+					loading='lazy'
+					roundedCircle
+				/>
+				<div className='d-flex flex-column'>
+					<div>
+						<Image
+							src={require(`../../../data-dragon/summoner-spells/${summonerSpell1}.png`)}
+							alt='summoner 1'
+							className='my-summoner-spell-icon mt-3 ms-1'
+							loading='lazy'
+						/>
+						<Image
+							src={require(`../../../data-dragon/summoner-spells/${summonerSpell2}.png`)}
+							alt='summoner 2'
+							className='my-summoner-spell-icon mt-3 ms-1'
+							loading='lazy'
+						/>
+					</div>
+					<div>
+						<Image
+							src={require(`../../../data-dragon/${primaryKeystone}`)}
+							alt='primary rune'
+							className='my-runes-icon ms-1'
+							loading='lazy'
+						/>
+						<Image
+							src={require(`../../../data-dragon/${secondaryTree}`)}
+							alt='secondary rune'
+							className='my-runes-icon ms-1'
+							loading='lazy'
+						/>
+					</div>
+				</div>
+			</Col>
+			<Col xl={4} lg={4} md={0} sm={0} xs={0} className='d-none d-lg-flex justify-content-end'>
+				{Object.values(teamData).map((team) => {
+					return (
+						<span>
+							{orderTeamByRole(team).map((player) => {
+								return (
+									<div className='d-flex align-items-center mb-0 mt-0'>
+										<Image
+											src={require(`../../../data-dragon/champion/${player.champion}_0.jpg`)}
+											alt='champion icon'
+											className='champion-icon'
+											loading='lazy'
+										/>
+										<p className={`player-name ${myPlayer.name === player.name ? 'my-player-name' : ''}`}>
+											{player.name}
+										</p>
+									</div>
+								);
+							})}
+						</span>
+					);
+				})}
+			</Col>
+		</Row>
 	);
 }
 export default RenderMatch;

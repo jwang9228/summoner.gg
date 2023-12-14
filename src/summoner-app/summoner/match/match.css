@@ -3,9 +3,19 @@
 	border-left: #3785c4 6px solid;
 }
 
+.win-text {
+	color: #3273fa;
+	font-weight: 550;
+}
+
 .loss {
 	background-color: #a64b51;
 	border-left: #c43739 6px solid;
+}
+
+.loss-text {
+	color: #ff4e50;
+	font-weight: 550;
 }
 
 .remake {
@@ -13,21 +23,25 @@
     border-left: #c6c6c6 6px solid;
 }
 
+.remake-text {
+	color: #d0d0d0;
+	font-weight: 550;
+}
+
 .champion-icon {
-	width: 24px;
-	height: 24px;
+	width: 22px;
+	height: 22px;
 	border-radius: 10%;
 }
 
 .player-name {
-	text-align: center;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
-    max-width: 85px;
+    width: 85px;
 	color: #d0d0d0;
   	font-weight: 500;
-	font-size: 15px;
+	font-size: 14px;
 	margin-left: 3px;
 	margin-top: 2px;
 	margin-bottom: 2px;
@@ -37,4 +51,34 @@
 .my-player-name {
 	color: white !important;
 	font-weight: 550 !important;
+}
+
+.my-champion-icon {
+	width: 70px;
+	height: 70px;
+}
+
+.my-summoner-spell-icon {
+	width: 34px;
+	height: 34px;
+	border-radius: 10%;
+	margin-bottom: 1px;
+}
+
+.my-runes-icon {
+	width: 34px;
+	height: 34px;
+	border-radius: 10%;
+	margin-top: 1px;
+}
+
+.match-result {
+	color: #d0d0d0;
+	font-weight: 550;
+	font-size: 15px;
+}
+
+.game-duration {
+	color: #d0d0d0;
+	font-size: 15px;
 }
