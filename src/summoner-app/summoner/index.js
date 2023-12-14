@@ -1,11 +1,11 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import * as client from './client.js';
-import SummonerProfile from './profile.js';
-import Winrates from './winrates.js';
-import RenderMatch from './match.js';
+import SummonerProfile from './profile/profile.js';
+import Winrates from './winrates/winrates.js';
+import RenderMatch from './match/match.js';
 import './summoner.css';
-import './winrates.css';
+import './winrates/winrates.css';
 import { Row, Col, Image, ListGroup } from 'react-bootstrap';
 
 function Summoner() {

@@ -1,0 +1,40 @@
+.win {
+	background-color: #4b69a6;
+	border-left: #3785c4 6px solid;
+}
+
+.loss {
+	background-color: #a64b51;
+	border-left: #c43739 6px solid;
+}
+
+.remake {
+    background-color: #9b9b9b;
+    border-left: #c6c6c6 6px solid;
+}
+
+.champion-icon {
+	width: 24px;
+	height: 24px;
+	border-radius: 10%;
+}
+
+.player-name {
+	text-align: center;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+    max-width: 85px;
+	color: #d0d0d0;
+  	font-weight: 500;
+	font-size: 15px;
+	margin-left: 3px;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	margin-right: 2px;
+}
+
+.my-player-name {
+	color: white !important;
+	font-weight: 550 !important;
+}

@@ -5,7 +5,7 @@ import { FaTwitter, FaTwitch, FaYoutube, FaInstagram } from "react-icons/fa";
 import { BiTv } from "react-icons/bi";
 import { RiAdminFill } from "react-icons/ri";
 import { IoStarOutline, IoStarSharp } from "react-icons/io5";
-import LoginModal from "../../summoner/login-modal";
+import LoginModal from "../../summoner/modals/login-modal";
 import leagueLogo from "../../../images/league-logo.png";
 import soraka_fire from "../../../images/soraka_fire.png";
 import "./profile.css";
