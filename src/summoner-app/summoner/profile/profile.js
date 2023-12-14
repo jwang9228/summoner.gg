@@ -3,34 +3,67 @@ import { IoIosStarOutline, IoIosStar } from 'react-icons/io';
 import { MdOutlineBookmarkAdd, MdOutlineBookmarkAdded } from 'react-icons/md';
 import { useState, useEffect } from 'react';
 import * as client from '../../users/client';
+import * as summonerClient from '../client.js';
 import './profile.css';
 import LoginModal from '../modals/login-modal.js';
 import SuccessModal from '../modals/success-modal.js';
 import RemoveModal from '../modals/remove-modal.js';
 
-function SummonerProfile({ summonerData, updateSummoner }) {
+function SummonerProfile({ summonerData, updateSummoner, setUsersWhoFavorited }) {
 	const [loggedInUser, setLoggedInUser] = useState();
-	const [favorited, setFavorited] = useState(); // TODO: initial value will be either false or if logged in, if this summoner is already favorited
 	const [showLoginModal, setShowLoginModal] = useState(false);
 	const [showFavoriteModal, setShowFavoriteModal] = useState(false);
+	const [showRemoveFavoriteModal, setShowRemoveFavoriteModal] = useState(false);
 	const [showMySummonerModal, setShowMySummonerModal] = useState(false);
 	const [showRemoveSummonerModal, setShowRemoveSummonerModal] = useState(false);
 
-	const favoriteSummoner = () => {
-		if (loggedInUser) {
-			setShowFavoriteModal(true);
-			// TODO: add this summoner to a user's favorited summoners
-		} else {
-			setShowLoginModal(true);
+	const favoriteSummoner = async () => {
+		setShowFavoriteModal(false);
+		const newSummoner = {
+			summonerName: summonerData.summonerName,
+			region: summonerData.server
+		};
+		setLoggedInUser(prevUserState => ({
+			...prevUserState,
+			favoriteSummoners: [...prevUserState.favoriteSummoners, newSummoner]
+		}));
+		const updatedUser = {
+			...loggedInUser,
+			favoriteSummoners: [...loggedInUser.favoriteSummoners, newSummoner]
+		};
+		await client.updateUser(updatedUser);
+
+		if (!summonerData.favoritedBy.find(favorite => favorite.username === loggedInUser.username)) {
+			await summonerClient.updateSummoner({
+				...summonerData,
+				favoritedBy: [...summonerData.favoritedBy, {'username': loggedInUser.username, 'userId': loggedInUser._id}]
+			});
+			setUsersWhoFavorited([...summonerData.favoritedBy, {'username': loggedInUser.username, 'userId': loggedInUser._id}]);
 		}
 	};
 
-	const unfavoriteSummoner = () => {
-		if (loggedInUser) {
-			// TODO: remove this summoner from a user's favorited summoners
-		} else {
-			// TODO: some message saying a user must log in w/ some dialog for cancel or go to login
-		}
+	const unfavoriteSummoner = async () => {
+		setShowRemoveFavoriteModal(false);
+		const filteredFavoriteSummoners = 
+			loggedInUser.favoriteSummoners.filter(summoner => (summoner.summonerName !== summonerData.summonerName && summoner.region !== summonerData.server));
+		setLoggedInUser(prevUserState => ({
+			...prevUserState,
+			favoriteSummoners: filteredFavoriteSummoners
+		}));
+		const updatedUser = {
+			...loggedInUser,
+			favoriteSummoners: filteredFavoriteSummoners
+		};
+		await client.updateUser(updatedUser);
+
+		const filteredFavoritedBy = 
+			summonerData.favoritedBy.filter(user => (user.username !== loggedInUser.username));
+		await summonerClient.updateSummoner({
+			...summonerData,
+			favoritedBy: filteredFavoritedBy
+		});
+
+		setUsersWhoFavorited(filteredFavoritedBy);
 	};
 
 	const addMySummoner = async () => {
@@ -103,17 +136,21 @@ function SummonerProfile({ summonerData, updateSummoner }) {
 					<Button className='app-blue-accent me-3' onClick={() => updateSummoner()}>
 						Update
 					</Button>
-					{favorited ? (
+					{(loggedInUser?.favoriteSummoners.find(favorite => (favorite.summonerName === summonerData.summonerName && favorite.region === summonerData.server))) ? (
 						<IoIosStar
 							className='favorite-summoner-button me-1'
 							size={36}
-							onClick={() => unfavoriteSummoner()}
+							onClick={() => {
+								loggedInUser ? setShowRemoveFavoriteModal(true) : setShowLoginModal(true);
+							}}
 						/>
 					) : (
 						<IoIosStarOutline
 							className='not-favorite-summoner-button me-1'
 							size={36}
-							onClick={() => favoriteSummoner()}
+							onClick={() => {
+								loggedInUser ? setShowFavoriteModal(true) : setShowLoginModal(true);
+							}}
 						/>
 					)}
 				</span>
@@ -143,11 +180,19 @@ function SummonerProfile({ summonerData, updateSummoner }) {
 			/>
 			<SuccessModal
 				show={showFavoriteModal}
-				onHide={() => setShowFavoriteModal(false)}
-				close={() => setShowMySummonerModal(false)}
+				onHide={() => favoriteSummoner()}
+				close={() => setShowFavoriteModal(false)}
 				summonername={summonerData.summonerName}
 				region={summonerData.server}
 				description='added to my favorites!'
+			/>
+			<RemoveModal 
+				show={showRemoveFavoriteModal}
+				onHide={() => unfavoriteSummoner()}
+				close={() => setShowRemoveFavoriteModal(false)}
+				summonername={summonerData.summonerName}
+				region={summonerData.server}
+				description='removed from my favorites.'
 			/>
 			<SuccessModal
 				show={showMySummonerModal}

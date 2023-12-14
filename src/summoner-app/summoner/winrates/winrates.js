@@ -1,4 +1,4 @@
-import { ListGroup, ListGroupItem, Image } from 'react-bootstrap';
+import { ListGroup, Image } from 'react-bootstrap';
 import './winrates.css';
 
 function getRank(tier, rank) {
@@ -35,7 +35,7 @@ function Winrates({ queueData, queueName }) {
 					)}
 				</ListGroup.Item>
 				{queueData && (
-					<ListGroupItem className='queue-data-body d-flex justify-content-between align-items-start'>
+					<ListGroup.Item className='queue-data-body d-flex justify-content-between align-items-start'>
 						<div className='d-flex align-items-center'>
 							<Image
 								src={require(`../../../images/rank-crests/${tier}.png`)}
@@ -63,7 +63,7 @@ function Winrates({ queueData, queueName }) {
 								{totalGames !== 0 && <p className='win-loss-label mb-0'>{`${Math.round((wins / (wins + losses)) * 100)}% Win Rate`}</p> }
 							</div>
 						</span>
-					</ListGroupItem>
+					</ListGroup.Item>
 				)}
 			</ListGroup>
 		</div>

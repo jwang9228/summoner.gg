@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import * as client from './client.js';
 import SummonerProfile from './profile/profile.js';
@@ -13,6 +13,7 @@ function Summoner() {
 	const [summonerData, setSummonerData] = useState();
 	const [fetchingData, setFetchingData] = useState(true);
 	const [matchesData, setMatchesData] = useState([]);
+	const [usersWhoFavorited, setUsersWhoFavorited] = useState([]);
 	const matchCount = 20;
 
 	const getWinrateDataByQueue = (queueType, winrateData) => {
@@ -50,14 +51,8 @@ function Summoner() {
 				server,
 				updatedData.id
 			);
-			const soloQueueData = getWinrateDataByQueue(
-				'solo',
-				winrateData
-			);
-			const flexQueueData = getWinrateDataByQueue(
-				'flex',
-				winrateData
-			);
+			const soloQueueData = getWinrateDataByQueue('solo', winrateData);
+			const flexQueueData = getWinrateDataByQueue('flex', winrateData);
 			const updatedSummonerData = {
 				summonerName: updatedData.name,
 				summonerLevel: updatedData.summonerLevel,
@@ -77,6 +72,7 @@ function Summoner() {
 			);
 			setMatchesData(matchesData);
 			setSummonerData(updatedSummonerData);
+			setUsersWhoFavorited(updatedData.favoritedBy);
 		}
 		setFetchingData(false);
 	};
@@ -140,6 +136,7 @@ function Summoner() {
 				);
 				setMatchesData(matchesData);
 				setSummonerData(response);
+				setUsersWhoFavorited(response.favoritedBy);
 			}
 			setFetchingData(false);
 		};
@@ -148,7 +145,11 @@ function Summoner() {
 	return summonerData ? (
 		<div className='summoner-data-margins'>
 			<Row>
-				<SummonerProfile summonerData={summonerData} updateSummoner={updateSummoner}/>
+				<SummonerProfile
+					summonerData={summonerData}
+					updateSummoner={updateSummoner}
+					setUsersWhoFavorited={setUsersWhoFavorited}
+				/>
 			</Row>
 			<Row className='queue-data-margin-top'>
 				<Col xl={4} lg={4} md={12} sm={12} xs={12} className='mb-4'>
@@ -161,6 +162,19 @@ function Summoner() {
 							queueData={summonerData.flexQueueRank}
 							queueName='Ranked Flex'
 						/>
+						<ListGroup className='mt-2'>
+							<ListGroup.Item className='list-group-item-secondary queue-data-header d-flex justify-content-between'>
+								<span>Users who favorited this user</span>
+								<span className='unranked-label'>{`(${usersWhoFavorited.length})`}</span>
+							</ListGroup.Item>
+							{usersWhoFavorited.map(userWhoFavorited => {
+								return (
+									<ListGroup.Item className='queue-data-body d-flex justify-content-between align-items-start'>
+										<Link to={`../../profile/${userWhoFavorited.userId}`}>{userWhoFavorited.username}</Link>
+									</ListGroup.Item>
+								)
+							})}
+						</ListGroup>
 					</div>
 				</Col>
 				<Col xl={8} lg={8} md={12} sm={12} xs={12}>
