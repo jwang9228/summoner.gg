@@ -38,7 +38,7 @@ function SummonerProfile({ summonerData, updateSummoner, setUsersWhoFavorited })
 				...summonerData,
 				favoritedBy: [...summonerData.favoritedBy, {'username': loggedInUser.username, 'userId': loggedInUser._id}]
 			});
-			setUsersWhoFavorited([...summonerData.favoritedBy, {'username': loggedInUser.username, 'userId': loggedInUser._id}]);
+			// setUsersWhoFavorited([...summonerData.favoritedBy, {'username': loggedInUser.username, 'userId': loggedInUser._id}]);
 		}
 	};
 
@@ -63,7 +63,7 @@ function SummonerProfile({ summonerData, updateSummoner, setUsersWhoFavorited })
 			favoritedBy: filteredFavoritedBy
 		});
 
-		setUsersWhoFavorited(filteredFavoritedBy);
+		// setUsersWhoFavorited(filteredFavoritedBy);
 	};
 
 	const addMySummoner = async () => {

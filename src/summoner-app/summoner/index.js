@@ -72,7 +72,7 @@ function Summoner() {
 			);
 			setMatchesData(matchesData);
 			setSummonerData(updatedSummonerData);
-			setUsersWhoFavorited(updatedData.favoritedBy);
+			//setUsersWhoFavorited(updatedData.favoritedBy);
 		}
 		setFetchingData(false);
 	};
@@ -136,7 +136,7 @@ function Summoner() {
 				);
 				setMatchesData(matchesData);
 				setSummonerData(response);
-				setUsersWhoFavorited(response.favoritedBy);
+				//setUsersWhoFavorited(response.favoritedBy);
 			}
 			setFetchingData(false);
 		};
