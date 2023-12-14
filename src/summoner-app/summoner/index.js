@@ -35,6 +35,52 @@ function Summoner() {
 		};
 		return extractedWinrateData;
 	};
+
+	const updateSummoner = async () => {
+		setSummonerData(undefined);
+		setFetchingData(true);
+		const updatedData = await client.getSummonerData(server, summonerName);
+		if (updatedData) {
+			const matchIDs = await client.getMatchesByPUUID(
+				server,
+				updatedData.puuid,
+				matchCount
+			);
+			const winrateData = await client.getWinrateData(
+				server,
+				updatedData.id
+			);
+			const soloQueueData = getWinrateDataByQueue(
+				'solo',
+				winrateData
+			);
+			const flexQueueData = getWinrateDataByQueue(
+				'flex',
+				winrateData
+			);
+			const updatedSummonerData = {
+				summonerName: updatedData.name,
+				summonerLevel: updatedData.summonerLevel,
+				summonerId: updatedData.id,
+				profileIconId: updatedData.profileIconId,
+				puuid: updatedData.puuid,
+				server: server,
+				matchIDs: matchIDs,
+				soloQueueRank: soloQueueData,
+				flexQueueRank: flexQueueData,
+			};
+			await client.updateSummoner(updatedSummonerData);
+			const matchesData = await Promise.all(
+				updatedSummonerData.matchIDs.map(async (matchID) => {
+					return await client.getMatchData(server, matchID);
+				})
+			);
+			setMatchesData(matchesData);
+			setSummonerData(updatedSummonerData);
+		}
+		setFetchingData(false);
+	};
+
 	useEffect(() => {
 		const fetchData = async () => {
 			setSummonerData(undefined);
@@ -102,7 +148,7 @@ function Summoner() {
 	return summonerData ? (
 		<div className='summoner-data-margins'>
 			<Row>
-				<SummonerProfile summonerData={summonerData} />
+				<SummonerProfile summonerData={summonerData} updateSummoner={updateSummoner}/>
 			</Row>
 			<Row className='queue-data-margin-top'>
 				<Col xl={4} lg={4} md={12} sm={12} xs={12} className='mb-4'>

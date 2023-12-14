@@ -55,6 +55,17 @@ export const createSummoner = async (summonerData) => {
 		return undefined;
 	}
 };
+export const updateSummoner = async (updatedSummonerData) => {
+	try {
+		const response = await request.put(
+			`${SERVER_URL}/summoners`,
+			updatedSummonerData
+		);
+		return response.data;
+	} catch (error) {
+		return undefined;
+	}
+}
 export const getRecentSearches = async () => {
 	try {
 		const response = await request.get(

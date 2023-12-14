@@ -8,7 +8,7 @@ import LoginModal from '../modals/login-modal.js';
 import SuccessModal from '../modals/success-modal.js';
 import RemoveModal from '../modals/remove-modal.js';
 
-function SummonerProfile({ summonerData }) {
+function SummonerProfile({ summonerData, updateSummoner }) {
 	const [loggedInUser, setLoggedInUser] = useState();
 	const [favorited, setFavorited] = useState(); // TODO: initial value will be either false or if logged in, if this summoner is already favorited
 	const [showLoginModal, setShowLoginModal] = useState(false);
@@ -100,7 +100,7 @@ function SummonerProfile({ summonerData }) {
 					<span className='app-blue-accent ms-2 summoner-server'>{`#${summonerData.server.toUpperCase()}`}</span>
 				</p>
 				<span>
-					<Button className='app-blue-accent me-3' onClick={() => {}}>
+					<Button className='app-blue-accent me-3' onClick={() => updateSummoner()}>
 						Update
 					</Button>
 					{favorited ? (
