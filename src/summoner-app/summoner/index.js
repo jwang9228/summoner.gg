@@ -17,131 +17,87 @@ function Summoner() {
 	const matchCount = 20;
 
 	const getWinrateDataByQueue = (queueType, winrateData) => {
-		let queueData = undefined;
-		if (queueType === 'solo') {
-			queueData = winrateData.find(
-				(data) => data.queueType === 'RANKED_SOLO_5x5'
-			);
-		} else if (queueType === 'flex') {
-			queueData = winrateData.find(
-				(data) => data.queueType === 'RANKED_FLEX_SR'
-			);
-		}
-		const extractedWinrateData = queueData && {
-			win: queueData.wins,
-			loss: queueData.losses,
-			tier: queueData.tier,
-			rank: queueData.rank,
-			leaguePoints: queueData.leaguePoints,
+		const queueTypeMapping = {
+		  'solo': 'RANKED_SOLO_5x5',
+		  'flex': 'RANKED_FLEX_SR'
 		};
-		return extractedWinrateData;
+	  
+		const queueData = winrateData.find(data => data.queueType === queueTypeMapping[queueType]);
+	  
+		return queueData && {
+		  win: queueData.wins,
+		  loss: queueData.losses,
+		  tier: queueData.tier,
+		  rank: queueData.rank,
+		  leaguePoints: queueData.leaguePoints,
+		};
 	};
 
-	const updateSummoner = async () => {
-		setSummonerData(undefined);
-		setFetchingData(true);
-		const updatedData = await client.getSummonerData(server, summonerName);
-		if (updatedData) {
-			const matchIDs = await client.getMatchesByPUUID(
-				server,
-				updatedData.puuid,
-				matchCount
-			);
-			const winrateData = await client.getWinrateData(
-				server,
-				updatedData.id
-			);
+	const getSummonerData = async () => {
+		const data = await client.getSummonerData(server, summonerName);
+		if (data) {
+			const matchIDs = await client.getMatchesByPUUID(server, data.puuid, matchCount);
+			const winrateData = await client.getWinrateData(server, data.id);
 			const soloQueueData = getWinrateDataByQueue('solo', winrateData);
 			const flexQueueData = getWinrateDataByQueue('flex', winrateData);
-			const updatedSummonerData = {
-				summonerName: updatedData.name,
-				summonerLevel: updatedData.summonerLevel,
-				summonerId: updatedData.id,
-				profileIconId: updatedData.profileIconId,
-				puuid: updatedData.puuid,
+			return {
+				summonerName: data.name,
+				summonerLevel: data.summonerLevel,
+				summonerId: data.id,
+				profileIconId: data.profileIconId,
+				puuid: data.puuid,
 				server: server,
 				matchIDs: matchIDs,
 				soloQueueRank: soloQueueData,
 				flexQueueRank: flexQueueData,
-			};
-			await client.updateSummoner(updatedSummonerData);
-			const matchesData = await Promise.all(
-				updatedSummonerData.matchIDs.map(async (matchID) => {
-					return await client.getMatchData(server, matchID);
-				})
-			);
-			setMatchesData(matchesData);
-			setSummonerData(updatedSummonerData);
-			setUsersWhoFavorited(updatedData.favoritedBy);
+			}
+		};
+		return undefined;
+	}
+
+	const processMatchesData = async (matchIDs) => {
+		const matchesData = [];
+		for (const matchID of matchIDs) {
+			const match = await client.getMatchData(server, matchID);
+			matchesData.push(match);
 		}
+		setMatchesData(matchesData);
+	}
+
+	const updateSummoner = async () => {
+		setSummonerData(undefined);
+		setFetchingData(true);
+		const updatedSummonerData = await getSummonerData();
+		await client.updateSummoner(updatedSummonerData);
+		await processMatchesData(updatedSummonerData.matchIDs);
+		setSummonerData(updatedSummonerData);
 		setFetchingData(false);
 	};
 
 	useEffect(() => {
 		const fetchData = async () => {
-			setSummonerData(undefined);
 			setFetchingData(true);
-			// if there is already an existing entry for the summoner in the DB, use that data (might be outdated)
-			let response = await client.findSummonerByServer(
-				server,
-				summonerName
-			);
-			// if no entry exists, fetch data from Riot API and create a new DB entry
+			let response = await client.findSummonerByServer(server, summonerName);
 			if (!response) {
-				const data = await client.getSummonerData(server, summonerName);
-				if (data) {
-					const matchIDs = await client.getMatchesByPUUID(
-						server,
-						data.puuid,
-						matchCount
-					);
-					const winrateData = await client.getWinrateData(
-						server,
-						data.id
-					);
-					const soloQueueData = getWinrateDataByQueue(
-						'solo',
-						winrateData
-					);
-					const flexQueueData = getWinrateDataByQueue(
-						'flex',
-						winrateData
-					);
-					const newSummonerData = {
-						summonerName: data.name,
-						summonerLevel: data.summonerLevel,
-						summonerId: data.id,
-						profileIconId: data.profileIconId,
-						puuid: data.puuid,
-						server: server,
-						matchIDs: matchIDs,
-						soloQueueRank: soloQueueData,
-						flexQueueRank: flexQueueData,
-					};
+				const newSummonerData = await getSummonerData();
+				if (newSummonerData) {
 					await client.createSummoner(newSummonerData);
 					response = newSummonerData;
+					const searchData = {
+						name: response.summonerName,
+						region: server,
+						profileIconId: response.profileIconId,
+					};
+					await client.addRecentSearch(searchData);
+					await processMatchesData(response.matchIDs);
+					setSummonerData(response);
 				}
-			}
-			if (response) {
-				const searchData = {
-					name: response.summonerName,
-					region: server,
-					profileIconId: response.profileIconId,
-				};
-				await client.addRecentSearch(searchData);
-				const matchesData = await Promise.all(
-					response.matchIDs.map(async (matchID) => {
-						return await client.getMatchData(server, matchID);
-					})
-				);
-				setMatchesData(matchesData);
-				setSummonerData(response);
-				setUsersWhoFavorited(response.favoritedBy);
 			}
 			setFetchingData(false);
 		};
 		fetchData();
 	}, [server, summonerName]);
+
 	return summonerData ? (
 		<div className='summoner-data-margins'>
 			<Row>
@@ -162,24 +118,11 @@ function Summoner() {
 							queueData={summonerData.flexQueueRank}
 							queueName='Ranked Flex'
 						/>
-						<ListGroup className='mt-2'>
-							<ListGroup.Item className='list-group-item-secondary queue-data-header d-flex justify-content-between'>
-								<span>Users who favorited this user</span>
-								<span className='unranked-label'>{`(${usersWhoFavorited.length})`}</span>
-							</ListGroup.Item>
-							{usersWhoFavorited.map(userWhoFavorited => {
-								return (
-									<ListGroup.Item className='queue-data-body d-flex justify-content-between align-items-start'>
-										<Link to={`../../profile/${userWhoFavorited.userId}`}>{userWhoFavorited.username}</Link>
-									</ListGroup.Item>
-								)
-							})}
-						</ListGroup>
 					</div>
 				</Col>
 				<Col xl={8} lg={8} md={12} sm={12} xs={12}>
 					<div className='m-auto mt-2'>
-						{matchesData.map((matchData) => {
+						{matchesData && matchesData.map((matchData) => {
 							return RenderMatch(
 								matchData,
 								summonerData.summonerName
@@ -192,18 +135,23 @@ function Summoner() {
 	) : fetchingData ? (
 		<div className='no-data-align'>
 			<Image
-				src={require('../../images/hype-kitten.png')}
+				src={require('../../images/emotes/hype-kitten.png')}
 				alt='no data'
 				className='no-data-img'
 				loading='lazy'
 			/>
 			<h3 style={{ color: '#FFFFFF' }}>Fetching data for:</h3>
 			<div className='no-data-summoner-name'>"{summonerName}"</div>
+			<div className='d-flex align-items-start'>
+				<span className="ellipsis-one">.</span>
+				<span className="ellipsis-two">.</span>
+				<span className="ellipsis-three">.</span>
+			</div>
 		</div>
 	) : (
 		<div className='no-data-align'>
 			<Image
-				src={require('../../images/sad-kitten.png')}
+				src={require('../../images/emotes/sad-kitten.png')}
 				alt='no data'
 				className='no-data-img'
 				loading='lazy'

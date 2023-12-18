@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Form, Button, Image } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import teemo_sign from "../../../images/teemo_sign.png";
+import teemo_sign from "../../../images/emotes/teemo-sign.png";
 import * as utilities from "../../../common/utilities";
 import "./createUser.css";
 import * as client from "../client";

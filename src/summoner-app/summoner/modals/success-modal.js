@@ -12,7 +12,7 @@ function SuccessModal(props) {
 		>
 			<Modal.Body className='modal-body d-flex align-items-center'>
 				<Image
-					src={require('../../../images/rammus-ok.png')}
+					src={require('../../../images/emotes/rammus-ok.png')}
 					alt='login icon'
 					className='login-icon ms-2'
 					loading='lazy'

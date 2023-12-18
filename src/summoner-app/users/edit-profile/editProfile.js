@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col, Image, Button, Form } from "react-bootstrap";
 import { useNavigate, Link, useParams } from "react-router-dom";
-import leagueLogo from "../../../images/league-logo.png";
-import ff20 from "../../../images/ff20.png";
-import alistar from "../../../images/alistar.png";
+import ff20 from "../../../images/emotes/ff20.png";
+import alistar from "../../../images/emotes/alistar.png";
 import * as utilities from "../../../common/utilities";
 import "../profile/profile.css";
 import "./editProfile.css";

@@ -119,7 +119,7 @@ function MySummoner() {
 			<ListGroup>
 				<ListGroup.Item className='my-summoner-background d-flex align-items-center m-auto mt-5'>
 					<Image
-						src={require(`../images/blitz-question.png`)}
+						src={require(`../images/emotes/blitz-question.png`)}
 						alt='register summoner icon'
 						className='register-summoner-icon ms-1 me-2'
 						loading='lazy'
@@ -136,7 +136,7 @@ function MySummoner() {
 			<ListGroup>
 				<ListGroup.Item className='my-summoner-background d-flex align-items-center m-auto mt-5'>
 					<Image
-						src={require(`../images/blitz-question.png`)}
+						src={require(`../images/emotes/blitz-question.png`)}
 						alt='register summoner icon'
 						className='register-summoner-icon ms-1 me-2'
 						loading='lazy'

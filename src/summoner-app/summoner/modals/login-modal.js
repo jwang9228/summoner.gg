@@ -12,7 +12,7 @@ function LoginModal(props) {
 		>
 			<Modal.Body className='modal-body d-flex align-items-center'>
 				<Image
-					src={require('../../../images/blitz-question.png')}
+					src={require('../../../images/emotes/blitz-question.png')}
 					alt='login icon'
 					className='login-icon ms-2'
 					loading='lazy'
