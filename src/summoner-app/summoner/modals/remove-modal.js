@@ -12,7 +12,7 @@ function RemoveModal(props) {
 		>
 			<Modal.Body className='modal-body d-flex align-items-center'>
 				<Image
-					src={require('../../../images/zoe-goodbye.png')}
+					src={require('../../../images/emotes/zoe-goodbye.png')}
 					alt='login icon'
 					className='login-icon ms-2'
 					loading='lazy'

@@ -66,7 +66,7 @@ function SummonerNav() {
         <div className="gem-container">
           <img
             className="img-fluid gem"
-            src={require("../../images/gem.png")}
+            src={require("../../images/site/gem.png")}
             alt="gem logo"
           />
         </div>
@@ -87,13 +87,13 @@ function SummonerNav() {
       <div className={`list-group dropdown-menu-anim side-nav ${menuState}`}>
         <img
           className="img-fluid logo mb-2"
-          src={require("../../images/logo.png")}
+          src={require("../../images/site/site-logo.png")}
           alt="summoner.gg logo"
         />
         <div className="container patchnotes mt-3 mb-2">
           <img
             className="league-logo"
-            src={require("../../images/league-logo.png")}
+            src={require("../../images/site/league-logo.png")}
             alt="league logo"
           />
           <Link
