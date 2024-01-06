@@ -5,18 +5,13 @@ function getRank(tier, rank) {
 	if (tier === 'MASTER' || tier === 'GRANDMASTER' || tier === 'CHALLENGER') {
 		return '';
 	} else {
-		switch (rank) {
-			case 'I':
-				return '1';
-			case 'II':
-				return '2';
-			case 'III':
-				return '3';
-			case 'IV':
-				return '4';
-			default:
-				return '';
-		}
+		const rankMapping = {
+			'I': '1',
+			'II': '2',
+			'III': '3',
+			'IV': '4',
+		};
+		return rankMapping[rank] || '';
 	}
 }
 

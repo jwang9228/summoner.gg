@@ -1,20 +1,20 @@
 .win {
-	background-color: #4b69a6;
+	background-color: #506ca6;
 	border-left: #3785c4 6px solid;
 }
 
 .win-text {
-	color: #3273fa;
+	color: #2b6bf3;
 	font-weight: 550;
 }
 
 .loss {
-	background-color: #a64b51;
+	background-color: #a0575c;
 	border-left: #c43739 6px solid;
 }
 
 .loss-text {
-	color: #ff4e50;
+	color: #fc474a;
 	font-weight: 550;
 }
 
@@ -29,8 +29,8 @@
 }
 
 .champion-icon {
-	width: 22px;
-	height: 22px;
+	width: 17px;
+	height: 17px;
 	border-radius: 10%;
 }
 
@@ -38,14 +38,18 @@
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
-    width: 85px;
+    width: 80px;
 	color: #d0d0d0;
   	font-weight: 500;
-	font-size: 14px;
+	font-size: 12.5px;
 	margin-left: 3px;
-	margin-top: 2px;
-	margin-bottom: 2px;
+	margin-top: 0.5px;
+	margin-bottom: 0.5px;
 	margin-right: 2px;
+}
+
+.player-name:hover {
+	color: #f6f6f6 !important;
 }
 
 .my-player-name {
@@ -53,9 +57,20 @@
 	font-weight: 550 !important;
 }
 
+.my-player-name:hover {
+	color: white !important;
+}
+
+.my-champion-container {
+	width: 50px;
+	height: 50px;
+	overflow: hidden;
+	border-radius: 50%;
+}
+
 .my-champion-icon {
-	width: 70px;
-	height: 70px;
+	width: 55px;
+	height: 55px;
 }
 
 .my-summoner-spell-icon {
@@ -69,16 +84,38 @@
 	width: 34px;
 	height: 34px;
 	border-radius: 10%;
-	margin-top: 1px;
+	margin-top: 4px;
+	margin-left: 4px;
+}
+
+.my-runes-icon-secondary {
+	width: 26px;
+	height: 26px;
+	border-radius: 10%;
+	margin-top: 2px;
+	margin-left: 7px;
 }
 
 .match-result {
 	color: #d0d0d0;
 	font-weight: 550;
-	font-size: 15px;
+	font-size: 14px;
 }
 
 .game-duration {
 	color: #d0d0d0;
-	font-size: 15px;
+	font-size: 14px;
+}
+
+.player-link {
+	text-decoration: none !important;
+}
+
+.team-margins {
+	margin-top: 1.5px;
+	margin-bottom: 1.5px;
+}
+
+.champion-margins {
+	
 }

@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 const request = axios.create({
 	withCredentials: true,
 });
@@ -14,6 +15,7 @@ export const findSummonerByServer = async (server, summonerName) => {
 		return undefined;
 	}
 };
+
 export const getMatchesByPUUID = async (server, puuid, matchCount) => {
 	try {
 		const response = await request.get(
@@ -24,6 +26,7 @@ export const getMatchesByPUUID = async (server, puuid, matchCount) => {
 		return [];
 	}
 };
+
 export const getMatchData = async (server, matchID) => {
 	try {
 		const response = await request.get(
@@ -33,7 +36,8 @@ export const getMatchData = async (server, matchID) => {
 	} catch (error) {
 		return undefined;
 	}
-}
+};
+
 export const getSummonerData = async (server, summonerName) => {
 	try {
 		const response = await request.get(
@@ -44,6 +48,7 @@ export const getSummonerData = async (server, summonerName) => {
 		return undefined;
 	}
 };
+
 export const createSummoner = async (summonerData) => {
 	try {
 		const response = await request.post(
@@ -55,6 +60,7 @@ export const createSummoner = async (summonerData) => {
 		return undefined;
 	}
 };
+
 export const updateSummoner = async (updatedSummonerData) => {
 	try {
 		const response = await request.put(
@@ -65,7 +71,8 @@ export const updateSummoner = async (updatedSummonerData) => {
 	} catch (error) {
 		return undefined;
 	}
-}
+};
+
 export const getRecentSearches = async () => {
 	try {
 		const response = await request.get(
@@ -76,6 +83,7 @@ export const getRecentSearches = async () => {
 		return undefined;
 	}
 };
+
 export const addRecentSearch = async (searchData) => {
 	try {
 		const response = await request.post(
@@ -87,6 +95,7 @@ export const addRecentSearch = async (searchData) => {
 		return undefined;
 	}
 };
+
 export const getWinrateData = async (region, summonerId) => {
 	try {
 		const response = await request.get(

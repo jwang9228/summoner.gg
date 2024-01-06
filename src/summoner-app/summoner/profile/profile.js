@@ -4,10 +4,10 @@ import { MdOutlineBookmarkAdd, MdOutlineBookmarkAdded } from 'react-icons/md';
 import { useState, useEffect } from 'react';
 import * as client from '../../users/client';
 import * as summonerClient from '../client.js';
-import './profile.css';
 import LoginModal from '../modals/login-modal.js';
 import SuccessModal from '../modals/success-modal.js';
 import RemoveModal from '../modals/remove-modal.js';
+import './profile.css';
 
 function SummonerProfile({ summonerData, updateSummoner, setUsersWhoFavorited }) {
 	const [loggedInUser, setLoggedInUser] = useState();
