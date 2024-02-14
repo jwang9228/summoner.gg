@@ -1,6 +1,7 @@
 import './match.css';
 import { Image, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { FaAngleDown } from "react-icons/fa";
 import gameModes from "./gamemodes.json";
 import summonerSpells from "./summoners.json";
 import runes from "./runes.json";
@@ -99,18 +100,20 @@ function RenderMatch(matchData, summonerName, region) {
 			  });
 	};
 
+	let matchResultPrefix = undefined;
 	let matchResultStyle = undefined;
 	let matchResultTextStyle = undefined;
+	let matchResultMoreDetails = undefined;
 	if (myPlayer.matchResult === 'Victory') {
-		matchResultStyle = 'win';
-		matchResultTextStyle = 'win-text';
+		matchResultPrefix = 'win';
 	} else if (myPlayer.matchResult === 'Defeat') {
-		matchResultStyle = 'loss';
-		matchResultTextStyle = 'loss-text';
+		matchResultPrefix = 'loss';
 	} else {
-		matchResultStyle = 'remake';
-		matchResultTextStyle = 'remake-text';
+		matchResultPrefix = 'remake';
 	}
+	matchResultStyle = matchResultPrefix;
+	matchResultTextStyle = matchResultPrefix + '-text';
+	matchResultMoreDetails = matchResultPrefix + '-more-details';
 
 	const summonerSpell1 = summonerSpells.find(summonerSpell => summonerSpell.key === myPlayer.summonerSpells[0]).name;
 	const summonerSpell2 = summonerSpells.find(summonerSpell => summonerSpell.key === myPlayer.summonerSpells[1]).name;
@@ -128,9 +131,9 @@ function RenderMatch(matchData, summonerName, region) {
 			className={`m-auto mb-2 d-flex ${matchResultStyle} rounded`}
 			key={metadata.matchId}
 		>
-			<Col xl={8} lg={8} md={12} sm={12} xs={12} className='d-flex'>
-				<div className='d-flex flex-column justify-content-between mb-0' style={{width: '60px'}}>
-					<p className={`mt-1 ${matchResultTextStyle}`}>{gameModes.find(gameMode => gameMode.queueId === matchInfo.queueId).gameMode}</p>
+			<Col xl={7} lg={7} md={11} sm={11} xs={11} className='d-flex'>
+				<div className='d-flex flex-column justify-content-between mb-0' style={{width: '60px', height: '100px'}}>
+					<p className={`mt-1 mb-0 ${matchResultTextStyle}`}>{gameModes.find(gameMode => gameMode.queueId === matchInfo.queueId).gameMode}</p>
 					<div className='mt-auto'>
 						<p className='match-result my-0'>{myPlayer.matchResult}</p>
 						<p className='game-duration mb-1 mt-0'>
@@ -138,7 +141,7 @@ function RenderMatch(matchData, summonerName, region) {
 						</p>
 					</div>
 				</div>
-				<div className='champion-margins'>
+				<div className='ms-1 mt-2'>
 					<div className='d-flex justify-content-center align-items-center my-champion-container'>
 						<Image
 							src={require(`../../../data-dragon/champion/${myPlayer.champion}.png`)}
@@ -147,65 +150,69 @@ function RenderMatch(matchData, summonerName, region) {
 							loading='lazy'
 						/>
 					</div>
-					<div className='d-flex flex-column'>
-						<div>
-							<Image
-								src={require(`../../../data-dragon/summoner-spells/${summonerSpell1}.png`)}
-								alt='summoner 1'
-								className='my-summoner-spell-icon ms-1'
-								loading='lazy'
-							/>
-							<Image
-								src={require(`../../../data-dragon/summoner-spells/${summonerSpell2}.png`)}
-								alt='summoner 2'
-								className='my-summoner-spell-icon ms-1'
-								loading='lazy'
-							/>
-						</div>
-						<div>
-							<Image
-								src={require(`../../../data-dragon/${primaryKeystone}`)}
-								alt='primary rune'
-								className='my-runes-icon'
-								loading='lazy'
-							/>
-							<Image
-								src={require(`../../../data-dragon/${secondaryTree}`)}
-								alt='secondary rune'
-								className='my-runes-icon-secondary'
-								loading='lazy'
-							/>
-						</div>
+				</div>
+				<div className='d-flex flex-column ms-1 mt-2'>
+					<div>
+						<Image
+							src={require(`../../../data-dragon/summoner-spells/${summonerSpell1}.png`)}
+							alt='summoner 1'
+							className='my-summoner-spell-icon ms-1'
+							loading='lazy'
+						/>
+						<Image
+							src={require(`../../../data-dragon/summoner-spells/${summonerSpell2}.png`)}
+							alt='summoner 2'
+							className='my-summoner-spell-icon ms-1'
+							loading='lazy'
+						/>
+					</div>
+					<div>
+						<Image
+							src={require(`../../../data-dragon/${primaryKeystone}`)}
+							alt='primary rune'
+							className='my-runes-icon'
+							loading='lazy'
+						/>
+						<Image
+							src={require(`../../../data-dragon/${secondaryTree}`)}
+							alt='secondary rune'
+							className='my-runes-icon-secondary'
+							loading='lazy'
+						/>
 					</div>
 				</div>
+				<div>
+					{myPlayer.kills}
+					{myPlayer.deaths}
+					{myPlayer.assists}
+				</div>
 			</Col>
-			<Col xl={4} lg={4} md={0} sm={0} xs={0} className='d-none d-lg-flex justify-content-end'>
-				{Object.values(teamData).map((team) => {
-					return (
-						<span className='team-margins'>
-							{orderTeamByRole(team).map((player) => {
-								return (
-									<div className='d-flex align-items-center m-0'>
-										<Image
-											src={require(`../../../data-dragon/champion/${player.champion}.png`)}
-											alt='champion icon'
-											className='champion-icon'
-											loading='lazy'
-										/>
-										<Link 
-											className='player-link'
-											to={`../results/${region}/${player.name}`}
-										>
-											<p className={`my-0 player-name ${myPlayer.name === player.name ? 'my-player-name' : ''}`}>
-												{player.name}
-											</p>
-										</Link>
-									</div>
-								);
-							})}
-						</span>
-					);
-				})}
+			<Col xl={4} lg={4} md={0} sm={0} xs={0} className='d-flex justify-content-end d-none d-lg-flex'>
+				{Object.values(teamData).map((team, index) => (
+					<span className='team-margins'>
+						{orderTeamByRole(team).map((player) => (
+							<div className='d-flex align-items-center m-0' key={player.name}>
+								<Image
+									src={require(`../../../data-dragon/champion/${player.champion}.png`)}
+									alt='champion icon'
+									className='champion-icon'
+									loading='lazy'
+								/>
+								<Link
+									className='player-link'
+									to={`../results/${region}/${player.name}`}
+								>
+									<p className={`my-0 player-name ${myPlayer.name === player.name ? 'my-player-name' : ''}`}>
+										{player.name}
+									</p>
+								</Link>
+							</div>
+						))}
+					</span>
+				))}
+			</Col>
+			<Col xl={1} lg={1} md={1} sm={1} xs={1} className={`${matchResultMoreDetails} d-flex justify-content-center mx-0 px-0`}>
+				test
 			</Col>
 		</Row>
 	);

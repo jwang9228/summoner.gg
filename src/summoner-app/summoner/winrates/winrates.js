@@ -55,7 +55,7 @@ function Winrates({ queueData, queueName }) {
 								<p className='win-loss-label mb-1'>
 									{`${wins}W ${losses}L`}
 								</p>
-								{totalGames !== 0 && <p className='win-loss-label mb-0'>{`${Math.round((wins / (wins + losses)) * 100)}% Win Rate`}</p> }
+								{totalGames !== 0 && <p className='win-loss-label mb-0'>{`${Math.round((wins / (wins + losses)) * 100)}% WR`}</p> }
 							</div>
 						</span>
 					</ListGroup.Item>
