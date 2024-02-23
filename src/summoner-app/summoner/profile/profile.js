@@ -121,7 +121,7 @@ function SummonerProfile({ summonerData, updateSummoner, setUsersWhoFavorited })
 					className='profile-icon'
 					loading='lazy'
 				/>
-				<span className='position-absolute start-50 translate-middle-x summoner-level-margin'>
+				<span className='d-flex justify-content-center align-items-center position-absolute start-50 translate-middle-x summoner-level-margin'>
 					<p className='summoner-level'>
 						{summonerData.summonerLevel}
 					</p>

@@ -16,11 +16,11 @@
 .loss {
 	background-color: #a0575c;
 	border-left: #c43739 6px solid;
-	border-right: #dd4a4d 6px solid;
+	border-right: #cc4749 6px solid;
 }
 
 .loss-more-details {
-	background-color: #dd4a4d;
+	background-color: #cc4749;
 }
 
 .loss-text {
@@ -39,6 +39,11 @@
 }
 
 .remake-text {
+	color: #d0d0d0;
+	font-weight: 550;
+}
+
+.game-played {
 	color: #d0d0d0;
 	font-weight: 550;
 }
@@ -76,48 +81,12 @@
 	color: white !important;
 }
 
-.my-champion-container {
-	width: 52px;
-	height: 52px;
-	overflow: hidden;
-	border-radius: 50%;
-}
-
-.my-champion-icon {
-	width: 58px;
-	height: 58px;
-}
-
-.my-summoner-spell-icon {
-	width: 24px;
-	height: 24px;
-	border-radius: 10%;
-}
-
-.my-runes-icon {
-	width: 24px;
-	height: 24px;
-	border-radius: 10%;
-	margin-top: 2px;
-	margin-left: 4px;
-}
-
-.my-runes-icon-secondary {
-	width: 22px;
-	height: 20px;
-	border-radius: 10%;
-	margin-left: 6px;
-}
-
-.match-result {
-	color: #d0d0d0;
-	font-weight: 550;
-	font-size: 14px;
-}
-
-.game-duration {
-	color: #d0d0d0;
-	font-size: 14px;
+.my-player-level {
+	bottom: 0 !important;
+	right: 0 !important;
+	color: white;
+	background-color: #242640;
+    border-radius: 50%;
 }
 
 .player-link {
@@ -125,6 +94,337 @@
 }
 
 .team-margins {
-	margin-top: 1.5px;
-	margin-bottom: 1.5px;
+	margin-top: 3px;
+}
+
+/* smaller screens */
+@media screen and (max-width: 600px) {
+	.match-result-dimensions {
+		width: 65px;
+		height: 100px;
+	}
+
+	.game-played-size {
+		font-size: 10px;
+	}
+	
+	.game-duration {
+		color: #d0d0d0;
+		font-size: 12px;
+	}
+
+	.game-mode-size {
+		font-size: 13.5px;
+	}
+
+	.my-champion-margins {
+		margin-top: 5px;
+		margin-left: 12px;
+	}
+
+	.my-champion-container {
+		width: 44px;
+		height: 44px;
+		overflow: hidden;
+		border-radius: 50%;
+	}
+	
+	.my-champion-icon {
+		width: 50px;
+		height: 50px;
+	}
+
+	.my-player-level-size {
+		width: 18px !important;
+		height: 18px !important;
+		font-size: 12px;
+	}
+
+	.items-margins {
+		margin-top: 12px;
+		margin-left: 12px;
+	}
+
+	.my-item {
+		width: 26px;
+		height: 26px;
+		margin-right: 3px;
+		border-radius: 10%;
+	}
+
+	.my-summoner-spell-icon {
+		width: 21px;
+		height: 21px;
+		border-radius: 10%;
+	}
+
+	.my-runes-icon {
+		width: 21px;
+		height: 21px;
+		border-radius: 10%;
+		margin-top: 2px;
+		margin-left: 4px;
+	}
+	
+	.my-runes-icon-secondary {
+		width: 19px;
+		height: 17px;
+		border-radius: 10%;
+		margin-left: 6px;
+	}
+
+	.spells-margin-top {
+		margin-top: 2px;
+	}
+
+	.stats-margins {
+		margin-top: 1px; 
+		margin-left: 15px;
+	}
+
+	.positive-stat {
+		font-weight: 550;
+		font-size: 16px;
+		color: white;
+	}
+	
+	.negative-stat {
+		font-weight: 550;
+		font-size: 16px;
+		color: rgb(224, 64, 64);
+	}
+
+	.stat-divider {
+		font-size: 18px;
+		color: #afafaf;
+	}
+
+	.kda {
+		font-size: 15px;
+		font-weight: 550;
+		color: #afafaf;
+		margin-top: 1px;
+		margin-left: 15px;
+	}
+}
+
+/* medium screens */
+@media screen and (min-width: 601px) and (max-width: 1439px) {
+	.match-result-dimensions {
+		width: 70px;
+		height: 100px;
+	}
+
+	.game-played-size {
+		font-size: 12.5px;
+	}
+	
+	.game-duration {
+		color: #d0d0d0;
+		font-size: 12.5px;
+	}
+
+	.game-mode-size {
+		font-size: 15px;
+	}
+
+	.my-champion-margins {
+		margin-top: 5px;
+		margin-left: 12px;
+	}
+
+	.my-champion-container {
+		width: 44px;
+		height: 44px;
+		overflow: hidden;
+		border-radius: 50%;
+	}
+	
+	.my-champion-icon {
+		width: 50px;
+		height: 50px;
+	}
+
+	.my-player-level-size {
+		width: 18px !important;
+		height: 18px !important;
+		font-size: 12px;
+	}
+
+	.items-margins {
+		margin-top: 12px;
+		margin-left: 12px;
+	}
+
+	.my-item {
+		width: 26px;
+		height: 26px;
+		margin-right: 3px;
+		border-radius: 10%;
+	}
+
+	.my-summoner-spell-icon {
+		width: 21px;
+		height: 21px;
+		border-radius: 10%;
+	}
+
+	.my-runes-icon {
+		width: 21px;
+		height: 21px;
+		border-radius: 10%;
+		margin-top: 2px;
+		margin-left: 4px;
+	}
+	
+	.my-runes-icon-secondary {
+		width: 19px;
+		height: 17px;
+		border-radius: 10%;
+		margin-left: 6px;
+	}
+
+	.spells-margin-top {
+		margin-top: 2px;
+	}
+
+	.stats-margins {
+		margin-left: 16px;
+	}
+
+	.positive-stat {
+		font-weight: 550;
+		font-size: 17px;
+		color: white;
+	}
+	
+	.negative-stat {
+		font-weight: 550;
+		font-size: 17px;
+		color: rgb(224, 64, 64);
+	}
+
+	.stat-divider {
+		font-size: 19px;
+		color: #afafaf;
+	}
+
+	.kda {
+		font-size: 14px;
+		font-weight: 500;
+		color: #bab8b8;
+		margin-top: 2px;
+		margin-left: 16px;
+	}
+}
+
+/* larger screens */
+@media screen and (min-width: 1440px) {
+	.match-result-dimensions {
+		width: 75px;
+		height: 100px;
+	}
+
+	.game-played-size {
+		font-size: 12.5px;
+	}
+	
+	.game-duration {
+		color: #d0d0d0;
+		font-size: 13px;
+	}
+
+	.game-mode-size {
+		font-size: 15px;
+	}
+
+	.my-champion-margins {
+		margin-top: 5px;
+		margin-left: 12px;
+	}
+
+	.my-champion-container {
+		width: 50px;
+		height: 50px;
+		overflow: hidden;
+		border-radius: 50%;
+	}
+	
+	.my-champion-icon {
+		width: 56px;
+		height: 56px;
+	}
+
+	.my-player-level-size {
+		width: 20px !important;
+		height: 20px !important;
+		font-size: 13.5px;
+	}
+
+	.items-margins {
+		margin-top: 6px;
+		margin-left: 12px;
+	}
+
+	.my-item {
+		width: 29px;
+		height: 29px;
+		margin-right: 4px;
+		border-radius: 10%;
+	}
+
+	.my-summoner-spell-icon {
+		width: 24px;
+		height: 24px;
+		border-radius: 10%;
+	}
+
+	.my-runes-icon {
+		width: 24px;
+		height: 24px;
+		border-radius: 10%;
+		margin-top: 2px;
+		margin-left: 4px;
+	}
+	
+	.my-runes-icon-secondary {
+		width: 22px;
+		height: 20px;
+		border-radius: 10%;
+		margin-left: 6px;
+	}
+
+	.spells-margin-top {
+		margin-top: 3px;
+	}
+
+	.stats-margins {
+		margin-top: 1px; 
+		margin-left: 20px;
+	}
+
+	.positive-stat {
+		font-weight: 550;
+		font-size: 17px;
+		color: white;
+	}
+	
+	.negative-stat {
+		font-weight: 550;
+		font-size: 17px;
+		color: rgb(224, 64, 64);
+	}
+
+	.stat-divider {
+		font-size: 19px;
+		color: #afafaf;
+	}
+
+	.kda {
+		font-size: 16px;
+		font-weight: 500;
+		color: #bab8b8;
+		margin-top: 1px;
+		margin-left: 20px;
+	}
 }

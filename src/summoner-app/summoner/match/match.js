@@ -18,13 +18,20 @@ function RenderMatch(matchData, summonerName, region) {
 	const gameDurationSeconds = matchInfo.gameDuration;
 	const playersData = matchInfo.participants;
 
-	const getMatchTime = (gameDurationSeconds) => {
+	const getMatchTime = () => {
 		const hours = Math.floor(gameDurationSeconds / 3600);
 		const minutes = Math.floor((gameDurationSeconds % 3600) / 60);
 		const seconds = gameDurationSeconds % 60;
 		return { hours, minutes, seconds };
 	};
-	const { hours, minutes, seconds } = getMatchTime(gameDurationSeconds);
+	const { hours, minutes, seconds } = getMatchTime();
+
+	const calculateKDA = (kills, deaths, assists) => {
+		if (deaths === 0) { 
+			deaths = 1;
+		}
+		return ((kills + assists) / deaths).toFixed(2)
+	}
 
 	const getMatchResult = (player) => {
 		if (player.gameEndedInEarlySurrender) {
@@ -48,6 +55,7 @@ function RenderMatch(matchData, summonerName, region) {
 		const playerSecondaryRunes = playerRunes[1];
 		const playerData = {
 			name: player.riotIdGameName,
+			timePlayed: player.timePlayed,
 			champion: player.championName,
 			matchResult: getMatchResult(player),
 			kills: player.kills,
@@ -84,6 +92,49 @@ function RenderMatch(matchData, summonerName, region) {
 		}
 	});
 
+	const calculateMatchLastPlayed = () => {
+		const timePlayedMs = myPlayer.timePlayed * 1000;
+		const gameStartTime = matchInfo.gameStartTimestamp;
+		const gameEndTime = gameStartTime + timePlayedMs;
+		const currentTime = Date.now();
+		// timeElapsed in ms
+		const timeElapsed = currentTime - gameEndTime;
+		// time in seconds since current time and when match ended
+		const timeElapsedSeconds = Math.floor(timeElapsed / 1000);
+
+		const secondsPerHour = 60 * 60;
+		const secondsPerDay = secondsPerHour * 24;
+		const secondsPerMonth = secondsPerDay * 31;
+		
+		let matchLastPlayed = undefined;
+		// less than a minute ago
+		if (timeElapsedSeconds < 60) {
+			matchLastPlayed = timeElapsedSeconds + " seconds ago";
+		} 
+		// less than an hour ago
+		else if (timeElapsedSeconds < secondsPerHour) {
+			const timeElapsedMinutes = Math.floor(timeElapsedSeconds / 60);
+			matchLastPlayed = (timeElapsedMinutes > 1) ? timeElapsedMinutes + " mins ago" : "a minute ago";
+		}
+		// less than a day ago
+		else if (timeElapsedSeconds < secondsPerDay) {
+			const timeElapsedHours = Math.floor(timeElapsedSeconds / secondsPerHour);
+			matchLastPlayed = (timeElapsedHours > 1) ? timeElapsedHours + " hours ago" : "an hour ago";
+		}
+		// less than a month ago
+		else if (timeElapsedSeconds < secondsPerMonth) {
+			const timeElapsedDays = Math.floor(timeElapsedSeconds / secondsPerDay);
+			matchLastPlayed = (timeElapsedDays > 1) ? timeElapsedDays + " days ago" : "a day ago";
+		}
+		// a month or longer
+		else {
+			const timeElapsedMonths = Math.floor(timeElapsedSeconds / secondsPerMonth);
+			matchLastPlayed = (timeElapsedMonths > 1) ? timeElapsedMonths + " months ago" : "a month ago";
+		}
+		return matchLastPlayed;
+	}
+	const matchLastPlayed = calculateMatchLastPlayed();
+
 	const orderTeamByRole = (team) => {
 		const roleOrder = {
 			TOP: 1,
@@ -104,6 +155,7 @@ function RenderMatch(matchData, summonerName, region) {
 	let matchResultStyle = undefined;
 	let matchResultTextStyle = undefined;
 	let matchResultMoreDetails = undefined;
+	let matchResultItem = undefined;
 	if (myPlayer.matchResult === 'Victory') {
 		matchResultPrefix = 'win';
 	} else if (myPlayer.matchResult === 'Defeat') {
@@ -114,6 +166,7 @@ function RenderMatch(matchData, summonerName, region) {
 	matchResultStyle = matchResultPrefix;
 	matchResultTextStyle = matchResultPrefix + '-text';
 	matchResultMoreDetails = matchResultPrefix + '-more-details';
+	matchResultItem = matchResultPrefix + '-item';
 
 	const summonerSpell1 = summonerSpells.find(summonerSpell => summonerSpell.key === myPlayer.summonerSpells[0]).name;
 	const summonerSpell2 = summonerSpells.find(summonerSpell => summonerSpell.key === myPlayer.summonerSpells[1]).name;
@@ -131,64 +184,89 @@ function RenderMatch(matchData, summonerName, region) {
 			className={`m-auto mb-2 d-flex ${matchResultStyle} rounded`}
 			key={metadata.matchId}
 		>
-			<Col xl={7} lg={7} md={11} sm={11} xs={11} className='d-flex'>
-				<div className='d-flex flex-column justify-content-between mb-0' style={{width: '60px', height: '100px'}}>
-					<p className={`mt-1 mb-0 ${matchResultTextStyle}`}>{gameModes.find(gameMode => gameMode.queueId === matchInfo.queueId).gameMode}</p>
+			<Col xl={7} lg={7} md={11} sm={11} xs={11} className='d-flex mt-1'>
+				<div className='d-flex flex-column justify-content-between mb-0 match-result-dimensions'>
+					<p className={`mb-0 ${matchResultTextStyle} game-mode-size`}>{gameModes.find(gameMode => gameMode.queueId === matchInfo.queueId).gameMode}</p>
 					<div className='mt-auto'>
-						<p className='match-result my-0'>{myPlayer.matchResult}</p>
+						<p className='game-played game-played-size my-0'>{matchLastPlayed}</p>
 						<p className='game-duration mb-1 mt-0'>
 							{(hours !== 0) && `${hours}h`} {(minutes !== 0) && `${minutes}m`} {(seconds !== 0) && `${seconds}s`}
 						</p>
 					</div>
 				</div>
-				<div className='ms-1 mt-2'>
-					<div className='d-flex justify-content-center align-items-center my-champion-container'>
-						<Image
-							src={require(`../../../data-dragon/champion/${myPlayer.champion}.png`)}
-							alt='my champion icon'
-							className='my-champion-icon'
-							loading='lazy'
-						/>
+				<div className='d-flex flex-column'>
+					<div className='d-flex flex-row'>
+						<div className='position-relative my-champion-margins'>
+							<div className='d-flex justify-content-center align-items-center my-champion-container'>
+								<Image
+									src={require(`../../../data-dragon/champion/${myPlayer.champion}.png`)}
+									alt='my champion icon'
+									className='my-champion-icon'
+									loading='lazy'
+									rounded
+								/>
+							</div>
+							<span className='d-flex justify-content-center align-items-center position-absolute my-player-level my-player-level-size'>{myPlayer.level}</span>
+						</div>
+						<div className='d-flex flex-column ms-1'> 
+							<div className='spells-margin-top'>
+								<Image
+									src={require(`../../../data-dragon/summoner-spells/${summonerSpell1}.png`)}
+									alt='summoner 1'
+									className='my-summoner-spell-icon ms-1'
+									loading='lazy'
+								/>
+								<Image
+									src={require(`../../../data-dragon/summoner-spells/${summonerSpell2}.png`)}
+									alt='summoner 2'
+									className='my-summoner-spell-icon ms-1'
+									loading='lazy'
+								/>
+							</div>
+							<div>
+								<Image
+									src={require(`../../../data-dragon/${primaryKeystone}`)}
+									alt='primary rune'
+									className='my-runes-icon'
+									loading='lazy'
+								/>
+								<Image
+									src={require(`../../../data-dragon/${secondaryTree}`)}
+									alt='secondary rune'
+									className='my-runes-icon-secondary'
+									loading='lazy'
+								/>
+							</div>
+						</div>
+						<div className='d-flex flex-column'>
+							<div className='stats-margins'>
+								<span className='positive-stat'>{myPlayer.kills}</span>
+								<span className='stat-divider'> / </span>
+								<span className='negative-stat'>{myPlayer.deaths}</span>
+								<span className='stat-divider'> / </span>
+								<span className='positive-stat'>{myPlayer.assists}</span>
+							</div>
+							<div className='kda justify-content-center'>
+								{`${calculateKDA(myPlayer.kills, myPlayer.deaths, myPlayer.assists)} KDA`}
+							</div>
+						</div>
 					</div>
-				</div>
-				<div className='d-flex flex-column ms-1 mt-2'>
-					<div>
-						<Image
-							src={require(`../../../data-dragon/summoner-spells/${summonerSpell1}.png`)}
-							alt='summoner 1'
-							className='my-summoner-spell-icon ms-1'
-							loading='lazy'
-						/>
-						<Image
-							src={require(`../../../data-dragon/summoner-spells/${summonerSpell2}.png`)}
-							alt='summoner 2'
-							className='my-summoner-spell-icon ms-1'
-							loading='lazy'
-						/>
+					<div className='items-margins'>
+						{myPlayer.items.map((item) => (
+							<span>
+								<Image
+									src={(item !== 0) ? require(`../../../data-dragon/item/${item}.png`) : require(`../../../images/blank-items/${matchResultItem}.png`)}
+									alt='item'
+									className='my-item'
+									loading='lazy'
+								/>
+							</span>
+						))}
 					</div>
-					<div>
-						<Image
-							src={require(`../../../data-dragon/${primaryKeystone}`)}
-							alt='primary rune'
-							className='my-runes-icon'
-							loading='lazy'
-						/>
-						<Image
-							src={require(`../../../data-dragon/${secondaryTree}`)}
-							alt='secondary rune'
-							className='my-runes-icon-secondary'
-							loading='lazy'
-						/>
-					</div>
-				</div>
-				<div>
-					{myPlayer.kills}
-					{myPlayer.deaths}
-					{myPlayer.assists}
 				</div>
 			</Col>
 			<Col xl={4} lg={4} md={0} sm={0} xs={0} className='d-flex justify-content-end d-none d-lg-flex'>
-				{Object.values(teamData).map((team, index) => (
+				{Object.values(teamData).map((team) => (
 					<span className='team-margins'>
 						{orderTeamByRole(team).map((player) => (
 							<div className='d-flex align-items-center m-0' key={player.name}>
@@ -212,7 +290,7 @@ function RenderMatch(matchData, summonerName, region) {
 				))}
 			</Col>
 			<Col xl={1} lg={1} md={1} sm={1} xs={1} className={`${matchResultMoreDetails} d-flex justify-content-center mx-0 px-0`}>
-				test
+				x
 			</Col>
 		</Row>
 	);
