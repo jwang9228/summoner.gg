@@ -1,12 +1,13 @@
 import './match.css';
 import { Image, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { FaAngleDown } from "react-icons/fa";
 import gameModes from "./gamemodes.json";
 import summonerSpells from "./summoners.json";
 import runes from "./runes.json";
 
 function RenderMatch(matchData, summonerName, region) {
+
+	const [playerName] = summonerName.split('-');
 
 	const metadata = matchData.metadata;
 	const matchInfo = matchData.info;
@@ -55,6 +56,7 @@ function RenderMatch(matchData, summonerName, region) {
 		const playerSecondaryRunes = playerRunes[1];
 		const playerData = {
 			name: player.riotIdGameName,
+			tagline: player.riotIdTagline,
 			timePlayed: player.timePlayed,
 			champion: player.championName,
 			matchResult: getMatchResult(player),
@@ -87,7 +89,7 @@ function RenderMatch(matchData, summonerName, region) {
 			},
 		};
 		teamData[playerTeamId].push(playerData);
-		if (player.riotIdGameName === summonerName) {
+		if (player.riotIdGameName === playerName) {
 			myPlayer = playerData;
 		}
 	});
@@ -154,7 +156,6 @@ function RenderMatch(matchData, summonerName, region) {
 	let matchResultPrefix = undefined;
 	let matchResultStyle = undefined;
 	let matchResultTextStyle = undefined;
-	let matchResultMoreDetails = undefined;
 	let matchResultItem = undefined;
 	if (myPlayer.matchResult === 'Victory') {
 		matchResultPrefix = 'win';
@@ -165,7 +166,6 @@ function RenderMatch(matchData, summonerName, region) {
 	}
 	matchResultStyle = matchResultPrefix;
 	matchResultTextStyle = matchResultPrefix + '-text';
-	matchResultMoreDetails = matchResultPrefix + '-more-details';
 	matchResultItem = matchResultPrefix + '-item';
 
 	const summonerSpell1 = summonerSpells.find(summonerSpell => summonerSpell.key === myPlayer.summonerSpells[0]).name;
@@ -184,7 +184,7 @@ function RenderMatch(matchData, summonerName, region) {
 			className={`m-auto mb-2 d-flex ${matchResultStyle} rounded`}
 			key={metadata.matchId}
 		>
-			<Col xl={7} lg={7} md={11} sm={11} xs={11} className='d-flex mt-1'>
+			<Col xl={8} lg={8} md={12} sm={12} xs={12} className='d-flex mt-1'>
 				<div className='d-flex flex-column justify-content-between mb-0 match-result-dimensions'>
 					<p className={`mb-0 ${matchResultTextStyle} game-mode-size`}>{gameModes.find(gameMode => gameMode.queueId === matchInfo.queueId).gameMode}</p>
 					<div className='mt-auto'>
@@ -278,7 +278,7 @@ function RenderMatch(matchData, summonerName, region) {
 								/>
 								<Link
 									className='player-link'
-									to={`../results/${region}/${player.name}`}
+									to={`../results/${region}/${player.name}-${player.tagline}`}
 								>
 									<p className={`my-0 player-name ${myPlayer.name === player.name ? 'my-player-name' : ''}`}>
 										{player.name}
@@ -288,9 +288,6 @@ function RenderMatch(matchData, summonerName, region) {
 						))}
 					</span>
 				))}
-			</Col>
-			<Col xl={1} lg={1} md={1} sm={1} xs={1} className={`${matchResultMoreDetails} d-flex justify-content-center mx-0 px-0`}>
-				x
 			</Col>
 		</Row>
 	);

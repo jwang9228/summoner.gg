@@ -10,6 +10,7 @@ import './winrates/winrates.css';
 
 function Summoner() {
 	const { server, summonerName } = useParams();
+	const [gameName, tagLine] = summonerName.split('-');
 	const [summonerData, setSummonerData] = useState();
 	const [fetchingData, setFetchingData] = useState(false);
 	const [matchesData, setMatchesData] = useState([]);
@@ -41,7 +42,8 @@ function Summoner() {
 			const soloQueueData = getWinrateDataByQueue('solo', winrateData);
 			const flexQueueData = getWinrateDataByQueue('flex', winrateData);
 			return {
-				summonerName: data.name,
+				summonerName: data.gameName,
+				tagLine: data.tagLine,
 				summonerLevel: data.summonerLevel,
 				summonerId: data.id,
 				profileIconId: data.profileIconId,
@@ -82,22 +84,23 @@ function Summoner() {
 		const fetchData = async () => {
 			setSummonerData(undefined);
 			setFetchingData(true);
-			let response = await client.findSummonerByServer(server, summonerName);
+			let response = await client.findSummonerByServer(server, gameName);
 			if (!response) {
 				const newSummonerData = await getSummonerData();
 				if (newSummonerData) {
 					await client.createSummoner(newSummonerData);
 					response = newSummonerData;
-					response = newSummonerData;
 				}
 			}
-			const searchData = {
-				name: response.summonerName,
-				region: server,
-				profileIconId: response.profileIconId,
-			};
-			await client.addRecentSearch(searchData);
-			await processSummonerData(response);
+			if (response) {
+				const searchData = {
+					name: response.summonerName,
+					region: server,
+					profileIconId: response.profileIconId,
+				};
+				await client.addRecentSearch(searchData);
+				await processSummonerData(response);
+			}
 			setFetchingData(false);
 		};
 		fetchData();
@@ -132,7 +135,7 @@ function Summoner() {
 								return matchData && RenderMatch(
 									matchData,
 									summonerData.summonerName,
-									summonerData.server
+									summonerData.server,
 								);
 							})}
 						</div>
@@ -148,7 +151,7 @@ function Summoner() {
 					loading='lazy'
 				/>
 				<h3 style={{ color: '#FFFFFF' }}>Fetching data for:</h3>
-				<div className='no-data-summoner-name'>"{summonerName}"</div>
+				<div className='no-data-summoner-name'>"{gameName}#{tagLine}"</div>
 				<div className='d-flex align-items-start'>
 					<span className="ellipsis-one">.</span>
 					<span className="ellipsis-two">.</span>
@@ -166,7 +169,7 @@ function Summoner() {
 				<h3 style={{ color: '#FFFFFF' }}>
 					Sorry! We couldn't find summoner data for:
 				</h3>
-				<div className='no-data-summoner-name'>"{summonerName}"</div>
+				<div className='no-data-summoner-name'>"{gameName}#{tagLine}"</div>
 			</div>
 		)
 	);

@@ -69,7 +69,12 @@ function SummonerApp() {
   };
   const searchSummonerEvent = (region, summonerName) => {
     if (summonerName !== "") {
-      navigate(`/results/${region}/${summonerName}`);
+      const [name, tagline] = summonerName.split('#');
+      if (tagline) {
+        navigate(`/results/${region}/${name}-${tagline}`);
+      } else {
+        navigate(`/results/${region}/${name}-${region.toUpperCase()}`);
+      }
     }
   };
   return (

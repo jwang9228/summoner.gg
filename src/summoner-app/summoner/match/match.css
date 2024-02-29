@@ -1,11 +1,12 @@
 .win {
 	background-color: #506ca6;
 	border-left: #3785c4 6px solid;
-	border-right: #3785c4 6px solid;
+	border-right: #3785c4 8px solid;
 }
 
-.win-more-details {
-	background-color: #3785c4;
+.win:hover {
+	background-color: #46639e;
+	cursor: pointer;
 }
 
 .win-text {
@@ -16,11 +17,12 @@
 .loss {
 	background-color: #a0575c;
 	border-left: #c43739 6px solid;
-	border-right: #cc4749 6px solid;
+	border-right: #cc4749 8px solid;
 }
 
-.loss-more-details {
-	background-color: #cc4749;
+.loss:hover {
+	background-color: #944c51;
+	cursor: pointer;
 }
 
 .loss-text {
@@ -31,11 +33,12 @@
 .remake {
 	background-color: #9b9b9b;
     border-left: #c6c6c6 6px solid;
-	border-right: #c6c6c6 6px solid;
+	border-right: #c6c6c6 8px solid;
 }
 
-.remake-more-details {
-	background-color: #c6c6c6;
+.remake:hover {
+	background-color: #929191;
+	cursor: pointer;
 }
 
 .remake-text {

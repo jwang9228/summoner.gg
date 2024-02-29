@@ -116,7 +116,7 @@ function SummonerProfile({ summonerData, updateSummoner, setUsersWhoFavorited })
 		<div className='profile-header'>
 			<div className='position-relative profile-icon-margins'>
 				<Image
-					src={require(`../../../data-dragon/profileicon/${summonerData.profileIconId}.png`)}
+					src={require(`../../../data-dragon/profileicon/${(summonerData.profileIconId).toString()}.png`)}
 					alt='profile icon'
 					className='profile-icon'
 					loading='lazy'
@@ -130,7 +130,7 @@ function SummonerProfile({ summonerData, updateSummoner, setUsersWhoFavorited })
 			<div className='ms-3'>
 				<p className='summoner-name'>
 					{summonerData.summonerName}
-					<span className='app-blue-accent ms-2 summoner-server'>{`#${summonerData.server.toUpperCase()}`}</span>
+					<span className='app-blue-accent ms-2 summoner-server'>{`#${summonerData.tagLine}`}</span>
 				</p>
 				<span>
 					<Button className='app-blue-accent me-3' onClick={() => updateSummoner()}>

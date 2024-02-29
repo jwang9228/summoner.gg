@@ -40,8 +40,9 @@ export const getMatchData = async (server, matchID) => {
 
 export const getSummonerData = async (server, summonerName) => {
 	try {
+		const [name, tagline] = summonerName.split('-');
 		const response = await request.get(
-			`${SERVER_URL}/summoner/${server}/${summonerName}`
+			`${SERVER_URL}/summoner/${server}/${name}-${tagline}`
 		);
 		return response.data;
 	} catch (error) {
